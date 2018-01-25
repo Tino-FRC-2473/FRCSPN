@@ -9,11 +9,14 @@ import java.util.HashMap;
 import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -38,19 +41,24 @@ public class TeamEventsStage extends Stage {
 		toggleButton.setX(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		toggleButton.setY(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		
-		leftSPane.setStyle("-fx-background-color: #CCCCCC;");
+		leftSPane.setStyle("-fx-background-color: #CCCCCC; -fx-font-size: 20px");
 		VBox v = new VBox();
+		GridPane r = new GridPane();
 		v.setPrefSize(K.TEAM_EVENTS.WIDTH/4.0, K.TEAM_EVENTS.HEIGHT);
-		Label label = new Label("12345678901234567890");
+		r.setPrefSize(K.TEAM_EVENTS.WIDTH*3/4.0, K.TEAM_EVENTS.HEIGHT);
+		r.setStyle("-fx-background-color: #FFFFFF");
+		Label label = new Label("254");
 		label.setStyle("-fx-background-color: #FF0000;");
 		v.getChildren().add(label);
 		leftSPane.setContent(v);
-		
+		getTeamInfo(Integer.parseInt(label.getText()));
+	
 		loadNormal();
-		
+	
 		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		root.setTop(topBox);
 		root.setLeft(leftSPane);
+		root.setCenter(r);
 		
 		this.setScene(scene);
 		root.setOnMousePressed(new TeamEventsStageMouseHandler());
@@ -173,6 +181,12 @@ public class TeamEventsStage extends Stage {
 		}
 		
 		return arr;
+	}
+	
+	private void getTeamInfo(int teamNumber) {
+		Label name = new Label(Integer.toString(teamNumber));
+		name.setStyle("-fx-font-size: 36; -fx-font-color: #346233");
+		HBox
 	}
 	
 	public enum State {
