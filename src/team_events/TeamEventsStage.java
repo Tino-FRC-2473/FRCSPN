@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.ClickableButton;
+import main.Requester;
 
 public class TeamEventsStage extends Stage {
 	private State state = State.NORMAL;
@@ -32,7 +33,7 @@ public class TeamEventsStage extends Stage {
 	private ScrollPane leftSPane = new ScrollPane();
 	private ClickableButton toggleButton = new ClickableButton(I.imgs.TE_TEAM_LIST_BTN);
 	private HashMap<String, ColorWithIntArrayList> teams = new HashMap<String, ColorWithIntArrayList>();
-
+	private VBox right = new VBox();
 	public TeamEventsStage() {
 		this.setResizable(false);
 		this.setTitle("Team Events (FRCSPN)");
@@ -43,10 +44,9 @@ public class TeamEventsStage extends Stage {
 		
 		leftSPane.setStyle("-fx-background-color: #CCCCCC; -fx-font-size: 20px");
 		VBox v = new VBox();
-		GridPane r = new GridPane();
 		v.setPrefSize(K.TEAM_EVENTS.WIDTH/4.0, K.TEAM_EVENTS.HEIGHT);
-		r.setPrefSize(K.TEAM_EVENTS.WIDTH*3/4.0, K.TEAM_EVENTS.HEIGHT);
-		r.setStyle("-fx-background-color: #FFFFFF");
+		right.setPrefSize(K.TEAM_EVENTS.WIDTH*3/4.0, K.TEAM_EVENTS.HEIGHT);
+		right.setStyle("-fx-background-color: #FFFFFF");
 		Label label = new Label("254");
 		label.setStyle("-fx-background-color: #FF0000;");
 		v.getChildren().add(label);
@@ -58,7 +58,7 @@ public class TeamEventsStage extends Stage {
 		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		root.setTop(topBox);
 		root.setLeft(leftSPane);
-		root.setCenter(r);
+		root.setCenter(right);
 		
 		this.setScene(scene);
 		root.setOnMousePressed(new TeamEventsStageMouseHandler());
@@ -186,7 +186,22 @@ public class TeamEventsStage extends Stage {
 	private void getTeamInfo(int teamNumber) {
 		Label name = new Label(Integer.toString(teamNumber));
 		name.setStyle("-fx-font-size: 36; -fx-font-color: #346233");
-		HBox
+		String[] s; 
+//		if (req.getTeamEventsForYear(teamNumber,2018)!=null){
+//			s = req.getTeamEventsForYear(teamNumber,2018);
+//			
+//		}
+//		else {
+//			s = new String[1];
+//			s[0] = "no events";
+//		};
+//		String str = new String();
+//		for (int i = 0; i < s.length; i++) {
+//			str += s[i];
+//		}
+//		Label events = new Label(str);
+//		right.getChildren().addAll(name,events);
+		
 	}
 	
 	public enum State {
