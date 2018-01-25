@@ -10,11 +10,14 @@ import java.util.StringTokenizer;
 import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -57,9 +60,9 @@ public class TeamEventsStage extends Stage {
 		test.setStyle("-fx-background-color: #FF0000;");
   		right.getChildren().add(test);
 		updateTeamInfo(Integer.parseInt(test.getText()));
-		
+
 		loadNormal();
-		
+	
 		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		root.setTop(topBox);
 		root.setLeft(leftSPane);
@@ -214,6 +217,7 @@ public class TeamEventsStage extends Stage {
 		
 		Label events = new Label(str);
 		right.getChildren().addAll(name,events);
+
 	}
 	
 	public enum State {
