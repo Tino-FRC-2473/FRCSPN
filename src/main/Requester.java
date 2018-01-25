@@ -12,6 +12,10 @@ import models.*;
 import models.YR2017_Steamworks.*;
 import models.YR2018_PowerUp.*;
 
+/*
+ * /team/{team_key}/event/{event_key}/status
+ */
+
 public class Requester {
 	private boolean debug;
 	private Gson gson;

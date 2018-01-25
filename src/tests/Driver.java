@@ -12,8 +12,8 @@ public class Driver {
 	public static void main(String[] args) {
 		Requester req = new Requester(false);
 		
-		String[] matches = req.getTeamEventsForYear(254, 2018);
+		Event data = req.getEventInfo("2017tur");
 		
-		System.out.println(Arrays.asList(matches));
+		System.out.println(data);
 	}
 }
