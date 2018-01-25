@@ -11,4 +11,9 @@ public class Event {
 	public String start_date;
 	public String end_date;
 	public int year;
+	
+	@Override
+	public String toString() {
+		return name + " " + key + " " + event_code + " " + city + " " + state_prov + " " + country + " " + start_date + " " + end_date + " " + year;
+	}
 }
