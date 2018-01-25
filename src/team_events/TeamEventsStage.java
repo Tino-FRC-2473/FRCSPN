@@ -10,15 +10,23 @@ import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.ClickableButton;
 
 public class TeamEventsStage extends Stage {
 	private State state = State.NORMAL;
 	
-	private Pane pane = new Pane();
+	private BorderPane root = new BorderPane();
+	
+	private HBox topBox = new HBox();
+	private ScrollPane leftSPane = new ScrollPane();
 	private ClickableButton toggleButton = new ClickableButton(I.imgs.TE_TEAM_LIST_BTN);
 	private HashMap<String, ColorWithIntArrayList> teams = new HashMap<String, ColorWithIntArrayList>();
 
@@ -26,14 +34,26 @@ public class TeamEventsStage extends Stage {
 		this.setResizable(false);
 		this.setTitle("Team Events (FRCSPN)");
 		
-		pane.getChildren().add(toggleButton);
+		topBox.getChildren().add(toggleButton);
 		toggleButton.setX(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		toggleButton.setY(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		
+		leftSPane.setStyle("-fx-background-color: #CCCCCC;");
+		VBox v = new VBox();
+		v.setPrefSize(K.TEAM_EVENTS.WIDTH/4.0, K.TEAM_EVENTS.HEIGHT);
+		Label label = new Label("12345678901234567890");
+		label.setStyle("-fx-background-color: #FF0000;");
+		v.getChildren().add(label);
+		leftSPane.setContent(v);
+		
 		loadNormal();
 		
-		this.setScene(new Scene(pane, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT));
-		pane.setOnMousePressed(new TeamEventsStageMouseHandler());
+		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
+		root.setTop(topBox);
+		root.setLeft(leftSPane);
+		
+		this.setScene(scene);
+		root.setOnMousePressed(new TeamEventsStageMouseHandler());
 	}
 	
 	private class TeamEventsStageMouseHandler implements EventHandler<MouseEvent> {
