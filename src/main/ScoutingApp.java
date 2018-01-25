@@ -18,9 +18,10 @@ public class ScoutingApp extends Application {
 	public void start(Stage temp) throws Exception {
 		stage = new MainStage();
 		stage.show();
+		req = new Requester(true);
 	}
 	
-	public Requester getRequester() {
+	public static Requester getRequester() {
 		return req;
 	}
 	
