@@ -10,32 +10,27 @@ import java.util.StringTokenizer;
 import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.ClickableButton;
-import main.ScoutingApp;
 
 public class TeamEventsStage extends Stage {
 	private State state = State.NORMAL;
 	
 	private BorderPane root = new BorderPane();
 	
+	//temp
 	private HBox topBox = new HBox();
-	private ScrollPane leftSPane = new ScrollPane();
 	private ClickableButton toggleButton = new ClickableButton(I.imgs.TE_TEAM_LIST_BTN);
+	
+	private LeftScrollPane leftSPane = new LeftScrollPane();
+	private CenterPane center = new CenterPane();
+	
 	private HashMap<String, ColorWithIntArrayList> teams = new HashMap<String, ColorWithIntArrayList>();
-	private VBox left;
-	private VBox right = new VBox();
 
 	public TeamEventsStage() {
 		this.setResizable(false);
@@ -44,31 +39,15 @@ public class TeamEventsStage extends Stage {
 		topBox.getChildren().add(toggleButton);
 		toggleButton.setX(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		toggleButton.setY(K.TEAM_EVENTS.TEAM_LIST_SPACING);
-		
-		leftSPane.setStyle("-fx-background-color: #CCCCCC;");
-		left = new VBox();
-		left.setPrefSize(K.TEAM_EVENTS.WIDTH/4.0, K.TEAM_EVENTS.HEIGHT);
-		Label lTitle = new Label("Group Lists");
-		lTitle.setWrapText(true);
-		lTitle.setStyle("-fx-background-color: #FF0000;");
-		lTitle.setStyle("-fx-font-size: 30");
-		left.getChildren().add(lTitle);
-		right.setPrefSize(K.TEAM_EVENTS.WIDTH*3/4.0, K.TEAM_EVENTS.HEIGHT);
-		right.setStyle("-fx-background-color: #FFFFFF");
-		leftSPane.setContent(left);
-		Label test = new Label("254");
-		test.setStyle("-fx-background-color: #FF0000;");
-  		right.getChildren().add(test);
-		updateTeamInfo(Integer.parseInt(test.getText()));
 
 		loadNormal();
 	
 		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		root.setTop(topBox);
 		root.setLeft(leftSPane);
-		root.setCenter(right);
+		root.setCenter(center);
 		
-		this.setScene(scene);
+		setScene(scene);
 		root.setOnMousePressed(new TeamEventsStageMouseHandler());
 	}
 	
@@ -131,7 +110,7 @@ public class TeamEventsStage extends Stage {
 				l.setStyle("-fx-font-size: 20");		        
 		    }
 		    for (int i = 0; i < groupLabels.size(); i++) {
-			    left.getChildren().add(groupLabels.get(i));		    	
+			    leftSPane.getVBox().getChildren().add(groupLabels.get(i));		    	
 		    }
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -171,7 +150,7 @@ public class TeamEventsStage extends Stage {
 		
 		return arr;
 	}
-	
+	/*
 	private ArrayList<Double> splitLineDouble(String s) {
 		ArrayList<Double> arr = new ArrayList<Double>();
 		ArrayList<Integer> spaces = getSpaceIdxs(s);
@@ -199,26 +178,8 @@ public class TeamEventsStage extends Stage {
 		
 		return arr;
 	}
+	*/
 	
-	private void updateTeamInfo(int teamNumber) {
-		Label name = new Label(Integer.toString(teamNumber));
-		name.setStyle("-fx-font-size: 36; -fx-font-color: #346233");
-		String[] teamEvents = ScoutingApp.getRequester().getTeamEventsForYear(teamNumber,2018);
-		if(teamEvents == null) {
-			teamEvents = new String[]{"no events"};
-		}
-		
-		String str = new String();
-		for(int i = 0; i < teamEvents.length; i++) {
-			if(i > 0)
-				str += " ";
-			str += teamEvents[i];
-		}
-		
-		Label events = new Label(str);
-		right.getChildren().addAll(name,events);
-
-	}
 	
 	public enum State {
 		NORMAL, TEAM_LIST
