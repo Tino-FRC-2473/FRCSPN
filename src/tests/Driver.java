@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.Arrays;
+
 import main.Requester;
 import models.*;
 import models.YR2017_Steamworks.*;
@@ -10,10 +12,8 @@ public class Driver {
 	public static void main(String[] args) {
 		Requester req = new Requester(false);
 		
-		Match_2017Steamworks[] matches = req.getMatchesAt2017Event("2017tur");
+		String[] matches = req.getTeamEventsForYear(254, 2018);
 		
-		for(Match_2017Steamworks m : matches) {
-			System.out.println(m.key);
-		}
+		System.out.println(Arrays.asList(matches));
 	}
 }
