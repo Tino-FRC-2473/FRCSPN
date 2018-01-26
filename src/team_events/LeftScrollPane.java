@@ -29,10 +29,27 @@ public class LeftScrollPane extends ScrollPane {
 		
 		setStyle("-fx-background-color: #CCCCCC;");
 		setContent(v);
+		
+		labels = new ArrayList<Label>();
+		selectedIdx = -1;
+//		l.setWrapText(true);
+//		l.setStyle("-fx-background-color: #FF0000;");
+//		l.setStyle("-fx-font-size: 20");
 	}
 	
-	public VBox getVBox() {
-		return v;
+	public void update(StringWithColor[] arr) {
+		clear();
+		for(StringWithColor sc : arr) {
+			Label l = new Label(sc.getValue());
+			l.setStyle("-fx-background-color: #" + sc.getColor() + ";-fx-font-size: 20");
+			labels.add(l);
+			v.getChildren().add(l);
+			l.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH*4/5);
+		}
+	}
+	
+	private void clear() {
+		
 	}
 	
 	public void handleClick(MouseEvent e) {
