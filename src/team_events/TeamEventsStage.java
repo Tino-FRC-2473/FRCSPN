@@ -23,7 +23,7 @@ public class TeamEventsStage extends Stage {
 	private LeftScrollPane lPane;
 	private CenterPane cPane;
 	
-	private HashMap<String, ColorWithIntArrayList> teams;
+	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
 	public TeamEventsStage() {
 		setResizable(false);
@@ -35,7 +35,7 @@ public class TeamEventsStage extends Stage {
 		cPane = new CenterPane();
 		cPane.setOnMouseClicked(new CClickHandler());
 		
-		teams = new HashMap<String, ColorWithIntArrayList>();
+		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
 		loadNormal();
 	
@@ -66,38 +66,26 @@ public class TeamEventsStage extends Stage {
 	
 	private void loadNormal() {
 		try(BufferedReader br = new BufferedReader(new FileReader("docs/team_list.txt"))) {
-			teams = new HashMap<String, ColorWithIntArrayList>();
+			teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 			String line;
-			String key = null;
-			ArrayList<Label> groupLabels = new ArrayList<Label>();
+			StringWithColor key = null;
 		    while ((line = br.readLine()) != null) {
-		    	Label l = new Label();
-		    	groupLabels.add(l);
 		        if(line.charAt(0) == '*') {
-		        	key = line.substring(1, line.indexOf('*', 1));
-		        	teams.put(key, new ColorWithIntArrayList(line.substring(key.length()+3)));
-		        	l.setText("\n" + key);
+		        	String keyStr = line.substring(1, line.indexOf('*', 1));
+		        	key = new StringWithColor(keyStr, line.substring(keyStr.length()+3));
+		        	teams.put(key, new ArrayList<Integer>());
 		        } else {
 		        	teams.get(key).addAll(splitLineInt(line));
-		        	l.setText(l.getText() + teams.get(key).get(0));
-		        	for (int i = 1; i < teams.get(key).size(); i++) {
-		        		l.setText(l.getText() + ", " + teams.get(key).get(i));
-		        	}
-		        	l.setText(l.getText() + "\n");
 		        }
-				l.setWrapText(true);
-				l.setStyle("-fx-background-color: #FF0000;");
-				l.setStyle("-fx-font-size: 20");		        
-		    }
-		    for (int i = 0; i < groupLabels.size(); i++) {
-			    lPane.getVBox().getChildren().add(groupLabels.get(i));
 		    }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for(String k : teams.keySet()) {
+		for(StringWithColor k : teams.keySet()) {
+			System.out.println(k);
 			System.out.println(teams.get(k));
 		}
+		lPane.update(teams.keySet().toArray(new StringWithColor[]{}));
 	}
 	
 	private void unloadNormal() {
