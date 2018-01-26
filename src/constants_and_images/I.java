@@ -14,6 +14,8 @@ public class I {
 		
 		images.put(imgs.TEAM_EVENTS_BTN,
 				new Image(base + "main" + "/team_events.png", K.MAIN.BTN_LEN, 0, true, true));
+		images.put(imgs.TEAM_EVENTS_BTN_CLICKED,
+				new Image(base + "main" + "/team_events_clicked.png", K.MAIN.BTN_LEN, 0, true, true));
 		images.put(imgs.COMING_SOON_BTN,
 				new Image(base + "main" + "/coming_soon.png", K.MAIN.BTN_LEN, 0, true, true));
 		images.put(imgs.TE_TEAM_LIST_BTN,
@@ -32,7 +34,7 @@ public class I {
 	}
 	
 	public enum imgs {
-		TEAM_EVENTS_BTN, COMING_SOON_BTN,
+		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED, COMING_SOON_BTN,
 		TE_TEAM_LIST_BTN, TE_BACK_BTN
 	}
 }
