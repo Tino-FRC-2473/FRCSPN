@@ -14,18 +14,24 @@ public class ScoutingApp extends Application {
 		teStage.show();
 	}
 	
-	@Override
-	public void start(Stage temp) throws Exception {
-		stage = new MainStage();
-		stage.show();
-		req = new Requester(true);
-	}
-	
 	public static Requester getRequester() {
 		return req;
 	}
 	
+	
+	private static void tbaStatus() {
+		System.out.println(req.getTBAStatus()); //NEED THIS TO BE RUN IN A LOAD SCREEN
+	}
+	
+	@Override
+	public void start(Stage temp) throws Exception {
+		stage = new MainStage();
+		tbaStatus();
+		stage.show();
+	}
+	
 	public static void main(String[] args) {
+		req = new Requester(true);
         launch(args);
     }
 }

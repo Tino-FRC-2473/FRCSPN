@@ -19,6 +19,7 @@ import models.YR2018_PowerUp.*;
 public class Requester {
 	private boolean debug;
 	private Gson gson;
+	private final String BASE = "https://www.thebluealliance.com/api/v3/";
 	
 	public Requester(boolean d) {
 		debug = d;
@@ -66,29 +67,33 @@ public class Requester {
 		if(debug) System.out.println(s);
 	}
 	
+	public Status getTBAStatus() {
+		return this.<Status>generalRequest(BASE+"status", Status.class);
+	}
+	
 	public String[] eventKeysForYear(int yr) {
-		return this.<String[]>generalRequest("https://www.thebluealliance.com/api/v3/events/"+yr+"/keys", String[].class);
+		return this.<String[]>generalRequest(BASE+"events/"+yr+"/keys", String[].class);
 	}
 	
 	public Match_2017Steamworks[] getMatchesAt2017Event(String event) {
 		if(!event.substring(0, 4).equals("2017")) return null;
-		return this.<Match_2017Steamworks[]>generalRequest("https://www.thebluealliance.com/api/v3/event/"+event+"/matches", Match_2017Steamworks[].class);
+		return this.<Match_2017Steamworks[]>generalRequest(BASE+"event/"+event+"/matches", Match_2017Steamworks[].class);
 	}
 	
 	public Match_2018PowerUp[] getMatchesAt2018Event(String event) {
 		if(!event.substring(0, 4).equals("2018")) return null;
-		return this.<Match_2018PowerUp[]>generalRequest("https://www.thebluealliance.com/api/v3/event/"+event+"/matches", Match_2018PowerUp[].class);
+		return this.<Match_2018PowerUp[]>generalRequest(BASE+"event/"+event+"/matches", Match_2018PowerUp[].class);
 	}
 	
 	public String[] getTeamEventsForYear(int team, int yr) {
-		return this.<String[]>generalRequest("https://www.thebluealliance.com/api/v3/team/frc"+team+"/events/"+yr+"/keys", String[].class);
+		return this.<String[]>generalRequest(BASE+"team/frc"+team+"/events/"+yr+"/keys", String[].class);
 	}
 	
 	public Team[] getTeamsAtEvent(String event) {
-		return this.<Team[]>generalRequest("https://www.thebluealliance.com/api/v3/event/"+event+"/teams/simple", Team[].class);
+		return this.<Team[]>generalRequest(BASE+"event/"+event+"/teams/simple", Team[].class);
 	}
 	
 	public Event getEventInfo(String key) {
-		return this.<Event>generalRequest("https://www.thebluealliance.com/api/v3/event/"+key+"/simple", Event.class);
+		return this.<Event>generalRequest(BASE+"event/"+key+"/simple", Event.class);
 	}
 }

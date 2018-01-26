@@ -7,63 +7,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import main.ClickableButton;
 
 public class TeamEventsStage extends Stage {
 	private State state = State.NORMAL;
 	
 	private BorderPane root = new BorderPane();
 	
-	//temp
-	private HBox topBox = new HBox();
-	private ClickableButton toggleButton = new ClickableButton(I.imgs.TE_TEAM_LIST_BTN);
+	private LeftScrollPane lPane;
+	private CenterPane cPane;
 	
-	private LeftScrollPane leftSPane = new LeftScrollPane();
-	private CenterPane center = new CenterPane();
-	
-	private HashMap<String, ColorWithIntArrayList> teams = new HashMap<String, ColorWithIntArrayList>();
+	private HashMap<String, ColorWithIntArrayList> teams;
 
 	public TeamEventsStage() {
-		this.setResizable(false);
-		this.setTitle("Team Events (FRCSPN)");
+		setResizable(false);
+		setTitle("Team Events (FRCSPN)");
 		
-		topBox.getChildren().add(toggleButton);
-		toggleButton.setX(K.TEAM_EVENTS.TEAM_LIST_SPACING);
-		toggleButton.setY(K.TEAM_EVENTS.TEAM_LIST_SPACING);
+		lPane = new LeftScrollPane();
+		lPane.setOnMouseClicked(new LClickHandler());
+		
+		cPane = new CenterPane();
+		cPane.setOnMouseClicked(new CClickHandler());
+		
+		teams = new HashMap<String, ColorWithIntArrayList>();
 
 		loadNormal();
 	
 		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
-		root.setTop(topBox);
-		root.setLeft(leftSPane);
-		root.setCenter(center);
+		root.setLeft(lPane);
+		root.setCenter(cPane);
 		
 		setScene(scene);
-		root.setOnMousePressed(new TeamEventsStageMouseHandler());
-	}
-	
-	private class TeamEventsStageMouseHandler implements EventHandler<MouseEvent> {
-		@Override
-	    public void handle(MouseEvent e) {
-			if(toggleButton.contains(e.getX(), e.getY())) {
-				toggleButton.onClick();
-			}/*
-			for(ClickableButton b : buttons) {
-				if(b.contains(e.getX(), e.getY())) {
-					b.onClick();
-					break;
-				}
-			}*/
-		}
 	}
 	
 	public void setState(State s) {
@@ -85,7 +65,7 @@ public class TeamEventsStage extends Stage {
 	}
 	
 	private void loadNormal() {
-		try (BufferedReader br = new BufferedReader(new FileReader("docs/team_list.txt"))) {
+		try(BufferedReader br = new BufferedReader(new FileReader("docs/team_list.txt"))) {
 			teams = new HashMap<String, ColorWithIntArrayList>();
 			String line;
 			String key = null;
@@ -110,7 +90,7 @@ public class TeamEventsStage extends Stage {
 				l.setStyle("-fx-font-size: 20");		        
 		    }
 		    for (int i = 0; i < groupLabels.size(); i++) {
-			    leftSPane.getVBox().getChildren().add(groupLabels.get(i));		    	
+			    lPane.getVBox().getChildren().add(groupLabels.get(i));
 		    }
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,18 +108,6 @@ public class TeamEventsStage extends Stage {
 		
 	}
 	
-	/*
-	private ClickableButton getCButton(I.imgs i) {
-		for(ClickableButton b : buttons) {
-			if(b.getType().equals(i)) {
-				return b;
-			}
-		}
-		System.out.println("Button of type " + i + " not found.");
-		return null;
-	}
-	*/
-	
 	private ArrayList<Integer> splitLineInt(String s) {
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		StringTokenizer st = new StringTokenizer(s);
@@ -150,36 +118,11 @@ public class TeamEventsStage extends Stage {
 		
 		return arr;
 	}
-	/*
-	private ArrayList<Double> splitLineDouble(String s) {
-		ArrayList<Double> arr = new ArrayList<Double>();
-		ArrayList<Integer> spaces = getSpaceIdxs(s);
-		
-		for(int i = -1; i < spaces.size(); i++) {
-			if(i == -1)
-				arr.add(Double.parseDouble(s.substring(0, spaces.get(0))));
-			else if(i+1 == spaces.size())
-				arr.add(Double.parseDouble(s.substring(spaces.get(spaces.size()-1)+1)));
-			else
-				arr.add(Double.parseDouble(s.substring(spaces.get(i)+1, spaces.get(i+1))));
-		}
-		
-		return arr;
-	}
 	
-	private ArrayList<Integer> getSpaceIdxs(String s) {
-		ArrayList<Integer> arr = new ArrayList<Integer>();
-		
-		for(int i = 0; i < s.length(); i++) {
-			if(s.charAt(i) == ' ') {
-				arr.add(i);
-			}
-		}
-		
-		return arr;
-	}
-	*/
-	
+	private class LClickHandler implements EventHandler<MouseEvent> {
+		@Override public void handle(MouseEvent e) { lPane.handleClick(e); }}
+	private class CClickHandler implements EventHandler<MouseEvent> {
+		@Override public void handle(MouseEvent e) { cPane.handleClick(e); }}
 	
 	public enum State {
 		NORMAL, TEAM_LIST

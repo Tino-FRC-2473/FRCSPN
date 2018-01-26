@@ -1,12 +1,17 @@
 package team_events;
 
+import java.util.ArrayList;
+
 import constants_and_images.K;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 public class LeftScrollPane extends ScrollPane {
 	private VBox v;
+	private ArrayList<Label> labels;
+	private int selectedIdx;
 	
 	public LeftScrollPane() {
 		super();
@@ -15,7 +20,7 @@ public class LeftScrollPane extends ScrollPane {
 		v.setPadding(K.getInsets());
 		v.setSpacing(K.TEAM_EVENTS.SPACING);
 		
-		v.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH, K.TEAM_EVENTS.HEIGHT); //fix height eventually
+		v.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH); //fix height eventually
 		Label lTitle = new Label("Group Lists");
 		lTitle.setWrapText(true);
 		lTitle.setStyle("-fx-background-color: #FF0000;");
@@ -28,5 +33,9 @@ public class LeftScrollPane extends ScrollPane {
 	
 	public VBox getVBox() {
 		return v;
+	}
+	
+	public void handleClick(MouseEvent e) {
+		
 	}
 }
