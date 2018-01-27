@@ -12,7 +12,7 @@ import models.Event;
 
 public class CenterPane extends Pane {
 	private double y;
-	private double spacing = 20;
+	private double spacing = 50;
 	
 	public CenterPane() {
 		super();
@@ -27,26 +27,26 @@ public class CenterPane extends Pane {
 //  		getChildren().add(test); 
 //  		
 //		updateTeamInfo(Integer.parseInt(test.getText()));
-		updateTeamInfo(254,"");
-		updateTeamInfo(2473,"");
-		updateTeamInfo(846,"");
+
+		updateTeamInfo(254, "FFFFFF");
+		updateTeamInfo(2473, "#FFFFFF");
+		updateTeamInfo(846, "#FFFFFF");
 	}
 	
 	public void updateTeamInfo(int teamNumber, String color) {
-		System.out.println("Num: " + teamNumber + " Col: " + color);
-//		TeamInfo team = new TeamInfo(teamNumber);
-//		team.setLayoutY(y);
-//		y+=team.getSize()+spacing;
-//		getChildren().add(team);
-				
+		TeamInfo team = new TeamInfo(teamNumber);
+		team.setLayoutY(y);
+		y+=team.getSize()+spacing;
+		getChildren().add(team);
+		team.setColor(color);
 	}
 	
 	public void handleClick(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
 		for (int i = 0; i < getChildren().size(); i++) {
 			if (getChildren().get(i).getClass().equals(TeamInfo.class)) {
-				if (getChildren().get(i).contains(e.getX(),e.getY())){
-					TeamInfo n = (TeamInfo)getChildren().get(i);
+				TeamInfo n = (TeamInfo) getChildren().get(i);
+				if (n.getLayoutX() <= e.getX() && n.getSizeX() + n.getLayoutX() >= e.getX() && n.getLayoutY() <= e.getY() && n.getSize() + n.getLayoutY() >= e.getY()){
 					n.switchState();
 					update();
 					return;
@@ -114,6 +114,7 @@ class TeamInfo extends VBox{
 		}
 		if (!opened) opened=!opened;
 	}
+	
 	public void removeEvents() {
 		for (int i = 0; i < getChildren().size(); i++) {
 			getChildren().remove(i);
@@ -151,6 +152,10 @@ class TeamInfo extends VBox{
 			return sizeClosed;
 		}
 	}
+	
+	public double getSizeX() {
+		return this.getWidth();
+	}
 	public void switchState() {
 		System.out.println("update:" + number + "\n");
 		state = !state;
@@ -161,5 +166,10 @@ class TeamInfo extends VBox{
 			removeEvents();
 		}
 	}
+	
+	public void setColor(String color) {
+		setStyle("-fx-background-color: #" + color);
+	}
+	
 }
 
