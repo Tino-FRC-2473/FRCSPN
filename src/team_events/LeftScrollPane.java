@@ -89,6 +89,11 @@ public class LeftScrollPane extends ScrollPane {
 		@Override
 		public void handle(MouseEvent event) {
 			HashMap<StringWithColor, ArrayList<Integer>> teams = getTeamEventsStage().getTeams();
+			CenterPane cp = getCenterPane();
+			while (cp.getChildren().size() > 0) {
+				cp.getChildren().remove(0);
+			}
+			cp.y = 0;
 			for(StringWithColor b:teams.keySet()) {
 				for(Integer d:teams.get(b)) {
 					if(s.toString().equals(b.toString())) {

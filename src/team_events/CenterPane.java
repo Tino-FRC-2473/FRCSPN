@@ -11,7 +11,7 @@ import main.ScoutingApp;
 import models.Event;
 
 public class CenterPane extends Pane {
-	private double y;
+	public double y;
 	private double spacing = 50;
 	
 	public CenterPane() {
@@ -34,10 +34,6 @@ public class CenterPane extends Pane {
 	}
 	
 	public void updateTeamInfo(int teamNumber, String color) {
-		while (getChildren().size() > 0) {
-			getChildren().remove(0);
-		}
-		y = 0;
 		TeamInfo team = new TeamInfo(teamNumber);
 		team.setLayoutY(y);
 		y+=team.getSize()+spacing;
