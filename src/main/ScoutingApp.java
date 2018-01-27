@@ -19,7 +19,7 @@ public class ScoutingApp extends Application {
 	}
 	
 	
-	private void tbaStatus() {
+	private  void tbaStatus() {
 		System.out.println(req.getTBAStatus()); //NEED THIS TO BE RUN IN A LOAD SCREEN
 	}
 	
