@@ -19,14 +19,14 @@ public class ScoutingApp extends Application {
 	}
 	
 	
-	private static void tbaStatus() {
+	private void tbaStatus() {
 		System.out.println(req.getTBAStatus()); //NEED THIS TO BE RUN IN A LOAD SCREEN
 	}
 	
 	@Override
 	public void start(Stage temp) throws Exception {
 		stage = new MainStage();
-		tbaStatus();
+		this.tbaStatus();
 		stage.show();
 	}
 	

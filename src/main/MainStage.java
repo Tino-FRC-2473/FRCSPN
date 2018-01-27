@@ -18,8 +18,8 @@ public class MainStage extends Stage {
 		this.setTitle("FRCSPN (" + K.VERSION + ")");
 
 		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "TEEEEEAAAAAM");
-		for (int i = 0; i < buttons.length; i++) {
-			for (int j = 0; j < buttons[i].length; j++) {
+		for(int i = 0; i < buttons.length; i++) {
+			for(int j = 0; j < buttons[i].length; j++) {
 				if (buttons[i][j] == null)
 					buttons[i][j] = new ClickableButton(I.Type.COMING_SOON_BTN);
 				pane.getChildren().add(buttons[i][j]);
@@ -30,59 +30,76 @@ public class MainStage extends Stage {
 		pane.setOnMousePressed(new MainStageOnPress());
 		pane.setOnMouseReleased(new MainStageOnRelease());
 		pane.setOnMouseMoved(new MainStageOnMoved());
+		
 		this.setScene(new Scene(pane, K.MAIN.WIDTH, K.MAIN.HEIGHT));
 	}
-
+	
 	private class MainStageOnPress implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent e) {
-			for(int i = 0; i < buttons[0].length; i++) {
-				for(ClickableButton b : buttons[i]) {
-					if (b.contains(e.getX(), e.getY())) {
-						b.onClick();
-					}
+		@Override public void handle(MouseEvent e) {
+			for(ClickableButton[] bArr : buttons) {
+				for(ClickableButton b : bArr) {
+					if(b.contains(e.getX(), e.getY()))
+						b.onPress();
 				}
 			}
 		}
 	}
 
 	private class MainStageOnRelease implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent e) {
-			for(int i = 0; i < buttons[0].length; i++) {
-				for(ClickableButton b : buttons[i]) {
-					if (b.contains(e.getX(), e.getY())) {
+		@Override public void handle(MouseEvent e) {
+			for(ClickableButton[] bArr : buttons) {
+				for(ClickableButton b : bArr) {
+					if(b.contains(e.getX(), e.getY()))
 						b.onRelease();
-					}
 				}
 			}
 		}
 	}
 	
 	private class MainStageOnMoved implements EventHandler<MouseEvent> {
-		Label description;
-		boolean added = false;
+		private Label label;
+		private boolean added;
+		
+		private MainStageOnMoved() {
+			added = false;
+		}
+		
 		@Override
 		public void handle(MouseEvent e) {
-			for(int i = 0; i < buttons[0].length; i++) {
-				for(ClickableButton b : buttons[i]) {
-					if (b.contains(e.getX(), e.getY()) && !added) {
+			boolean breakFromOuterForLoop = false;
+			for(int y = 0; y < buttons.length; y++) {
+				if(breakFromOuterForLoop)
+					break;
+				for(ClickableButton b : buttons[y]) {
+					if(b.contains(e.getX(), e.getY()) && b.getDesc() == null) {
+						break;
+					} else if(b.contains(e.getX(), e.getY()) && !added) {
 						System.out.println("description added");
-						description = new Label(b.getDesc());
-						pane.getChildren().add(description);
-						description.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
-						description.setLayoutX(e.getX());
-						description.setLayoutY(e.getY());
+						breakFromOuterForLoop = true;
+						label = new Label(b.getDesc());
+						pane.getChildren().add(label);
+						label.setStyle("-fx-background-color: #999999; -fx-stroke: white; ");
+						label.setOpacity(0.85);
+						label.setLayoutX(e.getX());
+						label.setLayoutY(e.getY());
 						added = true;
-					}else if(b.contains(e.getX(), e.getY()) && added){
-						description.setLayoutX(e.getX());
-						description.setLayoutY(e.getY());
-					}else {
-						pane.getChildren().remove(description);
+						break;
+					} else if(b.contains(e.getX(), e.getY()) && added){
+						System.out.println("description moved");
+						breakFromOuterForLoop = true;
+						label.setLayoutX(e.getX());
+						label.setLayoutY(e.getY());
+						break;
+					} else if(added) {
+						System.out.println("description removed");
+						breakFromOuterForLoop = true;
+						pane.getChildren().remove(label);
 						added = false;
+						break;
 					}
 				}
 			}
+			System.out.println("END");
 		}
 	}
 }

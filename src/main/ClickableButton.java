@@ -8,7 +8,7 @@ import team_events.TeamEventsStage.State;
 public class ClickableButton extends ImageView {
 	private I.Type type;
 	private Image normal;
-	private Image clicked;
+	private Image indented;
 	private String desc;
 	//public width = getFitWidth();
 
@@ -16,7 +16,7 @@ public class ClickableButton extends ImageView {
 		type = i;
 		
 		normal = I.getInstance().getImg(i);
-		clicked = I.getInstance().getImg(c);
+		indented = I.getInstance().getImg(c);
 		desc = d;
 		
 		setImage(normal);
@@ -26,17 +26,17 @@ public class ClickableButton extends ImageView {
 		this(i, null, null);
 	}
 
-	public void onClick() {
-		System.out.println("on click");
-		if(clicked == null)
+	public void onPress() {
+		System.out.println("on press");
+		if(indented == null)
 			doAction();
 		else
-			setImage(clicked);
+			setImage(indented);
 	}
 	
 	public void onRelease() {
 		System.out.println("on release");
-		if(clicked != null) {
+		if(indented != null) {
 			setImage(normal);
 			doAction();
 		}
