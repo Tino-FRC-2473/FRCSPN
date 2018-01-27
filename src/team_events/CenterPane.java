@@ -2,31 +2,24 @@ package team_events;
 
 import java.util.ArrayList;
 
-import constants_and_images.I;
 import constants_and_images.K;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import main.ClickableButton;
 import main.ScoutingApp;
 import models.Event;
 
 public class CenterPane extends Pane {
-	private ClickableButton toggleButton;
 	private double y;
 	private double spacing = 20;
+	
 	public CenterPane() {
 		super();
 		y=0;
 		setPadding(K.getInsets());
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
-		
-		toggleButton = new ClickableButton(I.imgs.TE_TEAM_LIST_BTN);
-		getChildren().add(toggleButton);
-		toggleButton.setX(K.TEAM_EVENTS.CENTER_WIDTH - K.TEAM_EVENTS.TEAM_LIST_SPACING - K.TEAM_EVENTS.TEAM_LIST_WIDTH);
-		toggleButton.setY(K.TEAM_EVENTS.TEAM_LIST_SPACING);
 		
 //		Label test = new Label("254");
 //		test.setLayoutY(y);
@@ -49,10 +42,6 @@ public class CenterPane extends Pane {
 	
 	public void handleClick(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
-		if(toggleButton.contains(e.getX(), e.getY())) {
-			toggleButton.onClick();
-			return;
-		}
 		for (int i = 0; i < getChildren().size(); i++) {
 			if (getChildren().get(i).getClass().equals(TeamInfo.class)) {
 				if (getChildren().get(i).contains(e.getX(),e.getY())){

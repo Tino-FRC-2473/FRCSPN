@@ -1,44 +1,49 @@
 package main;
 
-import javax.imageio.stream.ImageInputStream;
-
 import constants_and_images.I;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import team_events.TeamEventsStage.State;
 
 public class ClickableButton extends ImageView {
-	private I.imgs type;
-	public Image clicked;
-	public Image normal;
-	public String description;
+	private I.Type type;
+	private Image normal;
+	private Image clicked;
+	private String desc;
 	//public width = getFitWidth();
 
-	public ClickableButton(I.imgs i) {
-		normal = I.getInstance().getImg(i);
-		setImage(I.getInstance().getImg(i));
+	public ClickableButton(I.Type i, I.Type c, String d) {
 		type = i;
-		switch (type) {
-		case TEAM_EVENTS_BTN:
-			clicked = I.getInstance().getImg(I.imgs.TEAM_EVENTS_BTN_CLICKED);
-			description = "TEEEEEAAAAAM";
-			break;
-		default:
-			break;
-		}
-
+		
+		normal = I.getInstance().getImg(i);
+		clicked = I.getInstance().getImg(c);
+		desc = d;
+		
+		setImage(normal);
+	}
+	
+	public ClickableButton(I.Type i) {
+		this(i, null, null);
 	}
 
 	public void onClick() {
 		System.out.println("on click");
-		setImage(clicked);
+		if(clicked == null)
+			doAction();
+		else
+			setImage(clicked);
 	}
 	
 	public void onRelease() {
 		System.out.println("on release");
-		setImage(normal);
-		System.out.println(".");
-		switch (type) {
+		if(clicked != null) {
+			setImage(normal);
+			doAction();
+		}
+	}
+	
+	public void doAction() {
+		switch(type) {
 		case TEAM_EVENTS_BTN:
 			ScoutingApp.launchTeamEvents();
 			break;
@@ -46,26 +51,32 @@ public class ClickableButton extends ImageView {
 			System.out.println("COMING SOON");
 			break;
 		case TE_TEAM_LIST_BTN:
-			setType(I.imgs.TE_BACK_BTN);
+			setType(I.Type.TE_BACK_BTN);
 			ScoutingApp.teStage.setState(State.TEAM_LIST);
 			break;
 		case TE_BACK_BTN:
-			setType(I.imgs.TE_TEAM_LIST_BTN);
+			setType(I.Type.TE_TEAM_LIST_BTN);
 			ScoutingApp.teStage.setState(State.NORMAL);
 			break;
 		default:
-			System.out.println("Unknown button clicked.");
+			System.out.println("Unknown button action.");
 			break;
 		}
 	}
+	
+	
 
-	public void setType(I.imgs i) {
-		setImage(I.getInstance().getImg(i));
+	public void setType(I.Type i) {
 		type = i;
+		setImage(I.getInstance().getImg(type));
 	}
-
-	public I.imgs getType() {
+	
+	public I.Type getType() {
 		return type;
+	}
+	
+	public String getDesc() {
+		return desc;
 	}
 
 	@Override

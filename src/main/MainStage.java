@@ -1,13 +1,10 @@
 package main;
 
-
-
 import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,11 +17,11 @@ public class MainStage extends Stage {
 		this.setResizable(false);
 		this.setTitle("FRCSPN (" + K.VERSION + ")");
 
-		buttons[0][0] = new ClickableButton(I.imgs.TEAM_EVENTS_BTN);
+		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "TEEEEEAAAAAM");
 		for (int i = 0; i < buttons.length; i++) {
 			for (int j = 0; j < buttons[i].length; j++) {
 				if (buttons[i][j] == null)
-					buttons[i][j] = new ClickableButton(I.imgs.COMING_SOON_BTN);
+					buttons[i][j] = new ClickableButton(I.Type.COMING_SOON_BTN);
 				pane.getChildren().add(buttons[i][j]);
 				buttons[i][j].setX(i * K.MAIN.BTN_SPACE_LEN + K.MAIN.BTN_PAD);
 				buttons[i][j].setY(j * K.MAIN.BTN_SPACE_LEN + K.MAIN.BTN_PAD);
@@ -71,7 +68,7 @@ public class MainStage extends Stage {
 				for(ClickableButton b : buttons[i]) {
 					if (b.contains(e.getX(), e.getY()) && !added) {
 						System.out.println("description added");
-						description = new Label(b.description);
+						description = new Label(b.getDesc());
 						pane.getChildren().add(description);
 						description.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
 						description.setLayoutX(e.getX());
