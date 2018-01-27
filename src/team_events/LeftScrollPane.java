@@ -41,7 +41,7 @@ public class LeftScrollPane extends ScrollPane {
 		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				toggleButton.onClick();
+				toggleButton.onPress();
 			}
 		});
 
