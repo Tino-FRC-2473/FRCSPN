@@ -27,16 +27,17 @@ public class CenterPane extends Pane {
 //  		getChildren().add(test); 
 //  		
 //		updateTeamInfo(Integer.parseInt(test.getText()));
-		updateTeamInfo(254);
-		updateTeamInfo(2473);
-		updateTeamInfo(846);
+		updateTeamInfo(254,"");
+		updateTeamInfo(2473,"");
+		updateTeamInfo(846,"");
 	}
 	
-	private void updateTeamInfo(int teamNumber) {
-		TeamInfo team = new TeamInfo(teamNumber);
-		team.setLayoutY(y);
-		y+=team.getSize()+spacing;
-		getChildren().add(team);
+	public void updateTeamInfo(int teamNumber, String color) {
+		System.out.println("Num: " + teamNumber + " Col: " + color);
+//		TeamInfo team = new TeamInfo(teamNumber);
+//		team.setLayoutY(y);
+//		y+=team.getSize()+spacing;
+//		getChildren().add(team);
 				
 	}
 	

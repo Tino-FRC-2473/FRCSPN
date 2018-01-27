@@ -67,7 +67,6 @@ public class MainStage extends Stage {
 			for(int i = 0; i < buttons[0].length; i++) {
 				for(ClickableButton b : buttons[i]) {
 					if (b.contains(e.getX(), e.getY()) && !added) {
-						System.out.println("description added");
 						description = new Label(b.getDesc());
 						pane.getChildren().add(description);
 						description.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
