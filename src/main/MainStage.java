@@ -78,7 +78,7 @@ public class MainStage extends Stage {
 						breakFromOuterForLoop = true;
 						label = new Label(b.getDesc());
 						pane.getChildren().add(label);
-						label.setStyle("-fx-background-color: #999999; -fx-stroke: white; ");
+						label.setStyle("-fx-background-color: #add8e6; -fx-stroke: white; ");
 						label.setOpacity(0.85);
 						label.setLayoutX(e.getX());
 						label.setLayoutY(e.getY());
