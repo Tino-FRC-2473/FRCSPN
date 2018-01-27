@@ -29,11 +29,15 @@ public class CenterPane extends Pane {
 //		updateTeamInfo(Integer.parseInt(test.getText()));
 
 		updateTeamInfo(254, "FFFFFF");
-		updateTeamInfo(2473, "#FFFFFF");
-		updateTeamInfo(846, "#FFFFFF");
+		updateTeamInfo(2473, "FFFFFF");
+		updateTeamInfo(846, "FFFFFF");
 	}
 	
 	public void updateTeamInfo(int teamNumber, String color) {
+		while (getChildren().size() > 0) {
+			getChildren().remove(0);
+		}
+		y = 0;
 		TeamInfo team = new TeamInfo(teamNumber);
 		team.setLayoutY(y);
 		y+=team.getSize()+spacing;
