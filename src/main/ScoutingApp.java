@@ -26,7 +26,7 @@ public class ScoutingApp extends Application {
 	@Override
 	public void start(Stage temp) throws Exception {
 		stage = new MainStage();
-		this.tbaStatus();
+//		this.tbaStatus();
 		stage.show();
 	}
 	

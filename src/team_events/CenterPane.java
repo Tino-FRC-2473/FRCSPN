@@ -26,7 +26,6 @@ public class CenterPane extends GridPane {
 		setVgap(spacing);
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
-
 		// Label test = new Label("254");
 		// test.setLayoutY(y);
 		// test.setStyle("-fx-background-color: #FF0000; -fx-font-size: 20");
@@ -34,12 +33,10 @@ public class CenterPane extends GridPane {
 		//
 		// updateTeamInfo(Integer.parseInt(test.getText()));
 
-		updateTeamInfo(254, "FFFFFF");
-		updateTeamInfo(2473, "FFFFFF");
-		updateTeamInfo(846, "FFFFFF");
 	}
 
 	public void updateTeamInfo(int teamNumber, String color) {
+		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber);
 		teams.add(team);
 		add(team, x, y, 1, 1);
@@ -96,7 +93,7 @@ class TeamInfo extends VBox {
 	double eventTitleSize = 22;
 	double textSize = 17;
 	public boolean state = false;
-	ArrayList<Event> events = new ArrayList<>();
+	Event[] events;
 	Label name;
 	public boolean opened = false;
 	int number;
@@ -108,17 +105,10 @@ class TeamInfo extends VBox {
 		setPadding(K.getInsets());
 		name = new Label(Integer.toString(teamNum));
 		name.setStyle("-fx-font-size: 25; -fx-font-color: #346233");
-		sizeOpened += titleSize;
-		sizeClosed += titleSize;
-		String[] teamEvents = ScoutingApp.getRequester().getTeamEventsForYear(teamNum, 2018);
-		if (teamEvents == null)
-			teamEvents = new String[] { "no events" };
-
-		for (int i = 0; i < teamEvents.length; i++) {
-			events.add(ScoutingApp.getRequester().getEventInfo(teamEvents[i]));
-		}
-		getChildren().add(name);
-
+		this.getChildren().add(name);
+		sizeOpened+=titleSize;
+		sizeClosed+=titleSize;
+		events = ScoutingApp.getRequester().getTeamEventsForYear(teamNum, 2018);
 	}
 
 	public void addEvents() {

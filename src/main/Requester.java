@@ -39,7 +39,7 @@ public class Requester {
 				response.append(inputLine);
 			}
 			in.close();
-			
+			System.out.println(response.toString());
 			return gson.fromJson(response.toString(), clazz);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,13 +52,16 @@ public class Requester {
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent", "X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
+//		con.setRequestProperty("If-Modified-Since", "Mon, 15 Jan 2018 03:33:54 GMT");
 		ifDebugPrintln("Sending 'GET' request to URL: " + s);
 		int responseCode;
 		if((responseCode = con.getResponseCode()) == 200) {
 			ifDebugPrintln("HTTP Connected");
+			System.out.println(con.getHeaderField("Last-Modified"));
 			return con;
 		} else {
 			ifDebugPrintln("Response Code: " + responseCode);
+			
 			return null;
 		}
 	}
@@ -85,15 +88,15 @@ public class Requester {
 		return this.<Match_2018PowerUp[]>generalRequest(BASE+"event/"+event+"/matches", Match_2018PowerUp[].class);
 	}
 	
-	public String[] getTeamEventsForYear(int team, int yr) {
-		return this.<String[]>generalRequest(BASE+"team/frc"+team+"/events/"+yr+"/keys", String[].class);
-	}
-	
 	public Team[] getTeamsAtEvent(String event) {
 		return this.<Team[]>generalRequest(BASE+"event/"+event+"/teams/simple", Team[].class);
 	}
 	
 	public Event getEventInfo(String key) {
 		return this.<Event>generalRequest(BASE+"event/"+key+"/simple", Event.class);
+	}
+	
+	public Event[] getTeamEventsForYear(int team, int year) {
+		return this.<Event[]>generalRequest(BASE+"team/frc"+team+"/events/"+year+"/simple", Event[].class);
 	}
 }

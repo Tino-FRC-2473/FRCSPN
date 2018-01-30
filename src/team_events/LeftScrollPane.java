@@ -52,22 +52,22 @@ public class LeftScrollPane extends ScrollPane {
 			l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2*v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
 			l.setPadding(K.getInsets());
 			v.getChildren().add(l);
-//			l.setOnMouseClicked(new onLabelClicked(sc));
+			l.setOnMouseClicked(new onLabelClicked(sc));
 		}
 	}
 
 	private void clear() {
-
+		
 	}
 
 	public void handleClick(MouseEvent e) {
-		System.out.println("\n" + e.getX() + " " + e.getY());
-		for(Label l : labels) {
-			System.out.println(l.getLayoutX() + " " + l.getLayoutY());
-			if(l.contains(e.getX(), e.getY())) {
-				System.out.println(l.getText());
-			}
-		}
+//		System.out.println("\n" + e.getX() + " " + e.getY());
+//		for(Label l : labels) {
+//			System.out.println(l.getLayoutX() + " " + l.getLayoutY());
+//			if(l.contains(e.getX(), e.getY())) {
+//				System.out.println(l.getText());
+//			}
+//		}
 	}
 	
 	public ArrayList<Label> getLabels() {
