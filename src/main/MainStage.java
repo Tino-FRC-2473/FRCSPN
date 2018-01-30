@@ -78,8 +78,8 @@ public class MainStage extends Stage {
 						breakFromOuterForLoop = true;
 						label = new Label(b.getDesc());
 						pane.getChildren().add(label);
-						label.setStyle("-fx-background-color: #add8e6; -fx-stroke: white; ");
-						label.setOpacity(0.85);
+						label.setStyle("-fx-background-color: #eeeeee; -fx-stroke: white; ");
+						label.setOpacity(0.99);
 						label.setLayoutX(e.getX());
 						label.setLayoutY(e.getY());
 						added = true;
@@ -88,7 +88,7 @@ public class MainStage extends Stage {
 						System.out.println("description moved");
 						breakFromOuterForLoop = true;
 						label.setLayoutX(e.getX());
-						label.setLayoutY(e.getY());
+						label.setLayoutY(e.getY()-label.getHeight());
 						break;
 					} else if(added) {
 						System.out.println("description removed");
