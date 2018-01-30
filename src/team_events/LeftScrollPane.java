@@ -98,7 +98,9 @@ public class LeftScrollPane extends ScrollPane {
 			while (cp.getChildren().size() > 0) {
 				cp.getChildren().remove(0);
 			}
-			cp.y = 0;
+			while(cp.teams.size() > 0) {
+				cp.teams.remove(0);
+			}
 			for(StringWithColor b:teams.keySet()) {
 				for(Integer d:teams.get(b)) {
 					if(strWC.toString().equals(b.toString())) {

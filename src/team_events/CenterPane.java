@@ -1,46 +1,46 @@
 package team_events;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import constants_and_images.K;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ScoutingApp;
 import models.Event;
 
-public class CenterPane extends GridPane {
-	public int y;
+public class CenterPane extends HBox {
+	
 	public int x;
 	private double spacing = 10;
+	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
 
 	public CenterPane() {
 		super();
 		teams = new ArrayList<>();
-		y = 0;
+		columns = new ArrayList<>();
 		x = 0;
 		setPadding(K.getInsets());
-		setHgap(spacing);
-		setVgap(spacing);
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
-		// Label test = new Label("254");
-		// test.setLayoutY(y);
-		// test.setStyle("-fx-background-color: #FF0000; -fx-font-size: 20");
-		// getChildren().add(test);
-		//
-		// updateTeamInfo(Integer.parseInt(test.getText()));
-
+		
 	}
 
 	public void updateTeamInfo(int teamNumber, String color) {
 		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber);
 		teams.add(team);
-		add(team, x, y, 1, 1);
-		y++;
+		if (getChildren().size() ==x) {
+			VBox box = new VBox();
+			box.setPadding(K.getInsets());
+			getChildren().add(box);
+			columns.add(box);
+		}
+		columns.get(x).getChildren().add(team);
 		team.setColor(color);
 	}
 
@@ -59,26 +59,29 @@ public class CenterPane extends GridPane {
 	}
 
 	public void update() {
-		y = 0;
 		x = 0;
 		double height = 0;
-		for (int i = 0; i < getChildren().size(); i++) {
-			getChildren().remove(i);
-			i--;
+		for (int i = 0; i < columns.size(); i++) {
+			while(columns.get(i).getChildren().size() >0) {
+				columns.get(i).getChildren().remove(0);
+			}
 		}
 		for (int i = 0; i < teams.size(); i++) {
 
 			TeamInfo n = teams.get(i);
-			height += n.getSize();
-			if (height >= getHeight()) {
-				height = n.getSize();
+			height += n.getHeight()+10;
+			if (height > 600) {
+				height = n.getHeight()+10;
 				x++;
-				y = 0;
-				add(n, x, y, 1, 1);
-				y++;
+				if (getChildren().size() ==x) {
+					VBox box = new VBox();
+					box.setPadding(K.getInsets());
+					getChildren().add(box);
+					columns.add(box);
+				}
+				columns.get(x).getChildren().add(n);
 			} else {
-				add(n, x, y, 1, 1);
-				y++;
+				columns.get(x).getChildren().add(n);
 			}
 
 		}
@@ -116,15 +119,15 @@ class TeamInfo extends VBox {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
 			if (!opened)
-				sizeOpened += eventTitleSize;
+				sizeOpened += eventName.getHeight();
 			Label eventInfo = new Label(
 					i.city + ", " + i.state_prov + "\t" + dateConvert(i.start_date) + " - " + dateConvert(i.end_date));
 			if (!opened)
-				sizeOpened += textSize;
+				sizeOpened += eventInfo.getHeight();
 			getChildren().addAll(eventName, eventInfo);
 		}
 		if (!opened)
-			opened = !opened;
+			opened = true;
 	}
 
 	public void removeEvents() {
