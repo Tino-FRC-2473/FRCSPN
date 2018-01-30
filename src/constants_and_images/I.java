@@ -3,6 +3,7 @@ package constants_and_images;
 import java.util.HashMap;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class I {
 	private static I instance;
@@ -28,8 +29,8 @@ public class I {
 		return images.get(i);
     }
 	
-	public Image getSeparator(double w, double h) {
-		return new Image(base + "main" + "/separator.png", w, h, false, true);
+	public ImageView getSeparator(double w, double h) {
+		return new ImageView(new Image(base + "main" + "/separator.png", w, h, false, true));
 	}
 	
 	public static I getInstance() {

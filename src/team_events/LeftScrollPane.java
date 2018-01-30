@@ -19,7 +19,7 @@ public class LeftScrollPane extends ScrollPane {
 	private ClickableButton toggleButton;
 
 	private ArrayList<Label> labels;
-	// private int selectedIdx;
+	private StringWithColor lastClick;
 
 	public LeftScrollPane() {
 		super();
@@ -27,39 +27,32 @@ public class LeftScrollPane extends ScrollPane {
 		v = new VBox();
 		v.setPadding(K.getInsets());
 		v.setSpacing(K.TEAM_EVENTS.SPACING);
-
 		v.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH);
 
-		setFitToWidth(true);
-		setStyle("-fx-background-color: #CCCCCC;");
-		setContent(v);
+		this.setFitToWidth(true);
+		this.setStyle("-fx-background-color: #CCCCCC;");
+		this.setContent(v);
 
 		toggleButton = new ClickableButton(I.Type.TE_TEAM_LIST_BTN);
 		v.getChildren().add(toggleButton);
-		v.getChildren().add(
-				new ImageView(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5)));
+		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
 		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				toggleButton.onPress();
-			}
+			@Override public void handle(MouseEvent e) { toggleButton.onPress(); }
 		});
-
 		labels = new ArrayList<Label>();
-		// selectedIdx = -1;
 	}
 
 	public void update(StringWithColor[] arr) {
-		clear();
-		for (StringWithColor sc : arr) {
+		this.clear();
+		for(StringWithColor sc : arr) {
 			Label l = new Label(sc.getValue());
 			l.setStyle("-fx-background-color: #" + sc.getColor() + "; "
 					+ "-fx-font-size: 20; -fx-stroke: black; -fx-font-weight: bold");
 			labels.add(l);
-			l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
+			l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2*v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
 			l.setPadding(K.getInsets());
 			v.getChildren().add(l);
-			l.setOnMouseClicked(new onLabelClicked(sc));
+//			l.setOnMouseClicked(new onLabelClicked(sc));
 		}
 	}
 
@@ -68,7 +61,17 @@ public class LeftScrollPane extends ScrollPane {
 	}
 
 	public void handleClick(MouseEvent e) {
-
+		System.out.println("\n" + e.getX() + " " + e.getY());
+		for(Label l : labels) {
+			System.out.println(l.getLayoutX() + " " + l.getLayoutY());
+			if(l.contains(e.getX(), e.getY())) {
+				System.out.println(l.getText());
+			}
+		}
+	}
+	
+	public ArrayList<Label> getLabels() {
+		return labels;
 	}
 	
 	private TeamEventsStage getTeamEventsStage() {
@@ -78,12 +81,14 @@ public class LeftScrollPane extends ScrollPane {
 	private CenterPane getCenterPane() {
 		return ((CenterPane)((BorderPane)getParent()).getCenter());
 	}
+	
+	
 
 	private class onLabelClicked implements EventHandler<MouseEvent> {
-		StringWithColor s;
+		private StringWithColor strWC;
 
-		public onLabelClicked(StringWithColor s) {
-			this.s = s;
+		private onLabelClicked(StringWithColor s) {
+			this.strWC = s;
 		}
 
 		@Override
@@ -96,11 +101,11 @@ public class LeftScrollPane extends ScrollPane {
 			cp.y = 0;
 			for(StringWithColor b:teams.keySet()) {
 				for(Integer d:teams.get(b)) {
-					if(s.toString().equals(b.toString())) {
+					if(strWC.toString().equals(b.toString())) {
 						getCenterPane().updateTeamInfo(d.intValue(), b.getColor());
 					}
 				}
 			}
-	}
+		}
 	}
 }

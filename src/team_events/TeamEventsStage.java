@@ -12,7 +12,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TeamEventsStage extends Stage {
@@ -107,8 +106,12 @@ public class TeamEventsStage extends Stage {
 		return arr;
 	}
 	
-	public HashMap getTeams() {
+	public HashMap<StringWithColor, ArrayList<Integer>> getTeams() {
 		return teams;
+	}
+	
+	public ArrayList<Integer> getTeams(StringWithColor strWC) {
+		return teams.get(strWC);
 	}
 	
 	private class LClickHandler implements EventHandler<MouseEvent> {
