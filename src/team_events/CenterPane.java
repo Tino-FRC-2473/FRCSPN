@@ -1,7 +1,5 @@
 package team_events;
 
-import java.util.ArrayList;
-
 import constants_and_images.K;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -27,13 +25,10 @@ public class CenterPane extends Pane {
 //  		getChildren().add(test); 
 //  		
 //		updateTeamInfo(Integer.parseInt(test.getText()));
-
-		updateTeamInfo(254, "FFFFFF");
-		updateTeamInfo(2473, "FFFFFF");
-		updateTeamInfo(846, "FFFFFF");
 	}
 	
 	public void updateTeamInfo(int teamNumber, String color) {
+		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber);
 		team.setLayoutY(y);
 		y+=team.getSize()+spacing;
@@ -78,7 +73,7 @@ class TeamInfo extends VBox{
 	double eventTitleSize = 22;
 	double textSize = 17;
 	public boolean state = false;
-	ArrayList<Event> events = new ArrayList<>();
+	Event[] events;
 	Label name;
 	public boolean opened = false;
 	int number;
@@ -90,16 +85,10 @@ class TeamInfo extends VBox{
 		setPadding(K.getInsets());
 		name = new Label(Integer.toString(teamNum));
 		name.setStyle("-fx-font-size: 25; -fx-font-color: #346233");
+		this.getChildren().add(name);
 		sizeOpened+=titleSize;
 		sizeClosed+=titleSize;
-		String[] teamEvents = ScoutingApp.getRequester().getTeamEventsForYear(teamNum,2018);
-		if(teamEvents == null)
-			teamEvents = new String[] {"no events"};
-		
-		for(int i = 0; i < teamEvents.length; i++) {
-			events.add(ScoutingApp.getRequester().getEventInfo(teamEvents[i]));
-		}
-		getChildren().add(name);
+		events = ScoutingApp.getRequester().getTeamEventsForYear(teamNum, 2018);
 		
 	}
 	
