@@ -1,58 +1,111 @@
 package team_events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import constants_and_images.I;
 import constants_and_images.K;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import main.ClickableButton;
 
 public class LeftScrollPane extends ScrollPane {
 	private VBox v;
+	private ClickableButton toggleButton;
+
 	private ArrayList<Label> labels;
-	private int selectedIdx;
-	
+	private StringWithColor lastClick;
+
 	public LeftScrollPane() {
 		super();
-		
+
 		v = new VBox();
 		v.setPadding(K.getInsets());
 		v.setSpacing(K.TEAM_EVENTS.SPACING);
-		
-		v.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH); //fix height eventually
-		Label lTitle = new Label("Group Lists");
-		lTitle.setWrapText(true);
-		lTitle.setStyle("-fx-background-color: #FF0000;");
-		lTitle.setStyle("-fx-font-size: 30");
-		v.getChildren().add(lTitle);
-		
-		setStyle("-fx-background-color: #CCCCCC;");
-		setContent(v);
-		
+		v.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH);
+
+		this.setFitToWidth(true);
+		this.setStyle("-fx-background-color: #CCCCCC;");
+		this.setContent(v);
+
+		toggleButton = new ClickableButton(I.Type.TE_TEAM_LIST_BTN);
+		v.getChildren().add(toggleButton);
+		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
+		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent e) { toggleButton.onPress(); }
+		});
 		labels = new ArrayList<Label>();
-		selectedIdx = -1;
-//		l.setWrapText(true);
-//		l.setStyle("-fx-background-color: #FF0000;");
-//		l.setStyle("-fx-font-size: 20");
 	}
-	
+
 	public void update(StringWithColor[] arr) {
-		clear();
+		this.clear();
 		for(StringWithColor sc : arr) {
 			Label l = new Label(sc.getValue());
-			l.setStyle("-fx-background-color: #" + sc.getColor() + ";-fx-font-size: 20");
+			l.setStyle("-fx-background-color: #" + sc.getColor() + "; "
+					+ "-fx-font-size: 20; -fx-stroke: black; -fx-font-weight: bold");
 			labels.add(l);
+			l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2*v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
+			l.setPadding(K.getInsets());
 			v.getChildren().add(l);
-			l.setPrefWidth(K.TEAM_EVENTS.LEFT_WIDTH*4/5);
+//			l.setOnMouseClicked(new onLabelClicked(sc));
+		}
+	}
+
+	private void clear() {
+
+	}
+
+	public void handleClick(MouseEvent e) {
+		System.out.println("\n" + e.getX() + " " + e.getY());
+		for(Label l : labels) {
+			System.out.println(l.getLayoutX() + " " + l.getLayoutY());
+			if(l.contains(e.getX(), e.getY())) {
+				System.out.println(l.getText());
+			}
 		}
 	}
 	
-	private void clear() {
-		
+	public ArrayList<Label> getLabels() {
+		return labels;
 	}
 	
-	public void handleClick(MouseEvent e) {
-		
+	private TeamEventsStage getTeamEventsStage() {
+		return ((TeamEventsStage)((BorderPane)getParent()).getScene().getWindow());
+	}
+	
+	private CenterPane getCenterPane() {
+		return ((CenterPane)((BorderPane)getParent()).getCenter());
+	}
+	
+	
+
+	private class onLabelClicked implements EventHandler<MouseEvent> {
+		private StringWithColor strWC;
+
+		private onLabelClicked(StringWithColor s) {
+			this.strWC = s;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			HashMap<StringWithColor, ArrayList<Integer>> teams = getTeamEventsStage().getTeams();
+			CenterPane cp = getCenterPane();
+			while (cp.getChildren().size() > 0) {
+				cp.getChildren().remove(0);
+			}
+			cp.y = 0;
+			for(StringWithColor b:teams.keySet()) {
+				for(Integer d:teams.get(b)) {
+					if(strWC.toString().equals(b.toString())) {
+						getCenterPane().updateTeamInfo(d.intValue(), b.getColor());
+					}
+				}
+			}
+		}
 	}
 }

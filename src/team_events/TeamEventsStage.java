@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 import constants_and_images.K;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -105,6 +104,14 @@ public class TeamEventsStage extends Stage {
 		}
 		
 		return arr;
+	}
+	
+	public HashMap<StringWithColor, ArrayList<Integer>> getTeams() {
+		return teams;
+	}
+	
+	public ArrayList<Integer> getTeams(StringWithColor strWC) {
+		return teams.get(strWC);
 	}
 	
 	private class LClickHandler implements EventHandler<MouseEvent> {

@@ -1,6 +1,5 @@
 package team_events;
 
-@SuppressWarnings("serial")
 public class StringWithColor {
 	private String str;
 	private String color;

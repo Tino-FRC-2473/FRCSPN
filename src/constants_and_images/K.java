@@ -11,4 +11,7 @@ public class K {
 	public static final BoxPaddingInsets getInsets() {
 		return new BoxPaddingInsets();
 	}
+	public static final BoxPaddingInsets getInsets(int i) {
+		return new BoxPaddingInsets(i);
+	}
 }
