@@ -1,12 +1,20 @@
 package team_events;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import constants_and_images.K;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ScoutingApp;
@@ -18,18 +26,74 @@ public class CenterPane extends HBox {
 	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
-
+	public ArrayList<TeamInfo> newteams;
+	public ArrayList<TeamInfo> removedteams;
+	
+	private Button done = null;
+	public boolean state = false;
+	
+	public boolean getState() {
+		return true;
+	}
+	public void changeState() {
+		
+	}
 	public CenterPane() {
 		super();
 		teams = new ArrayList<>();
 		columns = new ArrayList<>();
+		newteams = new ArrayList<>();
+		removedteams = new ArrayList<>();
 		x = 0;
 		setPadding(K.getInsets());
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
-		
+		done = new Button("Done");
+		getChildren().add(done);
+		done.setLayoutX(500);
+		done.setLayoutY(500);
+		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				for(int b = 0; b < newteams.size(); b++) {
+					for(int i = 0; i < teams.size(); i++) {
+						if(teams.get(i).equals(newteams.get(b))) {
+							newteams.remove(b);
+							b--;
+						}
+					}
+				}
+				teams.addAll(newteams);
+				for(int i = 0; i < removedteams.size(); i++) {
+					for(int b = 0; b < teams.size(); b++) {
+						if(teams.get(b).equals(removedteams.get(i))) {
+							removedteams.remove(i);
+							break;
+						}
+					}
+				}
+				newteams = new ArrayList<>();
+				removedteams = new ArrayList<>();
+				getScrollPane().clearAddedCategories();
+				writeFile();
+				changeState();
+			}
+		});
 	}
-
+	private void writeFile() {
+		File list = new File("docs\team_list.txt");
+		FileWriter in = null;
+		try {
+			in = new FileWriter(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//weird shit
+	}
+	private LeftScrollPane getScrollPane() {
+		//(LeftScrollPane)
+		return (LeftScrollPane) ((BorderPane)this.getParent()).getLeft();
+	}
 	public void updateTeamInfo(int teamNumber, String color) {
 		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber);
@@ -67,7 +131,6 @@ public class CenterPane extends HBox {
 			}
 		}
 		for (int i = 0; i < teams.size(); i++) {
-
 			TeamInfo n = teams.get(i);
 			height += n.getHeight()+10;
 			if (height > 600) {
@@ -85,6 +148,37 @@ public class CenterPane extends HBox {
 			}
 
 		}
+		done = new Button("Done");
+		getChildren().add(done);
+		done.setLayoutX(500);
+		done.setLayoutY(500);
+		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				for(int b = 0; b < newteams.size(); b++) {
+					for(int i = 0; i < teams.size(); i++) {
+						if(teams.get(i).equals(newteams.get(b))) {
+							newteams.remove(b);
+							b--;
+						}
+					}
+				}
+				teams.addAll(newteams);
+				for(int i = 0; i < removedteams.size(); i++) {
+					for(int b = 0; b < teams.size(); b++) {
+						if(teams.get(b).equals(removedteams.get(i))) {
+							removedteams.remove(i);
+							break;
+						}
+					}
+				}
+				newteams = new ArrayList<>();
+				removedteams = new ArrayList<>();
+				getScrollPane().clearAddedCategories();
+				writeFile();
+				changeState();
+			}
+		});
 	}
 }
 
@@ -95,6 +189,8 @@ class TeamInfo extends VBox {
 	double titleSize = 32;
 	double eventTitleSize = 22;
 	double textSize = 17;
+	String category = null;
+	
 	public boolean state = false;
 	Event[] events;
 	Label name;
@@ -137,7 +233,9 @@ class TeamInfo extends VBox {
 		}
 		getChildren().add(name);
 	}
-
+	public String getCategory() {
+		return category;
+	}
 	public String dateConvert(String d) {
 		String year = d.substring(0, d.indexOf('-'));
 		d = d.substring(d.indexOf('-') + 1);
@@ -212,6 +310,14 @@ class TeamInfo extends VBox {
 
 	public void setColor(String color) {
 		setStyle("-fx-background-color: #" + color);
+	}
+	
+	public boolean equals(TeamInfo o) {
+		if(o.number == number && o.category == category) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

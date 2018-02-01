@@ -32,6 +32,7 @@ public class ClickableButton extends ImageView {
 			doAction();
 		else
 			setImage(indented);
+		
 	}
 	
 	public void onRelease() {

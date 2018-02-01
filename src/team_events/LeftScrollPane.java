@@ -37,7 +37,10 @@ public class LeftScrollPane extends ScrollPane {
 		v.getChildren().add(toggleButton);
 		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
 		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent e) { toggleButton.onPress(); }
+			@Override public void handle(MouseEvent e) { 
+				toggleButton.onPress(); 
+				getCenterPane().changeState();
+			}
 		});
 		labels = new ArrayList<Label>();
 	}
@@ -109,5 +112,14 @@ public class LeftScrollPane extends ScrollPane {
 				}
 			}
 		}
+	}
+	public ArrayList<String> getAddedCategories(){
+		return new ArrayList<String>();
+	}
+	public void clearAddedCategories() {
+		
+	}
+	public boolean getState() {
+		return true;
 	}
 }
