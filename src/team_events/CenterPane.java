@@ -49,7 +49,7 @@ public class CenterPane extends HBox {
 		for (int i = 0; i < teams.size(); i++) {
 			TeamInfo n = teams.get(i);
 			if (n.getLayoutX() <= e.getX() && n.getSizeX() + n.getLayoutX() >= e.getX() && n.getLayoutY() <= e.getY()
-					&& n.getSize() + n.getLayoutY() >= e.getY()) {
+					&& n.getSizeY() + n.getLayoutY() >= e.getY()) {
 				n.switchState();
 				update();
 				return;
