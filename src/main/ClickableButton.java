@@ -26,6 +26,7 @@ public class ClickableButton extends ImageView {
 		this(i, null, null);
 	}
 
+	
 	public void onPress() {
 		System.out.println("on press");
 		if(indented == null)
