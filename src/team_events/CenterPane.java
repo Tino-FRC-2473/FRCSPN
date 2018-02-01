@@ -1,14 +1,14 @@
 package team_events;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import constants_and_images.K;
+import constants_and_images.I;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.ClickableButton;
 import main.ScoutingApp;
 import models.Event;
 
@@ -18,11 +18,20 @@ public class CenterPane extends HBox {
 	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
+	public boolean state = false; //editing
+	public ArrayList<TeamInfo> newTeams;
+	public ArrayList<TeamInfo> removedTeams;
+	ClickableButton addButton;
 
 	public CenterPane() {
 		super();
+		addButton = new ClickableButton(I.Type.TE_ADD_BTN);
+		addButton.setLayoutX(50);
+		addButton.setLayoutY(500);
 		teams = new ArrayList<>();
 		columns = new ArrayList<>();
+		newTeams = new ArrayList<>();
+		removedTeams = new ArrayList<>();
 		x = 0;
 		setPadding(K.getInsets());
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
@@ -30,9 +39,9 @@ public class CenterPane extends HBox {
 		
 	}
 
-	public void updateTeamInfo(int teamNumber, String color) {
+	public void updateTeamInfo(int teamNumber, String category, String color) {
 		System.out.println(teamNumber);
-		TeamInfo team = new TeamInfo(teamNumber);
+		TeamInfo team = new TeamInfo(teamNumber, category);
 		teams.add(team);
 		if (getChildren().size() ==x) {
 			VBox box = new VBox();
@@ -50,7 +59,13 @@ public class CenterPane extends HBox {
 			TeamInfo n = teams.get(i);
 			if (n.getLayoutX() <= e.getX() && n.getSizeX() + n.getLayoutX() >= e.getX() && n.getLayoutY() <= e.getY()
 					&& n.getSize() + n.getLayoutY() >= e.getY()) {
-				n.switchState();
+				if (state) {
+					removedTeams.add(n);
+					teams.remove(i);
+				}
+				else {
+					n.switchState();
+				}
 				update();
 				return;
 			}
@@ -59,6 +74,11 @@ public class CenterPane extends HBox {
 	}
 
 	public void update() {
+		if (state) {
+			for (TeamInfo t : teams) {
+				t.editMode();
+			}
+		}
 		x = 0;
 		double height = 0;
 		for (int i = 0; i < columns.size(); i++) {
@@ -86,6 +106,16 @@ public class CenterPane extends HBox {
 
 		}
 	}
+	
+	public void changeState() {
+		state = !state;
+		if (state) { 
+			getChildren().add(addButton);
+		}
+		else {
+			getChildren().remove(addButton);
+		}
+	}
 }
 
 class TeamInfo extends VBox {
@@ -100,9 +130,12 @@ class TeamInfo extends VBox {
 	Label name;
 	public boolean opened = false;
 	int number;
+	public boolean editMode = false;
+	public String category;
 
-	public TeamInfo(int teamNum) {
+	public TeamInfo(int teamNum, String c) {
 		super(2);
+		category = c;
 		number = teamNum;
 		setStyle("-fx-border-color: black; -fx-border-width: 3;");
 		setPadding(K.getInsets());
@@ -135,7 +168,19 @@ class TeamInfo extends VBox {
 			getChildren().remove(i);
 			i--;
 		}
-		getChildren().add(name);
+		if (editMode) {
+			HBox h = new HBox();
+			h.getChildren().add(name);
+			Label x = new Label(); 
+			x.setText("X");
+			x.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: black; -fx-border-width: 2");
+			h.getChildren().add(x);
+			getChildren().add(h);
+		}
+		else {
+			getChildren().add(name);
+		}
+		
 	}
 
 	public String dateConvert(String d) {
@@ -212,6 +257,13 @@ class TeamInfo extends VBox {
 
 	public void setColor(String color) {
 		setStyle("-fx-background-color: #" + color);
+	}
+	
+	public void editMode() {
+		state = false;
+		removeEvents();
+		
+		
 	}
 
 }
