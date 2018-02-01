@@ -3,12 +3,15 @@ package main;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import com.google.gson.Gson;
 
@@ -17,7 +20,12 @@ import models.YR2017_Steamworks.*;
 import models.YR2018_PowerUp.*;
 
 /*
- * /team/{team_key}/event/{event_key}/status
+/team/{team_key}/event/{event_key}/status
+
+File f = new File(filePathString);
+if(f.exists() && !f.isDirectory()) { 
+    // do something
+}
  */
 
 public class Requester {
@@ -30,28 +38,43 @@ public class Requester {
 		gson = new Gson();
 	}
 
-	public <E> E generalRequest(String str, Class<E> clazz) {
+	public <E>E generalRequest(String str, Class<E> clazz) {
 		try {
 			HttpURLConnection c = getConnection(str);
-			BufferedReader in = null;
-			StringBuffer response = null;
-			if (c == null)return null;
-			if (c.getResponseCode() == 200) {
-				in = new BufferedReader(new InputStreamReader(c.getInputStream()));
-				String inputLine;
-				response = new StringBuffer();
-				PrintWriter writer = new PrintWriter(removeDash("data\\"+str.substring(BASE.length())+".txt"), "UTF-8");
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-					writer.write(inputLine);
+			if(c == null) return null;
+			
+			BufferedReader reader = null;
+			StringBuffer response = new StringBuffer();
+			
+			if (c.getResponseCode() == 200) { //updated or new
+				reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
+				PrintWriter writer = new PrintWriter("data/" + str.substring(BASE.length()).replaceAll("/", "_") + ".txt");
+				writer.write(c.getHeaderField("Last-Modified") + "\n");
+				
+				String line;
+				while((line = reader.readLine()) != null) {
+					response.append(line);
+					writer.write(line + "\n");
 				}
 				writer.close();
-			}else if(c.getResponseCode() == 304) {
-				in = new BufferedReader(new FileReader(new File("data\\"+str.substring(BASE.length()))));
+			} else if(c.getResponseCode() == 304) { //not modified
+				reader = new BufferedReader(new FileReader(
+						new File("data/" + str.substring(BASE.length()).replaceAll("/", "_") + ".txt")
+				));
 				
+				String line;
+				boolean first = true;
+				while((line = reader.readLine()) != null) {
+					if(first) first = false;
+					else response.append(line);
+				}
+				
+			} else {
+				System.out.println("Unexpected response code: " + c.getResponseCode());
 			}
-			in.close();
-			System.out.println(response.toString());
+			
+			reader.close();
+			ifDebugPrintln(response.toString());
 			return gson.fromJson(response.toString(), clazz);
 
 		} catch (IOException e) {
@@ -61,32 +84,29 @@ public class Requester {
 	}
 
 	private HttpURLConnection getConnection(String s) throws IOException {
+		System.out.println(getTimeStamp());
 		HttpURLConnection con = (HttpURLConnection) new URL(s).openConnection();
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent",
 				"X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
-		// con.setRequestProperty("If-Modified-Since", "Mon, 15 Jan 2018 03:33:54 GMT");
+		con.setRequestProperty("If-Modified-Since", getTimeStamp());
 		ifDebugPrintln("Sending 'GET' request to URL: " + s);
 		int responseCode = con.getResponseCode();
-		if ((responseCode) == 200 || (responseCode) == 304) {
+		if (responseCode == 200 || responseCode == 304) {
 			ifDebugPrintln("HTTP Connected");
-			System.out.println(con.getHeaderField("Last-Modified"));
 			return con;
 		} else {
 			return null;
 		}
 	}
-	
-	private String removeDash(String str) {
-		for(int i = 5; i < str.length(); i++) {
-			if(str.substring(i, i+1).equals("\\")) {
-				str = str.substring(0, i) + "-" + str.substring(i+1);
-			}
-		}
-		return str;
-	}
 
+	private String getTimeStamp() {
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return sdf.format(new Date());
+	}
+	
 	private void ifDebugPrintln(String s) {
 		if (debug)
 			System.out.println(s);

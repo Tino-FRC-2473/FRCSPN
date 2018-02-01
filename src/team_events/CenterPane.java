@@ -115,7 +115,7 @@ class TeamInfo extends VBox {
 	}
 
 	public void addEvents() {
-		for (Event i : events) {
+		for(Event i : events) {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
 			if (!opened)
