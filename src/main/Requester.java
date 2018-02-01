@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -47,34 +46,37 @@ public class Requester {
 			StringBuffer response = new StringBuffer();
 			
 			if (c.getResponseCode() == 200) { //updated or new
+				ifDebugPrintln(""+200);
 				reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
-				PrintWriter writer = new PrintWriter("data/" + str.substring(BASE.length()).replaceAll("/", "_") + ".txt");
-				writer.write(c.getHeaderField("Last-Modified") + "\n");
-				
-				String line;
-				while((line = reader.readLine()) != null) {
-					response.append(line);
-					writer.write(line + "\n");
-				}
-				writer.close();
+//				PrintWriter writer = new PrintWriter("data/" + str.substring(BASE.length()).replaceAll("/", "_") + ".txt");
+//				writer.write(c.getHeaderField("Last-Modified") + "\n");
+//				
+//				String line;
+//				while((line = reader.readLine()) != null) {
+//					response.append(line);
+//					writer.write(line + "\n");
+//				}
+//				writer.close();
 			} else if(c.getResponseCode() == 304) { //not modified
+				ifDebugPrintln(""+304);
 				reader = new BufferedReader(new FileReader(
 						new File("data/" + str.substring(BASE.length()).replaceAll("/", "_") + ".txt")
 				));
-				
-				String line;
-				boolean first = true;
-				while((line = reader.readLine()) != null) {
-					if(first) first = false;
-					else response.append(line);
-				}
 				
 			} else {
 				System.out.println("Unexpected response code: " + c.getResponseCode());
 			}
 			
+			String line;
+			boolean first = (c.getResponseCode() == 304);
+			while((line = reader.readLine()) != null) {
+				if(first) first = false;
+				else response.append(line);
+			}
+			
 			reader.close();
 			ifDebugPrintln(response.toString());
+			
 			return gson.fromJson(response.toString(), clazz);
 
 		} catch (IOException e) {
@@ -90,7 +92,7 @@ public class Requester {
 		con.setRequestProperty("User-Agent",
 				"X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
-		con.setRequestProperty("If-Modified-Since", getTimeStamp());
+//		con.setRequestProperty("If-Modified-Since", getTimeStamp());
 		ifDebugPrintln("Sending 'GET' request to URL: " + s);
 		int responseCode = con.getResponseCode();
 		if (responseCode == 200 || responseCode == 304) {
