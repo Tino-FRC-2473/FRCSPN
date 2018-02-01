@@ -6,6 +6,7 @@ import java.util.HashMap;
 import constants_and_images.I;
 import constants_and_images.K;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -37,9 +38,26 @@ public class LeftScrollPane extends ScrollPane {
 		v.getChildren().add(toggleButton);
 		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
 		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent e) { toggleButton.onPress(); }
+			@Override public void handle(MouseEvent e) { toggleButton.onPress(); if (toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {back();} else {edit();} }
 		});
 		labels = new ArrayList<Label>();
+	}
+	
+	public void edit() {
+		Label l =  new Label("Add");
+		l.setStyle("-fx-background-color: #CCCCCC ; "
+				+ "-fx-font-size: 20; -fx-stroke: black; -fx-font-weight: bold");
+		l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2*v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
+		l.setPadding(K.getInsets());
+		v.getChildren().add(l);
+	}
+	
+	public void back() {
+		for (int i = 0; i < v.getChildren().size(); i++) {
+			if (v.getChildren().get(i).equals(new Label("Add"))) {
+				v.getChildren().remove(i);
+			}
+		}
 	}
 
 	public void update(StringWithColor[] arr) {
@@ -57,7 +75,12 @@ public class LeftScrollPane extends ScrollPane {
 	}
 
 	private void clear() {
-		
+		for (int i = 0; i < v.getChildren().size(); i++) {
+			if (v.getChildren().get(i).getClass().toString().equals(Label.class.toString())) {
+				v.getChildren().remove(i);
+				i--;
+			}
+		}
 	}
 
 	public void handleClick(MouseEvent e) {
