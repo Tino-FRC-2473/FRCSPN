@@ -15,8 +15,14 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
+
+import constants_and_images.K;
+import constants_and_images.I;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.ClickableButton;
 import main.ScoutingApp;
 import models.Event;
 
@@ -26,24 +32,26 @@ public class CenterPane extends HBox {
 	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
-	public ArrayList<TeamInfo> newteams;
-	public ArrayList<TeamInfo> removedteams;
 	
 	private Button done = null;
-	public boolean state = false;
 	
 	public boolean getState() {
 		return true;
 	}
-	public void changeState() {
-		
-	}
+	public boolean state = false; //editing
+	public ArrayList<TeamInfo> newTeams;
+	public ArrayList<TeamInfo> removedTeams;
+	ClickableButton addButton;
+
 	public CenterPane() {
 		super();
+		addButton = new ClickableButton(I.Type.TE_ADD_BTN);
+		addButton.setLayoutX(50);
+		addButton.setLayoutY(500);
 		teams = new ArrayList<>();
 		columns = new ArrayList<>();
-		newteams = new ArrayList<>();
-		removedteams = new ArrayList<>();
+		newTeams = new ArrayList<>();
+		removedTeams = new ArrayList<>();
 		x = 0;
 		setPadding(K.getInsets());
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
@@ -55,25 +63,25 @@ public class CenterPane extends HBox {
 		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				for(int b = 0; b < newteams.size(); b++) {
+				for(int b = 0; b < newTeams.size(); b++) {
 					for(int i = 0; i < teams.size(); i++) {
-						if(teams.get(i).equals(newteams.get(b))) {
-							newteams.remove(b);
+						if(teams.get(i).equals(newTeams.get(b))) {
+							newTeams.remove(b);
 							b--;
 						}
 					}
 				}
-				teams.addAll(newteams);
-				for(int i = 0; i < removedteams.size(); i++) {
+				teams.addAll(newTeams);
+				for(int i = 0; i < removedTeams.size(); i++) {
 					for(int b = 0; b < teams.size(); b++) {
-						if(teams.get(b).equals(removedteams.get(i))) {
-							removedteams.remove(i);
+						if(teams.get(b).equals(removedTeams.get(i))) {
+							removedTeams.remove(i);
 							break;
 						}
 					}
 				}
-				newteams = new ArrayList<>();
-				removedteams = new ArrayList<>();
+				newTeams = new ArrayList<>();
+				removedTeams = new ArrayList<>();
 				getScrollPane().clearAddedCategories();
 				writeFile();
 				changeState();
@@ -94,9 +102,10 @@ public class CenterPane extends HBox {
 		//(LeftScrollPane)
 		return (LeftScrollPane) ((BorderPane)this.getParent()).getLeft();
 	}
-	public void updateTeamInfo(int teamNumber, String color) {
+
+	public void updateTeamInfo(int teamNumber, String category, String color) {
 		System.out.println(teamNumber);
-		TeamInfo team = new TeamInfo(teamNumber);
+		TeamInfo team = new TeamInfo(teamNumber, category);
 		teams.add(team);
 		if (getChildren().size() ==x) {
 			VBox box = new VBox();
@@ -113,8 +122,15 @@ public class CenterPane extends HBox {
 		for (int i = 0; i < teams.size(); i++) {
 			TeamInfo n = teams.get(i);
 			if (n.getLayoutX() <= e.getX() && n.getSizeX() + n.getLayoutX() >= e.getX() && n.getLayoutY() <= e.getY()
-					&& n.getSize() + n.getLayoutY() >= e.getY()) {
-				n.switchState();
+
+					&& n.getSizeY() + n.getLayoutY() >= e.getY()) {
+				if (state) {
+					removedTeams.add(n);
+					teams.remove(i);
+				}
+				else {
+					n.switchState();
+				}
 				update();
 				return;
 			}
@@ -123,6 +139,11 @@ public class CenterPane extends HBox {
 	}
 
 	public void update() {
+		if (state) {
+			for (TeamInfo t : teams) {
+				t.editMode();
+			}
+		}
 		x = 0;
 		double height = 0;
 		for (int i = 0; i < columns.size(); i++) {
@@ -155,30 +176,40 @@ public class CenterPane extends HBox {
 		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				for(int b = 0; b < newteams.size(); b++) {
+				for(int b = 0; b < newTeams.size(); b++) {
 					for(int i = 0; i < teams.size(); i++) {
-						if(teams.get(i).equals(newteams.get(b))) {
-							newteams.remove(b);
+						if(teams.get(i).equals(newTeams.get(b))) {
+							newTeams.remove(b);
 							b--;
 						}
 					}
 				}
-				teams.addAll(newteams);
-				for(int i = 0; i < removedteams.size(); i++) {
+				teams.addAll(newTeams);
+				for(int i = 0; i < removedTeams.size(); i++) {
 					for(int b = 0; b < teams.size(); b++) {
-						if(teams.get(b).equals(removedteams.get(i))) {
-							removedteams.remove(i);
+						if(teams.get(b).equals(removedTeams.get(i))) {
+							removedTeams.remove(i);
 							break;
 						}
 					}
 				}
-				newteams = new ArrayList<>();
-				removedteams = new ArrayList<>();
+				newTeams = new ArrayList<>();
+				removedTeams = new ArrayList<>();
 				getScrollPane().clearAddedCategories();
 				writeFile();
 				changeState();
 			}
 		});
+	}
+	
+	public void changeState() {
+		state = !state;
+		if (state) { 
+			getChildren().add(addButton);
+		}
+		else {
+			getChildren().remove(addButton);
+		}
 	}
 }
 
@@ -189,16 +220,18 @@ class TeamInfo extends VBox {
 	double titleSize = 32;
 	double eventTitleSize = 22;
 	double textSize = 17;
-	String category = null;
 	
 	public boolean state = false;
 	Event[] events;
 	Label name;
 	public boolean opened = false;
 	int number;
+	public boolean editMode = false;
+	public String category;
 
-	public TeamInfo(int teamNum) {
+	public TeamInfo(int teamNum, String c) {
 		super(2);
+		category = c;
 		number = teamNum;
 		setStyle("-fx-border-color: black; -fx-border-width: 3;");
 		setPadding(K.getInsets());
@@ -231,7 +264,19 @@ class TeamInfo extends VBox {
 			getChildren().remove(i);
 			i--;
 		}
-		getChildren().add(name);
+		if (editMode) {
+			HBox h = new HBox();
+			h.getChildren().add(name);
+			Label x = new Label(); 
+			x.setText("X");
+			x.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: black; -fx-border-width: 2");
+			h.getChildren().add(x);
+			getChildren().add(h);
+		}
+		else {
+			getChildren().add(name);
+		}
+		
 	}
 	public String getCategory() {
 		return category;
@@ -318,6 +363,12 @@ class TeamInfo extends VBox {
 		}else {
 			return false;
 		}
+	}
+	public void editMode() {
+		state = false;
+		removeEvents();
+		
+		
 	}
 
 }

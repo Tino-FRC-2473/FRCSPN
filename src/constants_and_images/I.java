@@ -23,6 +23,8 @@ public class I {
 				new Image(base + "team_events" + "/edit_teams.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
 		images.put(Type.TE_BACK_BTN,
 				new Image(base + "team_events" + "/back.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
+		images.put(Type.TE_ADD_BTN,
+				new Image(base + "team_events" + "/add.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
 	}
 	
 	public Image getImg(Type i) {
@@ -40,6 +42,6 @@ public class I {
 	
 	public enum Type {
 		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED, COMING_SOON_BTN,
-		TE_TEAM_LIST_BTN, TE_BACK_BTN
+		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
 	}
 }
