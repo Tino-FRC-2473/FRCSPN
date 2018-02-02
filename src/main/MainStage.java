@@ -74,7 +74,6 @@ public class MainStage extends Stage {
 					if(b.contains(e.getX(), e.getY()) && b.getDesc() == null) {
 						break;
 					} else if(b.contains(e.getX(), e.getY()) && !added) {
-						System.out.println("description added");
 						breakFromOuterForLoop = true;
 						label = new Label(b.getDesc());
 						pane.getChildren().add(label);
@@ -85,13 +84,11 @@ public class MainStage extends Stage {
 						added = true;
 						break;
 					} else if(b.contains(e.getX(), e.getY()) && added){
-						System.out.println("description moved");
 						breakFromOuterForLoop = true;
 						label.setLayoutX(e.getX());
 						label.setLayoutY(e.getY()-label.getHeight());
 						break;
 					} else if(added) {
-						System.out.println("description removed");
 						breakFromOuterForLoop = true;
 						pane.getChildren().remove(label);
 						added = false;
@@ -99,7 +96,6 @@ public class MainStage extends Stage {
 					}
 				}
 			}
-			System.out.println("END");
 		}
 	}
 }

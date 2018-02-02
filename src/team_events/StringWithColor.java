@@ -19,6 +19,6 @@ public class StringWithColor {
 	
 	@Override
 	public String toString() {
-		return str + " (" + color + ")";
+		return str;
 	}
 }

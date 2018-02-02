@@ -98,7 +98,6 @@ public class TeamEventsStage extends Stage {
 	private ArrayList<Integer> splitLineInt(String s) {
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		StringTokenizer st = new StringTokenizer(s);
-		
 		while (st.hasMoreTokens()) {
 			arr.add(Integer.parseInt(st.nextToken()));
 		}

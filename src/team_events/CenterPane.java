@@ -3,6 +3,7 @@ package team_events;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,14 +33,11 @@ public class CenterPane extends HBox {
 	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
-	
-	private Button done = null;
-	
 	public boolean getState() {
 		return true;
 	}
 	public boolean state = false; //editing
-	public ArrayList<TeamInfo> newTeams;
+	public ArrayList<TeamInfo> newTeams ;
 	public ArrayList<TeamInfo> removedTeams;
 	ClickableButton addButton;
 
@@ -56,47 +54,74 @@ public class CenterPane extends HBox {
 		setPadding(K.getInsets());
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
-		done = new Button("Done");
-		getChildren().add(done);
-		done.setLayoutX(500);
-		done.setLayoutY(500);
-		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				for(int b = 0; b < newTeams.size(); b++) {
-					for(int i = 0; i < teams.size(); i++) {
-						if(teams.get(i).equals(newTeams.get(b))) {
-							newTeams.remove(b);
-							b--;
-						}
-					}
-				}
-				teams.addAll(newTeams);
-				for(int i = 0; i < removedTeams.size(); i++) {
-					for(int b = 0; b < teams.size(); b++) {
-						if(teams.get(b).equals(removedTeams.get(i))) {
-							removedTeams.remove(i);
-							break;
-						}
-					}
-				}
-				newTeams = new ArrayList<>();
-				removedTeams = new ArrayList<>();
-				getScrollPane().clearAddedCategories();
-				writeFile();
-				changeState();
-			}
-		});
 	}
+	
+	public ArrayList<TeamInfo> getTeams(){
+		return teams;
+	}
+	
+	public void saveChanges() {
+		System.out.println("teams: " + teams);
+		for(int b = 0; b < newTeams.size(); b++) {
+			for(int i = 0; i < teams.size(); i++) {
+				if(teams.get(i).equals(newTeams.get(b))) {
+					newTeams.remove(b);
+					b--;
+				}
+			}
+		}
+		teams.addAll(newTeams);
+		for(int i = 0; i < removedTeams.size(); i++) {
+			for(int b = 0; b < teams.size(); b++) {
+				if(teams.get(b).equals(removedTeams.get(i))) {
+					removedTeams.remove(i);
+					teams.remove(b);
+					i--;
+					b--;
+					break;
+				}
+			}
+		}
+		newTeams = new ArrayList<>();
+		removedTeams = new ArrayList<>();
+		getScrollPane().clearAddedCategories();
+		writeFile();
+		changeState();
+	}
+	
 	private void writeFile() {
-		File list = new File("docs\team_list.txt");
-		FileWriter in = null;
+		File list = new File("docs\\team_list.txt");
+		FileWriter w = null;
 		try {
-			in = new FileWriter(list);
+			w = new FileWriter(list);
+			w.close();
+			w = new FileWriter(list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//weird shit
+		ArrayList<String> cat = new ArrayList<>();
+		for(TeamInfo t:teams) {
+			try {
+				if(!cat.contains(t.getCategory())) {
+					cat.add(t.getCategory());
+					w.write("*"+t.getCategory()+"*"+" "+t.getColor());
+					w.write("\n");
+					for(TeamInfo b:teams) {
+						if(b.getCategory().equals(t.getCategory())) {
+							w.write(b.getNumber()+" ");
+						}
+					}
+					w.write("\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			w.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	private LeftScrollPane getScrollPane() {
 		//(LeftScrollPane)
@@ -104,17 +129,19 @@ public class CenterPane extends HBox {
 	}
 
 	public void updateTeamInfo(int teamNumber, String category, String color) {
+		System.out.println("UPDATED");
 		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber, category);
 		teams.add(team);
-		if (getChildren().size() ==x) {
+//		if (getChildren().size() == x) {
 			VBox box = new VBox();
 			box.setPadding(K.getInsets());
 			getChildren().add(box);
 			columns.add(box);
-		}
+//		}
 		columns.get(x).getChildren().add(team);
 		team.setColor(color);
+		System.out.println(teams);
 	}
 
 	public void handleClick(MouseEvent e) {
@@ -139,6 +166,7 @@ public class CenterPane extends HBox {
 	}
 
 	public void update() {
+		System.out.println("UPDATED");
 		if (state) {
 			for (TeamInfo t : teams) {
 				t.editMode();
@@ -167,39 +195,7 @@ public class CenterPane extends HBox {
 			} else {
 				columns.get(x).getChildren().add(n);
 			}
-
 		}
-		done = new Button("Done");
-		getChildren().add(done);
-		done.setLayoutX(500);
-		done.setLayoutY(500);
-		done.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				for(int b = 0; b < newTeams.size(); b++) {
-					for(int i = 0; i < teams.size(); i++) {
-						if(teams.get(i).equals(newTeams.get(b))) {
-							newTeams.remove(b);
-							b--;
-						}
-					}
-				}
-				teams.addAll(newTeams);
-				for(int i = 0; i < removedTeams.size(); i++) {
-					for(int b = 0; b < teams.size(); b++) {
-						if(teams.get(b).equals(removedTeams.get(i))) {
-							removedTeams.remove(i);
-							break;
-						}
-					}
-				}
-				newTeams = new ArrayList<>();
-				removedTeams = new ArrayList<>();
-				getScrollPane().clearAddedCategories();
-				writeFile();
-				changeState();
-			}
-		});
 	}
 	
 	public void changeState() {
@@ -220,6 +216,8 @@ class TeamInfo extends VBox {
 	double titleSize = 32;
 	double eventTitleSize = 22;
 	double textSize = 17;
+	
+	String color = "";
 	
 	public boolean state = false;
 	Event[] events;
@@ -334,7 +332,9 @@ class TeamInfo extends VBox {
 			return sizeClosed;
 		}
 	}
-
+	public int getNumber() {
+		return number;
+	}
 	public double getSizeX() {
 		return this.getWidth();
 	}
@@ -355,6 +355,11 @@ class TeamInfo extends VBox {
 
 	public void setColor(String color) {
 		setStyle("-fx-background-color: #" + color);
+		this.color = color;
+	}
+	
+	public String getColor() {
+		return color;
 	}
 	
 	public boolean equals(TeamInfo o) {
@@ -367,8 +372,6 @@ class TeamInfo extends VBox {
 	public void editMode() {
 		state = false;
 		removeEvents();
-		
-		
 	}
 
 }

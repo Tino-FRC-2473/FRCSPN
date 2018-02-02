@@ -42,7 +42,6 @@ public class LeftScrollPane extends ScrollPane {
 			@Override
 			public void handle(MouseEvent e) {
 				toggleButton.onPress();
-				getCenterPane().changeState();
 				if (toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
 					back();
 				} else {
@@ -55,11 +54,13 @@ public class LeftScrollPane extends ScrollPane {
 	}
 
 	public void edit() {
+		System.out.println("teams: " + getCenterPane().getTeams());
 		Label l = new Label("Add");
 		l.setStyle("-fx-background-color: #CCCCCC ; " + "-fx-font-size: 20; -fx-stroke: black; -fx-font-weight: bold");
 		l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
 		l.setPadding(K.getInsets());
 		v.getChildren().add(l);
+		getCenterPane().changeState();
 	}
 
 	public void back() {
@@ -68,6 +69,7 @@ public class LeftScrollPane extends ScrollPane {
 				v.getChildren().remove(i);
 			}
 		}
+		getCenterPane().saveChanges();
 	}
 
 	public void update(StringWithColor[] arr) {
@@ -129,9 +131,9 @@ public class LeftScrollPane extends ScrollPane {
 			while (cp.getChildren().size() > 0) {
 				cp.getChildren().remove(0);
 			}
-			while (cp.teams.size() > 0) {
-				cp.teams.remove(0);
-			}
+//			while (cp.teams.size() > 0) {
+//				cp.teams.remove(0);
+//			}
 			for (StringWithColor b : teams.keySet()) {
 				for (Integer d : teams.get(b)) {
 					if (strWC.toString().equals(b.toString())) {
@@ -139,6 +141,7 @@ public class LeftScrollPane extends ScrollPane {
 					}
 				}
 			}
+			System.out.println(getCenterPane().getTeams());
 		}
 	}
 	//make these methods
