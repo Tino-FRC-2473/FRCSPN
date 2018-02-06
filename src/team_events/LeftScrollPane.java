@@ -1,7 +1,9 @@
 package team_events;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import constants_and_images.I;
 import constants_and_images.K;
@@ -45,6 +47,37 @@ public class LeftScrollPane extends ScrollPane {
 				if (toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
 					back();
 				} else {
+					File teamlist = new File("docs/team_list.txt");
+					Scanner in = null;
+					try {
+						 in = new Scanner(teamlist);
+					}catch(Exception b) {
+						b.printStackTrace();
+					}
+					while(in.hasNextLine()) {
+						String line = in.nextLine();
+						System.out.println("file read: " + line);
+						if(line.charAt(0) == '*') {
+							String teamnums = in.nextLine();
+							Scanner nums = new Scanner(teamnums);
+							while(nums.hasNext()) {
+								int num = nums.nextInt();
+								TeamInfo info = new TeamInfo(num,line);
+								System.out.println("info: " + info);
+								boolean exists = false;
+								for(TeamInfo t:getCenterPane().getTeams()) {
+									if(t.equals(info)) {
+										exists = true;
+										break;
+									}
+								}
+								if(!exists) {
+									getCenterPane().getTeams().add(info);
+									System.out.println("info: " + info);
+								}
+							}
+						}
+					}
 					edit();
 				}
 			}
@@ -131,28 +164,33 @@ public class LeftScrollPane extends ScrollPane {
 			while (cp.getChildren().size() > 0) {
 				cp.getChildren().remove(0);
 			}
-//			while (cp.teams.size() > 0) {
-//				cp.teams.remove(0);
-//			}
+			// while (cp.teams.size() > 0) {
+			// cp.teams.remove(0);
+			// }
 			for (StringWithColor b : teams.keySet()) {
 				for (Integer d : teams.get(b)) {
+					System.out.println(b);
 					if (strWC.toString().equals(b.toString())) {
+						System.out.println("category: " + b);
 						getCenterPane().updateTeamInfo(d.intValue(), b.toString(), b.getColor());
 					}
 				}
 			}
-			System.out.println(getCenterPane().getTeams());
+			// System.out.println(getCenterPane().getTeams());
 		}
 	}
-	//make these methods
-	public ArrayList<String> getAddedCategories(){
+
+	// make these methods
+	public ArrayList<String> getAddedCategories() {
 		return new ArrayList<String>();
 	}
-	//make these methods
+
+	// make these methods
 	public void clearAddedCategories() {
-		
+
 	}
-	//make these methods
+
+	// make these methods
 	public boolean getState() {
 		return true;
 	}

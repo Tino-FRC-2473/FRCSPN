@@ -17,30 +17,31 @@ import javafx.stage.Stage;
 public class TeamEventsStage extends Stage {
 	private State state = State.NORMAL;
 	
-	private BorderPane root = new BorderPane();
-	
-	private LeftScrollPane lPane;
+	private BorderPane root;
 	private CenterPane cPane;
+	private LeftScrollPane lPane;
 	
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
 	public TeamEventsStage() {
+		root = new BorderPane();
 		setResizable(false);
 		setTitle("Team Events (FRCSPN)");
 		
-		lPane = new LeftScrollPane();
-		lPane.setOnMouseClicked(new LClickHandler());
+		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		
 		cPane = new CenterPane();
 		cPane.setOnMouseClicked(new CClickHandler());
+		root.setCenter(cPane);
+
+		lPane = new LeftScrollPane();
+		lPane.setOnMouseClicked(new LClickHandler());
 		
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
 		loadNormal();
 	
-		Scene scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 		root.setLeft(lPane);
-		root.setCenter(cPane);
 		
 		setScene(scene);
 	}

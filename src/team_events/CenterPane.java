@@ -133,15 +133,14 @@ public class CenterPane extends HBox {
 		System.out.println(teamNumber);
 		TeamInfo team = new TeamInfo(teamNumber, category);
 		teams.add(team);
-//		if (getChildren().size() == x) {
+		if (getChildren().size() == x) {
 			VBox box = new VBox();
 			box.setPadding(K.getInsets());
 			getChildren().add(box);
 			columns.add(box);
-//		}
+		}
 		columns.get(x).getChildren().add(team);
 		team.setColor(color);
-		System.out.println(teams);
 	}
 
 	public void handleClick(MouseEvent e) {
@@ -229,7 +228,9 @@ class TeamInfo extends VBox {
 
 	public TeamInfo(int teamNum, String c) {
 		super(2);
-		category = c;
+		category = c.substring(1, c.lastIndexOf("*"));
+		System.out.println(category);
+		setColor(c.substring(c.lastIndexOf(" ") + 1));
 		number = teamNum;
 		setStyle("-fx-border-color: black; -fx-border-width: 3;");
 		setPadding(K.getInsets());
@@ -238,10 +239,10 @@ class TeamInfo extends VBox {
 		this.getChildren().add(name);
 		sizeOpened+=titleSize;
 		sizeClosed+=titleSize;
-		events = ScoutingApp.getRequester().getTeamEventsForYear(teamNum, 2018);
 	}
 
 	public void addEvents() {
+		events = ScoutingApp.getRequester().getTeamEventsForYear(number, 2018);
 		for(Event i : events) {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
@@ -363,11 +364,14 @@ class TeamInfo extends VBox {
 	}
 	
 	public boolean equals(TeamInfo o) {
-		if(o.number == number && o.category == category) {
+		if(o.number == number && o.category.equals(category)) {
 			return true;
 		}else {
 			return false;
 		}
+	}
+	public String toString() {
+		return number + " " + color;
 	}
 	public void editMode() {
 		state = false;
