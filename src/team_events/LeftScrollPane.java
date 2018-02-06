@@ -62,7 +62,8 @@ public class LeftScrollPane extends ScrollPane {
 							Scanner nums = new Scanner(teamnums);
 							while(nums.hasNext()) {
 								int num = nums.nextInt();
-								TeamInfo info = new TeamInfo(num,line);
+								TeamInfo info = new TeamInfo(num,line.substring(1, line.lastIndexOf("*")));
+								info.setColor(line.substring(1, line.lastIndexOf(" ")));
 								System.out.println("info: " + info);
 								boolean exists = false;
 								for(TeamInfo t:getCenterPane().getTeams()) {

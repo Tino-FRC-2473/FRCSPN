@@ -228,9 +228,8 @@ class TeamInfo extends VBox {
 
 	public TeamInfo(int teamNum, String c) {
 		super(2);
-		category = c.substring(1, c.lastIndexOf("*"));
+		category = c;
 		System.out.println(category);
-		setColor(c.substring(c.lastIndexOf(" ") + 1));
 		number = teamNum;
 		setStyle("-fx-border-color: black; -fx-border-width: 3;");
 		setPadding(K.getInsets());
@@ -239,10 +238,10 @@ class TeamInfo extends VBox {
 		this.getChildren().add(name);
 		sizeOpened+=titleSize;
 		sizeClosed+=titleSize;
+		events = ScoutingApp.getRequester().getTeamEventsForYear(number, 2018);
 	}
 
 	public void addEvents() {
-		events = ScoutingApp.getRequester().getTeamEventsForYear(number, 2018);
 		for(Event i : events) {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
