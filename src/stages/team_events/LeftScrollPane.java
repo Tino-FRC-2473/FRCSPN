@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import general.constants.K;
 import general.images.I;
+import gui.ClickableButton;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import other.ClickableButton;
 
 public class LeftScrollPane extends ScrollPane {
 	private VBox v;

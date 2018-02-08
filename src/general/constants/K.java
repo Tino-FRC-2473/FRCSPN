@@ -1,6 +1,6 @@
 package general.constants;
 
-import other.BoxPaddingInsets;
+import gui.BoxPaddingInsets;
 
 public class K {
 	public static final String VERSION = "beta 0.0";

@@ -1,4 +1,4 @@
-package other;
+package gui;
 
 import general.ScoutingApp;
 import general.images.I;

@@ -12,6 +12,7 @@ import java.util.Scanner;
 import general.ScoutingApp;
 import general.constants.K;
 import general.images.I;
+import gui.ClickableButton;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.Event;
-import other.ClickableButton;
 
 public class CenterPane extends HBox {
 	
