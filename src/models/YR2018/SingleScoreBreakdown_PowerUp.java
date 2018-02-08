@@ -1,6 +1,6 @@
-package models.YR2018_PowerUp;
+package models.YR2018;
 
-public class SingleScoreBreakdown_2018PowerUp {
+public class SingleScoreBreakdown_PowerUp {
 	public int autoPoints;
 	public int teleopPoints;
 	public int foulPoints;

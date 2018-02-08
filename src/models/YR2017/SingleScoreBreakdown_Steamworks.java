@@ -1,6 +1,6 @@
-package models.YR2017_Steamworks;
+package models.YR2017;
 
-public class SingleScoreBreakdown_2017Steamworks {
+public class SingleScoreBreakdown_Steamworks {
 	public int autoPoints;
 	public int teleopPoints;
 	public int foulPoints;

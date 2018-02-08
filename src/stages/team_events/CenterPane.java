@@ -1,4 +1,4 @@
-package team_events;
+package stages.team_events;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,22 +9,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import constants_and_images.K;
+import general.ScoutingApp;
+import general.constants.K;
+import general.images.I;
+import gui.ClickableButton;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
 
-import constants_and_images.K;
-import constants_and_images.I;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.ClickableButton;
-import main.ScoutingApp;
 import models.Event;
 
 public class CenterPane extends HBox {
@@ -188,7 +186,8 @@ public class CenterPane extends HBox {
 				columns.get(i).getChildren().remove(0);
 			}
 		}
-		for (int i = 0; i < teams.size(); i++) {
+		
+		for(int i = 0; i < teams.size(); i++) {
 			TeamInfo n = teams.get(i);
 			height += n.getHeight() + 10;
 			if (height > 600) {

@@ -1,9 +1,10 @@
-package main;
+package gui;
 
-import constants_and_images.I;
+import general.ScoutingApp;
+import general.images.I;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import team_events.TeamEventsStage.State;
+import stages.team_events.TeamEventsStage.State;
 
 public class ClickableButton extends ImageView {
 	private I.Type type;
@@ -28,7 +29,7 @@ public class ClickableButton extends ImageView {
 
 	
 	public void onPress() {
-		System.out.println("on press");
+//		System.out.println("on press");
 		if(indented == null)
 			doAction();
 		else
@@ -37,7 +38,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	public void onRelease() {
-		System.out.println("on release");
+//		System.out.println("on release");
 		if(indented != null) {
 			setImage(normal);
 			doAction();

@@ -1,12 +1,13 @@
-package team_events;
+package stages.team_events;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import constants_and_images.I;
-import constants_and_images.K;
+import general.constants.K;
+import general.images.I;
+import gui.ClickableButton;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import main.ClickableButton;
 
 public class LeftScrollPane extends ScrollPane {
 	private VBox v;

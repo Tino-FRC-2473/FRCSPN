@@ -2,10 +2,10 @@ package tests;
 
 import java.util.Arrays;
 
-import main.Requester;
+import general.requests.Requester;
 import models.*;
-import models.YR2017_Steamworks.*;
-import models.YR2018_PowerUp.*;
+import models.YR2017.*;
+import models.YR2018.*;
 
 @SuppressWarnings("unused")
 public class Driver {

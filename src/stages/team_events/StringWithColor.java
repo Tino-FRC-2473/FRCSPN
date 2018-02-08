@@ -1,4 +1,4 @@
-package team_events;
+package stages.team_events;
 
 public class StringWithColor {
 	private String str;

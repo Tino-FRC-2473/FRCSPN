@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-import models.YR2017_Steamworks.Match_2017Steamworks;
+import models.YR2017.Match_Steamworks;
 
 public class Test3_IterateMatches {
 	public static void main(String[] args) {
@@ -62,7 +62,7 @@ public class Test3_IterateMatches {
 				}
 				in.close();
 				
-				Match_2017Steamworks[] objs = gson.fromJson(eResponse.toString(), Match_2017Steamworks[].class);
+				Match_Steamworks[] objs = gson.fromJson(eResponse.toString(), Match_Steamworks[].class);
 				System.out.println("JSON Object");
 				System.out.println(objs);
 				System.out.println("# Matches: " + objs.length + "\n");

@@ -1,7 +1,8 @@
-package constants_and_images;
+package general.images;
 
 import java.util.HashMap;
 
+import general.constants.K;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

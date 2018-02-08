@@ -8,7 +8,7 @@ import java.net.URL;
 
 import com.google.gson.Gson;
 
-import models.YR2017_Steamworks.Match_2017Steamworks;
+import models.YR2017.Match_Steamworks;
 
 public class Test2_Match {
 	public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class Test2_Match {
 			in.close();
 			
 			Gson gson = new Gson();
-			Match_2017Steamworks[] objs = gson.fromJson(response.toString(), Match_2017Steamworks[].class);
+			Match_Steamworks[] objs = gson.fromJson(response.toString(), Match_Steamworks[].class);
 			System.out.println("JSON Object");
 			System.out.println(objs + "\n");
 			for(int i = 0; i < objs.length; i++) {

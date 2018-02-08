@@ -1,4 +1,4 @@
-package constants_and_images;
+package general.constants;
 
 public class KMain {
 	public final double WIDTH = 800;
