@@ -79,7 +79,9 @@ public class TeamEventsStage extends Stage {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
 					for (Integer i : teamNums) {
-						this.cPane.getTeams().add(new TeamInfo(i.intValue(), keyStr));
+						TeamInfo info = new TeamInfo(i.intValue(), keyStr);
+						info.setColor(key.getColor());
+						this.cPane.getTeams().add(info);
 					}
 				}
 			}

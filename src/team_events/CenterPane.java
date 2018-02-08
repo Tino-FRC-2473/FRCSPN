@@ -28,16 +28,18 @@ import main.ScoutingApp;
 import models.Event;
 
 public class CenterPane extends HBox {
-	
+
 	public int x;
 	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
+
 	public boolean getState() {
 		return true;
 	}
-	public boolean state = false; //editing
-	public ArrayList<TeamInfo> newTeams ;
+
+	public boolean state = false; // editing
+	public ArrayList<TeamInfo> newTeams;
 	public ArrayList<TeamInfo> removedTeams;
 	ClickableButton addButton;
 
@@ -55,25 +57,25 @@ public class CenterPane extends HBox {
 		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
 		setStyle("-fx-background-color: #FFFFFF");
 	}
-	
-	public ArrayList<TeamInfo> getTeams(){
+
+	public ArrayList<TeamInfo> getTeams() {
 		return teams;
 	}
-	
+
 	public void saveChanges() {
 		System.out.println("teams: " + teams);
-		for(int b = 0; b < newTeams.size(); b++) {
-			for(int i = 0; i < teams.size(); i++) {
-				if(teams.get(i).equals(newTeams.get(b))) {
+		for (int b = 0; b < newTeams.size(); b++) {
+			for (int i = 0; i < teams.size(); i++) {
+				if (teams.get(i).equals(newTeams.get(b))) {
 					newTeams.remove(b);
 					b--;
 				}
 			}
 		}
 		teams.addAll(newTeams);
-		for(int i = 0; i < removedTeams.size(); i++) {
-			for(int b = 0; b < teams.size(); b++) {
-				if(teams.get(b).equals(removedTeams.get(i))) {
+		for (int i = 0; i < removedTeams.size(); i++) {
+			for (int b = 0; b < teams.size(); b++) {
+				if (teams.get(b).equals(removedTeams.get(i))) {
 					removedTeams.remove(i);
 					teams.remove(b);
 					i--;
@@ -88,7 +90,7 @@ public class CenterPane extends HBox {
 		writeFile();
 		changeState();
 	}
-	
+
 	private void writeFile() {
 		File list = new File("docs\\team_list.txt");
 		FileWriter w = null;
@@ -100,16 +102,18 @@ public class CenterPane extends HBox {
 			e.printStackTrace();
 		}
 		ArrayList<String> cat = new ArrayList<>();
-		for(TeamInfo t:teams) {
+		ArrayList<Integer> nums = new ArrayList<>();
+		for (TeamInfo t : teams) {
 			try {
-				if(!cat.contains(t.getCategory())) {
+				if (!cat.contains(t.getCategory())) {
 					cat.add(t.getCategory());
-					w.write("*"+t.getCategory()+"*"+" "+t.getColor());
+					w.write("*" + t.getCategory() + "*" + " " + t.getColor());
 					w.write("\n");
-					for(TeamInfo b:teams) {
-						System.out.println("U NEED TO SEE THIS: " + (new StringWithColor(t.getCategory(), t.getColor())).toString());
-						if(b.getCategory().equals(t.getCategory()) && getTeamEventsStage().getTeams().get(new StringWithColor(t.getCategory(), t.getColor())) != null && !getTeamEventsStage().getTeams().get(new StringWithColor(t.getCategory(), t.getColor())).contains(new Integer(b.getNumber()))) {
-							w.write(b.getNumber()+" ");
+					for (TeamInfo b : teams) {
+						System.out.println(new StringWithColor(b.getCategory(), b.getColor()));
+						if (b.getCategory().equals(t.getCategory()) && !nums.contains(b.getNumber())) {
+							nums.add(new Integer(b.getNumber()));
+							w.write(b.getNumber() + " ");
 						}
 					}
 					w.write("\n");
@@ -123,11 +127,14 @@ public class CenterPane extends HBox {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		teams = new ArrayList<>();
 	}
+
 	private LeftScrollPane getScrollPane() {
-		//(LeftScrollPane)
-		return (LeftScrollPane) ((BorderPane)this.getParent()).getLeft();
+		// (LeftScrollPane)
+		return (LeftScrollPane) ((BorderPane) this.getParent()).getLeft();
 	}
+
 	private TeamEventsStage getTeamEventsStage() {
 		return ((TeamEventsStage) ((BorderPane) getParent()).getScene().getWindow());
 	}
@@ -157,8 +164,7 @@ public class CenterPane extends HBox {
 				if (state) {
 					removedTeams.add(n);
 					teams.remove(i);
-				}
-				else {
+				} else {
 					n.switchState();
 				}
 				update();
@@ -178,17 +184,17 @@ public class CenterPane extends HBox {
 		x = 0;
 		double height = 0;
 		for (int i = 0; i < columns.size(); i++) {
-			while(columns.get(i).getChildren().size() >0) {
+			while (columns.get(i).getChildren().size() > 0) {
 				columns.get(i).getChildren().remove(0);
 			}
 		}
 		for (int i = 0; i < teams.size(); i++) {
 			TeamInfo n = teams.get(i);
-			height += n.getHeight()+10;
+			height += n.getHeight() + 10;
 			if (height > 600) {
-				height = n.getHeight()+10;
+				height = n.getHeight() + 10;
 				x++;
-				if (getChildren().size() ==x) {
+				if (getChildren().size() == x) {
 					VBox box = new VBox();
 					box.setPadding(K.getInsets());
 					getChildren().add(box);
@@ -200,13 +206,12 @@ public class CenterPane extends HBox {
 			}
 		}
 	}
-	
+
 	public void changeState() {
 		state = !state;
-		if (state) { 
+		if (state) {
 			getChildren().add(addButton);
-		}
-		else {
+		} else {
 			getChildren().remove(addButton);
 		}
 	}
@@ -219,9 +224,9 @@ class TeamInfo extends VBox {
 	double titleSize = 32;
 	double eventTitleSize = 22;
 	double textSize = 17;
-	
+
 	String color = "";
-	
+
 	public boolean state = false;
 	Event[] events;
 	Label name;
@@ -240,13 +245,13 @@ class TeamInfo extends VBox {
 		name = new Label(Integer.toString(teamNum));
 		name.setStyle("-fx-font-size: 25; -fx-font-color: #346233");
 		this.getChildren().add(name);
-		sizeOpened+=titleSize;
-		sizeClosed+=titleSize;
+		sizeOpened += titleSize;
+		sizeClosed += titleSize;
 		events = ScoutingApp.getRequester().getTeamEventsForYear(number, 2018);
 	}
 
 	public void addEvents() {
-		for(Event i : events) {
+		for (Event i : events) {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
 			if (!opened)
@@ -269,20 +274,21 @@ class TeamInfo extends VBox {
 		if (editMode) {
 			HBox h = new HBox();
 			h.getChildren().add(name);
-			Label x = new Label(); 
+			Label x = new Label();
 			x.setText("X");
 			x.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: black; -fx-border-width: 2");
 			h.getChildren().add(x);
 			getChildren().add(h);
-		}
-		else {
+		} else {
 			getChildren().add(name);
 		}
-		
+
 	}
+
 	public String getCategory() {
 		return category;
 	}
+
 	public String dateConvert(String d) {
 		String year = d.substring(0, d.indexOf('-'));
 		d = d.substring(d.indexOf('-') + 1);
@@ -336,9 +342,11 @@ class TeamInfo extends VBox {
 			return sizeClosed;
 		}
 	}
+
 	public int getNumber() {
 		return number;
 	}
+
 	public double getSizeX() {
 		return this.getWidth();
 	}
@@ -361,21 +369,23 @@ class TeamInfo extends VBox {
 		setStyle("-fx-background-color: #" + color);
 		this.color = color;
 	}
-	
+
 	public String getColor() {
 		return color;
 	}
-	
+
 	public boolean equals(TeamInfo o) {
-		if(o.number == number && o.category.equals(category)) {
+		if (o.number == number && o.category.equals(category)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
+
 	public String toString() {
 		return number + " " + color;
 	}
+
 	public void editMode() {
 		state = false;
 		removeEvents();
