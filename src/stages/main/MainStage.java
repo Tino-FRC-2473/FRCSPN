@@ -85,7 +85,7 @@ public class MainStage extends Stage {
 						label.setLayoutY(e.getY());
 						added = true;
 						break;
-					} else if(b.contains(e.getX(), e.getY()) && added){
+					} else if(b.contains(e.getX(), e.getY()) && added) {
 //						System.out.println("description moved");
 						breakFromOuterForLoop = true;
 						label.setLayoutX(e.getX());
