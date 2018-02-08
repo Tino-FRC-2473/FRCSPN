@@ -47,38 +47,39 @@ public class LeftScrollPane extends ScrollPane {
 				if (toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
 					back();
 				} else {
-					File teamlist = new File("docs/team_list.txt");
-					Scanner in = null;
-					try {
-						 in = new Scanner(teamlist);
-					}catch(Exception b) {
-						b.printStackTrace();
-					}
-					while(in.hasNextLine()) {
-						String line = in.nextLine();
-						System.out.println("file read: " + line);
-						if(line.charAt(0) == '*') {
-							String teamnums = in.nextLine();
-							Scanner nums = new Scanner(teamnums);
-							while(nums.hasNext()) {
-								int num = nums.nextInt();
-								TeamInfo info = new TeamInfo(num,line.substring(1, line.lastIndexOf("*")));
-								info.setColor(line.substring(1, line.lastIndexOf(" ")));
-								System.out.println("info: " + info);
-								boolean exists = false;
-								for(TeamInfo t:getCenterPane().getTeams()) {
-									if(t.equals(info)) {
-										exists = true;
-										break;
-									}
-								}
-								if(!exists) {
-									getCenterPane().getTeams().add(info);
-									System.out.println("info: " + info);
-								}
-							}
-						}
-					}
+//					File teamlist = new File("docs/team_list.txt");
+//					Scanner in = null;
+//					try {
+//						 in = new Scanner(teamlist);
+//					}catch(Exception b) {
+//						b.printStackTrace();
+//					}
+//					while(in.hasNextLine()) {
+//						String line = in.nextLine();
+//						System.out.println("file read: " + line);
+//						if(line.charAt(0) == '*') {
+//							String teamnums = in.nextLine();
+//							Scanner nums = new Scanner(teamnums);
+//							while(nums.hasNext()) {
+//								int num = nums.nextInt();
+//								TeamInfo info = new TeamInfo(num,line.substring(1, line.lastIndexOf("*")));
+//								info.setColor(line.substring(1, line.lastIndexOf(" ")));
+//								System.out.println("info: " + info);
+//								boolean exists = false;
+//								for(TeamInfo t:getCenterPane().getTeams()) {
+//									if(t.equals(info)) {
+//										exists = true;
+//										break;
+//									}
+//								}
+//								if(!exists) {
+//									getCenterPane().getTeams().add(info);
+//									System.out.println("info: " + info);
+//								}
+//							}
+//						}
+//					}
+					getTeamEventsStage().loadNormal();
 					edit();
 				}
 			}

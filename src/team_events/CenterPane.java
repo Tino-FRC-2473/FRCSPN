@@ -107,7 +107,8 @@ public class CenterPane extends HBox {
 					w.write("*"+t.getCategory()+"*"+" "+t.getColor());
 					w.write("\n");
 					for(TeamInfo b:teams) {
-						if(b.getCategory().equals(t.getCategory())) {
+						System.out.println("U NEED TO SEE THIS: " + (new StringWithColor(t.getCategory(), t.getColor())).toString());
+						if(b.getCategory().equals(t.getCategory()) && getTeamEventsStage().getTeams().get(new StringWithColor(t.getCategory(), t.getColor())) != null && !getTeamEventsStage().getTeams().get(new StringWithColor(t.getCategory(), t.getColor())).contains(new Integer(b.getNumber()))) {
 							w.write(b.getNumber()+" ");
 						}
 					}
@@ -126,6 +127,9 @@ public class CenterPane extends HBox {
 	private LeftScrollPane getScrollPane() {
 		//(LeftScrollPane)
 		return (LeftScrollPane) ((BorderPane)this.getParent()).getLeft();
+	}
+	private TeamEventsStage getTeamEventsStage() {
+		return ((TeamEventsStage) ((BorderPane) getParent()).getScene().getWindow());
 	}
 
 	public void updateTeamInfo(int teamNumber, String category, String color) {
