@@ -20,6 +20,7 @@ public class TeamEventsStage extends Stage {
 	private BorderPane root;
 	private CenterPane cPane;
 	private LeftScrollPane lPane;
+	private LoadingPane loadPane;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
@@ -36,6 +37,8 @@ public class TeamEventsStage extends Stage {
 
 		lPane = new LeftScrollPane();
 		lPane.setOnMouseClicked(new LClickHandler());
+		
+		loadPane = new LoadingPane();
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
@@ -49,13 +52,20 @@ public class TeamEventsStage extends Stage {
 	public void setState(State s) {
 		System.out.println(state + " -> " + s);
 		if (!state.equals(s)) {
+			if (state.equals(State.NORMAL)) {
+				unloadNormal();
+			} else if (state.equals(State.TEAM_LIST)) {
+				unloadTeamList();
+			} else if (state.equals(State.LOADING)) {
+				unloadLoading();
+			}
 			state = s;
 			if (state.equals(State.NORMAL)) {
-				unloadTeamList();
 				loadNormal();
 			} else if (state.equals(State.TEAM_LIST)) {
-				unloadNormal();
 				loadTeamList();
+			} else if (state.equals(State.LOADING)) {
+				loadLoading();
 			}
 		}
 	}
@@ -103,6 +113,14 @@ public class TeamEventsStage extends Stage {
 
 	}
 
+	private void loadLoading() {
+		root.setCenter(loadPane);
+	}
+
+	private void unloadLoading() {
+
+	}
+
 	private ArrayList<Integer> splitLineInt(String s) {
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		StringTokenizer st = new StringTokenizer(s);
@@ -135,6 +153,6 @@ public class TeamEventsStage extends Stage {
 	}
 
 	public enum State {
-		NORMAL, TEAM_LIST
+		NORMAL, TEAM_LIST, LOADING
 	}
 }
