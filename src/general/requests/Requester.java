@@ -11,17 +11,9 @@ import java.net.URL;
 import com.google.gson.Gson;
 
 import models.*;
-import models.YR2017.*;
-import models.YR2018.*;
+import models.matches.yr2017.*;
+import models.matches.yr2018.*;
 
-/*
-/team/{team_key}/event/{event_key}/status
-
-File f = new File(filePathString);
-if(f.exists() && !f.isDirectory()) { 
-    // do something
-}
- */
 
 @Deprecated
 public class Requester {
@@ -105,8 +97,8 @@ public class Requester {
 	}
 	
 	@Deprecated
-	public Status getTBAStatus() {
-		return this.<Status>generalRequest(BASE + "status", Status.class);
+	public StatusTBA getTBAStatus() {
+		return this.<StatusTBA>generalRequest(BASE + "status", StatusTBA.class);
 	}
 
 	@Deprecated

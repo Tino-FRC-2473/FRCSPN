@@ -1,4 +1,4 @@
-package models;
+package models.matches;
 
 //extend this class and have a score_breakdown per year
 public abstract class Match {

@@ -1,4 +1,4 @@
-package models.YR2018;
+package models.matches.yr2018;
 
 public class ScoreBreakdown_PowerUp {
 	public SingleScoreBreakdown_PowerUp blue;

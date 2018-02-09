@@ -1,9 +1,19 @@
 package general.requests;
 
+/**
+ * A class that represents a request, including its type and any parameters.
+ * This class additionally includes an enum to determine type.
+ */
 public class R {
 	private Type type;
 	private String[] params;
 	
+	/**
+	 * General constructor. All other constructors call this one,
+	 * but just have Strings or ints passed into the parameter array.
+	 * @param t Type of request to be made
+	 * @param p Array of parameters
+	 */
 	public R(Type t, String[] p) {
 		type = t;
 		params = p;
@@ -32,7 +42,7 @@ public class R {
 	public String toString() {
 		switch(type) {
 		case EVENTS_FOR_TEAM_IN_YEAR:
-			return "team/frc" + params[0] + "/events/" + params[1] + "/simple";
+			return "team/" + getTeamKey(params[0]) + "/events/" + params[1] + "/simple";
 		case EVENT_GENERAL_INFO:
 			return "event/" + params[0] + "/simple";
 		case EVENT_KEYS_IN_YEAR:
@@ -44,12 +54,20 @@ public class R {
 		case TEAMS_AT_EVENT:
 			return "event/" + params[0] + "/teams/simple";
 		case MATCHES_FOR_TEAM_AT_EVENT:
-			return "team/frc" + params[0] + "/event/" + params[1] + "/matches";
+			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/matches";
+		case STATUS_FOR_TEAM_AT_EVENT:
+			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/status";
 		default:
 			return "Unknown Request Type: " + type;
 		}
 	}
 	
+	//allows for a team to input either "frc2473" or "2473" but to have it end up as "frc2473" regardless.
+	private String getTeamKey(String s) { return (s.substring(0, 3).equals("frc")) ? s : "frc"+s; }
+	
+	/**
+	 * Enum representing 
+	 */
 	public enum Type {
 		STATUS,
 		EVENT_KEYS_IN_YEAR,
@@ -57,6 +75,7 @@ public class R {
 		EVENT_GENERAL_INFO,
 		EVENTS_FOR_TEAM_IN_YEAR,
 		MATCHES_FOR_TEAM_AT_EVENT,
+		STATUS_FOR_TEAM_AT_EVENT,
 		
 		MATCHES_AT_EVENT
 		;

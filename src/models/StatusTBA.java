@@ -1,6 +1,6 @@
 package models;
 
-public class Status {
+public class StatusTBA {
 	public int current_season;
 	public int max_season;
 	public boolean is_datafeed_down;

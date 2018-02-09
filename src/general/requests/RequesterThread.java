@@ -9,6 +9,13 @@ import java.util.ArrayList;
 
 import general.ScoutingApp;
 
+/*
+File f = new File(filePathString);
+if(f.exists() && !f.isDirectory()) { 
+    // do something
+}
+ */
+
 public class RequesterThread extends Thread {
 	private ArrayList<R> requests;
 	private boolean alive;
@@ -83,6 +90,13 @@ public class RequesterThread extends Thread {
 	}
 	
 	public void addRequest(R r) { requests.add(r); }
+	public void addRequestStatus() { addRequest(new R(R.Type.STATUS)); }
+	public void addRequestEventKeysInYear(int y) { addRequest(new R(R.Type.EVENT_KEYS_IN_YEAR, y)); }
+	public void addRequestEventGeneralInfo(String e) { addRequest(new R(R.Type.EVENT_GENERAL_INFO, e)); }
+	public void addRequestEventsForTeamInYear(int t, int y) { addRequest(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y)); } 
+	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
+	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
+	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
 	
 	public void end() {
 		System.out.println(this.getClass().getSimpleName() + " ending");
