@@ -1,7 +1,6 @@
 package general;
 
 import general.requests.Database;
-import general.requests.R;
 import general.requests.Requester;
 import general.requests.RequesterThread;
 import javafx.application.Application;
@@ -32,13 +31,14 @@ public class ScoutingApp extends Application {
 	
 	private static void testAddingRequests() {
 //		System.out.println(reqThread.tempGetRequester().getTBAStatus()); //NEED THIS TO BE RUN IN A LOAD SCREEN
-		reqThread.addRequest(new R(R.Type.STATUS));
-		reqThread.addRequest(new R(R.Type.EVENT_KEYS_IN_YEAR, 2017));
-		reqThread.addRequest(new R(R.Type.EVENT_GENERAL_INFO, "2017tur"));
-		reqThread.addRequest(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, 2473, 2017));
-		reqThread.addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, 1676, "2017nhfoc"));
+		reqThread.addRequestStatus();
+		reqThread.addRequestEventKeysInYear(2017);
+		reqThread.addRequestEventGeneralInfo("2017tur");
+		reqThread.addRequestEventsForTeamInYear(2473, 2017);
+		reqThread.addRequestMatchesForTeamAtEvent(1676, "2017nhfoc");
 //		reqThread.addRequest(new R(R.Type.MATCHES_AT_EVENT, "2017tur"));
-		reqThread.addRequest(new R(R.Type.TEAMS_AT_EVENT, "2017tur"));
+		reqThread.addRequestTeamsAtEvent("2017tur");
+		reqThread.addRequestStatusForTeamAtEvent(254, "2017dal");
 	}
 	
 	private static void startTestGetRequestsThread() {
@@ -56,10 +56,10 @@ public class ScoutingApp extends Application {
 //						System.out.println("\t\tmatches: " + database.generalGet(new R(R.MATCHES_AT_EVENT, "2017tur"), Match_2017Steamworks.class));
 						System.out.println("\t\tteam matches: " + database.getMatchesForTeamAtEvent(1676, "2017nhfoc"));
 						System.out.println("\t\tteams: " + database.getTeamsAtEvent("2017tur"));
+						System.out.println("\t\tevent status: " + database.getStatusForTeamAtEvent(254, "2017dal"));
 						System.out.println("");
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

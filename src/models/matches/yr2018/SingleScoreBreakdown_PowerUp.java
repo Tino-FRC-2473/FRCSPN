@@ -1,4 +1,4 @@
-package models.YR2018;
+package models.matches.yr2018;
 
 public class SingleScoreBreakdown_PowerUp {
 	public int autoPoints;

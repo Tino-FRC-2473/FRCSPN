@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import general.requests.Requester;
 import models.*;
-import models.YR2017.*;
-import models.YR2018.*;
+import models.matches.yr2017.*;
+import models.matches.yr2018.*;
 
 @SuppressWarnings("unused")
 public class Driver {

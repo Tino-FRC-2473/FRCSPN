@@ -7,8 +7,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import models.*;
-import models.YR2017.*;
-import models.YR2018.*;
+import models.event_status.EventStatus;
+import models.matches.yr2017.*;
+import models.matches.yr2018.*;
 
 @SuppressWarnings("unused")
 public class Database {
@@ -34,6 +35,8 @@ public class Database {
 		}
 		if(!found) System.out.println("request " + req + " not found");
 	}
+	
+	public int getNumberIncompleteRequests() { return incomplete.size(); }
 	
 	public void indicateRequestFailed(R req) {
 		System.out.println("request " + req + " failed");
@@ -61,8 +64,8 @@ public class Database {
 		return null;
 	}
 	
-	public Status getStatus() {
-		return generalGet(new R(R.Type.STATUS), Status.class);
+	public StatusTBA getStatus() {
+		return generalGet(new R(R.Type.STATUS), StatusTBA.class);
 	}
 	public String[] getEventKeysInYear(int y) {
 		return generalGet(new R(R.Type.EVENT_KEYS_IN_YEAR, y), String[].class);
@@ -78,6 +81,9 @@ public class Database {
 	}
 	public Team[] getTeamsAtEvent(String e) {
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);
+	}
+	public EventStatus getStatusForTeamAtEvent(int t, String e) {
+		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
 	}
 	
 	public void printLengths() {

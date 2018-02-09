@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-import models.YR2017.Match_Steamworks;
+import models.matches.yr2017.Match_Steamworks;
 
 public class Test3_IterateMatches {
 	public static void main(String[] args) {

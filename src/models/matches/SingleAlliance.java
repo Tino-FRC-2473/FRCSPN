@@ -1,4 +1,4 @@
-package models;
+package models.matches;
 
 public class SingleAlliance {
 	public Integer score;

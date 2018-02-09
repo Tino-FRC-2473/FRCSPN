@@ -8,7 +8,7 @@ import java.net.URL;
 
 import com.google.gson.Gson;
 
-import models.YR2017.Match_Steamworks;
+import models.matches.yr2017.Match_Steamworks;
 
 public class Test2_Match {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package models.YR2017;
+package models.matches.yr2017;
 
 public class SingleScoreBreakdown_Steamworks {
 	public int autoPoints;
