@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import general.ScoutingApp;
 import general.constants.K;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +26,7 @@ public class TeamEventsStage extends Stage {
 	private LeftScrollPane lPane;
 	private LoadingScene loadingScene;
 	private Scene scene;
+	private LoadingThread loadingThread;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
@@ -40,16 +43,18 @@ public class TeamEventsStage extends Stage {
 
 		lPane = new LeftScrollPane();
 		lPane.setOnMouseClicked(new LClickHandler());
-		
+
 		loadingScene = new LoadingScene(new Pane(), this);
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
-//		loadNormal();
+		// loadNormal();
 
 		root.setLeft(lPane);
 
-		setScene(loadingScene);
+		loadLoading();
+		loadingThread = new LoadingThread();
+		loadingThread.start();
 	}
 
 	public void setState(State s) {
@@ -154,6 +159,38 @@ public class TeamEventsStage extends Stage {
 		@Override
 		public void handle(MouseEvent e) {
 			cPane.handleClick(e);
+		}
+	}
+
+	private class LoadingThread extends Thread {
+		private boolean running = true;
+
+		public void run() {
+			while (running) {
+
+				if (ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && state !=TeamEventsStage.State.LOADING) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							setState(TeamEventsStage.State.LOADING);
+						}
+					});
+
+				} else if (ScoutingApp.getDatabase().getNumberIncompleteRequests() ==0 && state == TeamEventsStage.State.LOADING){
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							setState(TeamEventsStage.State.NORMAL);
+						}
+					});
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
