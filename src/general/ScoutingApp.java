@@ -85,6 +85,7 @@ public class ScoutingApp extends Application {
 	public static void main(String[] args) {
 		reqThread = new RequesterThread();
 		reqThread.start();
+		requester = new Requester(true);
 		database = new Database();
 		startTestGetRequestsThread();
         launch(args);
