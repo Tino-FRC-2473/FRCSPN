@@ -27,6 +27,7 @@ public class RequesterThread extends Thread {
 		while(alive) {
 			try {
 				long startTime = System.currentTimeMillis();
+				ScoutingApp.getDatabase().putIncompleteRequests(requests);
 				while(requests.size() > 0) {
 					requestAndStore(requests.remove(0));
 				}
@@ -41,7 +42,7 @@ public class RequesterThread extends Thread {
 	
 	public void requestAndStore(R req) {
 		try {
-			HttpURLConnection c = getConnection(BASE + req.toString());
+			HttpURLConnection c = getConnection(req);
 			if(c != null) {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
 				StringBuffer response = new StringBuffer();
@@ -55,20 +56,22 @@ public class RequesterThread extends Thread {
 				ifDebugPrintln("Response Length: " + response.toString().length() + "\n");
 				
 				ScoutingApp.getDatabase().put(req, response);
+			} else {
+				ScoutingApp.getDatabase().indicateRequestFailed(req);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private HttpURLConnection getConnection(String s) throws IOException {
+	private HttpURLConnection getConnection(R req) throws IOException {
 //		System.out.println(getTimeStamp());
-		HttpURLConnection con = (HttpURLConnection) new URL(s).openConnection();
+		HttpURLConnection con = (HttpURLConnection) new URL(BASE + req).openConnection();
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent", "X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 //		con.setRequestProperty("If-Modified-Since", getTimeStamp());
-		ifDebugPrintln("Sending 'GET' request to URL: " + s);
+		ifDebugPrintln("Sending 'GET' request to URL: " + (BASE+req));
 		int responseCode = con.getResponseCode();
 		if (responseCode == 200 || responseCode == 304) {
 			ifDebugPrintln("HTTP Connected");
