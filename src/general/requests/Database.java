@@ -1,5 +1,6 @@
 package general.requests;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,15 +13,43 @@ import models.YR2018.*;
 @SuppressWarnings("unused")
 public class Database {
 	private Map<R, StringBuffer> database;
+	private ArrayList<R> incomplete;
 	private Gson gson;
 	
 	public Database() {
 		database = new HashMap<R, StringBuffer>();
+		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
 	
-	public void put(R r, StringBuffer value) {
-		database.put(r, value);
+	public void put(R req, StringBuffer value) {
+		database.put(req, value);
+		boolean found = false;
+		for(R r : incomplete) {
+			if(r.equals(req)) {
+				incomplete.remove(r);
+				found = true;
+				break;
+			}
+		}
+		if(!found) System.out.println("request " + req + " not found");
+	}
+	
+	public void indicateRequestFailed(R req) {
+		System.out.println("request " + req + " failed");
+		boolean found = false;
+		for(R r : incomplete) {
+			if(r.equals(req)) {
+				incomplete.remove(r);
+				found = true;
+				break;
+			}
+		}
+		if(!found) System.out.println("request " + req + " not found");
+	}
+	
+	public void putIncompleteRequests(ArrayList<R> reqs) {
+		incomplete.addAll(reqs);
 	}
 	
 	public <E>E generalGet(R req, Class<E> clazz) {
@@ -55,5 +84,9 @@ public class Database {
 		for(R r : database.keySet()) {
 			System.out.println("\t" + r + " = " + database.get(r).toString().length());
 		}
+	}
+	
+	public void printIncomplete() {
+		System.out.println("\tincomplete requests: " + incomplete.size());
 	}
 }

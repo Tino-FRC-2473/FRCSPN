@@ -48,6 +48,7 @@ public class ScoutingApp extends Application {
 				while(true) {
 					try {
 						database.printLengths();
+						database.printIncomplete();
 						System.out.println("\t\tstatus: " + database.getStatus());
 						System.out.println("\t\tyear event keys: " + database.getEventKeysInYear(2017));
 						System.out.println("\t\tevent: " + database.getEventInfo("2017tur"));
@@ -83,10 +84,10 @@ public class ScoutingApp extends Application {
 	}
 	
 	public static void main(String[] args) {
+		database = new Database();
 		reqThread = new RequesterThread();
 		reqThread.start();
 		requester = new Requester(true);
-		database = new Database();
 		startTestGetRequestsThread();
         launch(args);
     }
