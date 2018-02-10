@@ -121,12 +121,17 @@ public class TeamEventsStage extends Stage {
 				} else {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
+					
+					for (int i = 0; i < teamNums.size(); i++) {
+						ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teamNums.get(i), 2018);
+					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setScene(loadingScene);
+		setState(State.NORMAL);
 	}
 
 	private void unloadLoading() {
