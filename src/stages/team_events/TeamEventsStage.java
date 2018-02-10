@@ -3,6 +3,7 @@ package stages.team_events;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TeamEventsStage extends Stage {
-	private State state = State.LOADING;
+	private State state;
 
 	private BorderPane root;
 	private CenterPane cPane;
@@ -53,13 +54,13 @@ public class TeamEventsStage extends Stage {
 
 		root.setLeft(lPane);
 
+		state = State.LOADING;
+		
 		loadLoading();
-		loadingThread = new LoadingThread();
-		loadingThread.start();
 	}
 
 	public void setState(State s) {
-		System.out.println(state + " -> " + s);
+		System.out.println("Changing state: " + state + " -> " + s);
 		if (!state.equals(s)) {
 			if (state.equals(State.NORMAL)) {
 				unloadNormal();
@@ -78,6 +79,8 @@ public class TeamEventsStage extends Stage {
 			}
 		}
 	}
+	
+	public State getState() { return state; }
 
 	private void unloadTeamList() {
 
@@ -127,11 +130,13 @@ public class TeamEventsStage extends Stage {
 					}
 				}
 			}
+			System.out.println("# incomplete: " + ScoutingApp.getDatabase().getNumberIncompleteRequests());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setScene(loadingScene);
-		setState(State.NORMAL);
+		loadingThread = new LoadingThread(this);
+		loadingThread.start();
 	}
 
 	private void unloadLoading() {
@@ -169,37 +174,7 @@ public class TeamEventsStage extends Stage {
 		}
 	}
 
-	private class LoadingThread extends Thread {
-		private boolean running = true;
-
-		public void run() {
-			while (running) {
-
-				if (ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && state !=TeamEventsStage.State.LOADING) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							setState(TeamEventsStage.State.LOADING);
-						}
-					});
-
-				} else if (ScoutingApp.getDatabase().getNumberIncompleteRequests() ==0 && state == TeamEventsStage.State.LOADING){
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							setState(TeamEventsStage.State.NORMAL);
-						}
-					});
-				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	
 
 	public enum State {
 		NORMAL, TEAM_LIST, LOADING
