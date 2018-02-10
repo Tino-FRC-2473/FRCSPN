@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.requests.RequesterThread;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

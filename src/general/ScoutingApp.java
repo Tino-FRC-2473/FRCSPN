@@ -82,7 +82,7 @@ public class ScoutingApp extends Application {
 		        System.exit(0);
 		    }
 		});
-		startTestGetRequestsThread();
+//		startTestGetRequestsThread();
 		stage.show();
 	}
 	
@@ -91,7 +91,7 @@ public class ScoutingApp extends Application {
 		reqThread = new RequesterThread();
 		reqThread.start();
 		requester = new Requester(true);
-		testAddingRequests();
+//		testAddingRequests();
         launch(args);
     }
 }

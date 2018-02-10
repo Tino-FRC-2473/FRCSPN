@@ -246,7 +246,7 @@ class TeamInfo extends VBox {
 		this.getChildren().add(name);
 		sizeOpened += titleSize;
 		sizeClosed += titleSize;
-		events = ScoutingApp.getRequester().getTeamEventsForYear(number, 2018);
+		events = ScoutingApp.getDatabase().getEventsForTeamInYear(number, 2018);
 	}
 
 	public void addEvents() {
