@@ -84,6 +84,7 @@ public class TeamEventsStage extends Stage {
 	}
 
 	public void loadNormal() {
+		System.out.println("LOADNORM");
 		for (Map.Entry<StringWithColor, ArrayList<Integer>> entry : teams.entrySet()) {
 			for (Integer i : entry.getValue()) {
 				TeamInfo info = new TeamInfo(i.intValue(), entry.getKey().getValue());
