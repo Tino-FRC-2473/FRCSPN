@@ -61,10 +61,10 @@ public class MainStage extends Stage {
 					break;
 				for(ClickableButton b : bArr) {
 					if(b.contains(e.getX(), e.getY()) && b.getDesc() == null) {
-						System.out.println("immediately breaking");
+//						System.out.println("immediately breaking");
 						break;
 					} else if(b.contains(e.getX(), e.getY()) && !added) {
-						System.out.println("description added");
+//						System.out.println("description added");
 						breakFromOuterForLoop = true;
 						label = new Label(b.getDesc());
 						label.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -78,13 +78,13 @@ public class MainStage extends Stage {
 						added = true;
 						break;
 					} else if(b.contains(e.getX(), e.getY()) && added) {
-						System.out.println("description moved");
+//						System.out.println("description moved");
 						breakFromOuterForLoop = true;
 						label.setLayoutX(e.getX());
 						label.setLayoutY(e.getY()-label.getHeight());
 						break;
 					} else if(added) {
-						System.out.println("description removed");
+//						System.out.println("description removed");
 						breakFromOuterForLoop = true;
 						pane.getChildren().remove(label);
 						added = false;

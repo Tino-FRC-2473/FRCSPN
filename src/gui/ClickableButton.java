@@ -40,7 +40,7 @@ public class ClickableButton extends ImageView {
 
 	
 	public void onPress() {
-		System.out.println("on press");
+//		System.out.println("on press");
 		if(indented == null)
 			doAction();
 		else
@@ -49,7 +49,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	public void onRelease() {
-		System.out.println("on release");
+//		System.out.println("on release");
 		if(indented != null) {
 			setImage(normal);
 			doAction();
@@ -57,7 +57,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	public void doAction() {
-		System.out.println("do action");
+//		System.out.println("do action");
 		switch(type) {
 		case TEAM_EVENTS_BTN:
 			ScoutingApp.launchTeamEvents();
