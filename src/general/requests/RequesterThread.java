@@ -16,6 +16,11 @@ if(f.exists() && !f.isDirectory()) {
 }
  */
 
+/**
+ * A separate Thread that allows for requests in the form of HttpURLConnections to carry out
+ * without stalling the entire code. Continuously requests all requests that have not been
+ * requested yet.
+ */
 public class RequesterThread extends Thread {
 	private ArrayList<R> requests;
 	private boolean alive;
@@ -23,12 +28,18 @@ public class RequesterThread extends Thread {
 	
 	private final String BASE = "https://www.thebluealliance.com/api/v3/";
 	
+	/**
+	 * Default constructor.
+	 */
 	public RequesterThread() {
 		debug = general.constants.K.DEBUG;
 		requests = new ArrayList<R>();
 		alive = true;
 	}
 	
+	/**
+	 * Requests all unrequested requests and indicates to the Database that they are incomplete.
+	 */
 	@Override
 	public void run() {
 		while(alive) {
@@ -47,6 +58,10 @@ public class RequesterThread extends Thread {
 		System.out.println(this.getClass().getSimpleName() + " loop ended");
 	}
 	
+	/**
+	 * General request method that uses the HttpURLConnection class.
+	 * @param req Any request
+	 */
 	public void requestAndStore(R req) {
 		try {
 			HttpURLConnection c = getConnection(req);
@@ -71,6 +86,13 @@ public class RequesterThread extends Thread {
 		}
 	}
 	
+	/**
+	 * Returns a connection which has connected with the online TBA server. Returns null if
+	 * the request receives an invalid response code.
+	 * @param req The request to obtain a connection for.
+	 * @return The HttpURLConnection for the request.
+	 * @throws IOException If the connection fails.
+	 */
 	private HttpURLConnection getConnection(R req) throws IOException {
 //		System.out.println(getTimeStamp());
 		HttpURLConnection con = (HttpURLConnection) new URL(BASE + req).openConnection();
@@ -89,6 +111,11 @@ public class RequesterThread extends Thread {
 		}
 	}
 	
+	/**
+	 * General method to add a request to be called. All other add methods call
+	 * this one and generate the request (R.class) inside.
+	 * @param r The request to be added
+	 */
 	public void addRequest(R r) { requests.add(r); }
 	public void addRequestStatus() { addRequest(new R(R.Type.STATUS)); }
 	public void addRequestEventKeysInYear(int y) { addRequest(new R(R.Type.EVENT_KEYS_IN_YEAR, y)); }
@@ -98,6 +125,9 @@ public class RequesterThread extends Thread {
 	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
 	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
 	
+	/**
+	 * Ends the thread.
+	 */
 	public void end() {
 		System.out.println(this.getClass().getSimpleName() + " ending");
 		alive = false;

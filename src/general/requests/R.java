@@ -66,7 +66,7 @@ public class R {
 	private String getTeamKey(String s) { return (s.substring(0, 3).equals("frc")) ? s : "frc"+s; }
 	
 	/**
-	 * Enum representing 
+	 * Enum representing types of requests.
 	 */
 	public enum Type {
 		STATUS,

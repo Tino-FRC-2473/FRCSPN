@@ -18,11 +18,11 @@ public class MainStage extends Stage {
 		this.setResizable(false);
 		this.setTitle("FRCSPN (" + K.VERSION + ")");
 
-		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "TEEEEEAAAAAM");
+		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "Lists events for teams this year.");
 		for(int i = 0; i < buttons.length; i++) {
 			for(int j = 0; j < buttons[i].length; j++) {
-				if (buttons[i][j] == null)
-					buttons[i][j] = new ClickableButton(I.Type.COMING_SOON_BTN);
+				if(buttons[i][j] == null)
+					buttons[i][j] = new ClickableButton(I.Type.COMING_SOON_BTN, I.Type.COMING_SOON_BTN_CLICKED, "Coming soon...");
 				pane.getChildren().add(buttons[i][j]);
 				buttons[i][j].setX(i * K.MAIN.BTN_SPACE_LEN + K.MAIN.BTN_PAD);
 				buttons[i][j].setY(j * K.MAIN.BTN_SPACE_LEN + K.MAIN.BTN_PAD);

@@ -12,17 +12,31 @@ import models.matches.yr2017.*;
 import models.matches.yr2018.*;
 
 @SuppressWarnings("unused")
+/**
+ * A place for Requests and their responses to be stored. Parses each response
+ * from a StringBuffer to its corresponding class upon call to a get method.
+ * Additionally tracks which, and how many requests have not completed yet.
+ */
 public class Database {
 	private Map<R, StringBuffer> database;
 	private ArrayList<R> incomplete;
 	private Gson gson;
 	
+	/**
+	 * Default constructor.
+	 */
 	public Database() {
 		database = new HashMap<R, StringBuffer>();
 		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
 	
+	/**
+	 * Places a request object (R.class) and its returned value (StringBuffer.class) in
+	 * the HashMap of this class.
+	 * @param req The request.
+	 * @param value The value of the request.
+	 */
 	public void put(R req, StringBuffer value) {
 		database.put(req, value);
 		boolean found = false;
@@ -33,11 +47,19 @@ public class Database {
 				break;
 			}
 		}
-		if(!found) System.out.println("request " + req + " not found");
+		if(!found) System.out.println("incomplete request \"" + req + "\" not found");
 	}
 	
+	/**
+	 * The number of requests that have pending values to return for yet.
+	 * @return Such number.
+	 */
 	public int getNumberIncompleteRequests() { return incomplete.size(); }
 	
+	/**
+	 * Removes a request that failed from the incomplete request list.
+	 * @param req Such a request.
+	 */
 	public void indicateRequestFailed(R req) {
 		System.out.println("request " + req + " failed");
 		boolean found = false;
@@ -48,19 +70,36 @@ public class Database {
 				break;
 			}
 		}
-		if(!found) System.out.println("request " + req + " not found");
+		if(!found) System.out.println("incomplete request \"" + req + "\" not found");
 	}
 	
+	/**
+	 * Adds all pending requests that are not complete yet.
+	 * @param reqs An ArrayList of such requests.
+	 */
 	public void putIncompleteRequests(ArrayList<R> reqs) {
 		incomplete.addAll(reqs);
 	}
 	
+	/**
+	 * General method to get the value of a completed request. All other get methods
+	 * call this one. Returns null if such a request has not completed yet.
+	 * @param req
+	 * @param clazz
+	 * @return
+	 */
 	public <E>E generalGet(R req, Class<E> clazz) {
 		for(R r : database.keySet()) {
 			if(r.equals(req)) {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}
 		}
+		for(R r : incomplete) {
+			if(r.equals(req)) {
+				return null;
+			}
+		}
+		System.out.println("Requested request \"" + req + "\" is not pending.");
 		return null;
 	}
 	
@@ -85,6 +124,8 @@ public class Database {
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
 	}
+	
+	//debugging methods
 	
 	public void printLengths() {
 		for(R r : database.keySet()) {

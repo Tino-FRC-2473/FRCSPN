@@ -11,6 +11,9 @@ import javafx.stage.WindowEvent;
 import stages.main.MainStage;
 import stages.team_events.TeamEventsStage;
 
+/**
+ * The main javafx application.
+ */
 public class ScoutingApp extends Application {
 	public static MainStage stage;
 	public static TeamEventsStage teStage;
@@ -79,7 +82,7 @@ public class ScoutingApp extends Application {
 		        System.exit(0);
 		    }
 		});
-		testAddingRequests();
+		startTestGetRequestsThread();
 		stage.show();
 	}
 	
@@ -88,7 +91,7 @@ public class ScoutingApp extends Application {
 		reqThread = new RequesterThread();
 		reqThread.start();
 		requester = new Requester(true);
-		startTestGetRequestsThread();
+		testAddingRequests();
         launch(args);
     }
 }
