@@ -28,6 +28,10 @@ public class ScoutingApp extends Application {
 		return database;
 	}
 	
+	public static RequesterThread getRequesterThread() {
+		return reqThread;
+	}
+	
 	private static void testAddingRequests() {
 		reqThread.addRequestStatus();
 		reqThread.addRequestEventKeysInYear(2017);

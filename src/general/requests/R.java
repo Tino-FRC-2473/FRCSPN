@@ -63,7 +63,7 @@ public class R {
 	}
 	
 	//allows for a team to input either "frc2473" or "2473" but to have it end up as "frc2473" regardless.
-	private String getTeamKey(String s) { return (s.substring(0, 3).equals("frc")) ? s : "frc"+s; }
+	private String getTeamKey(String s) { return (s.substring(0, Math.min(s.length(), 3)).equals("frc")) ? s : "frc"+s; }
 	
 	/**
 	 * Enum representing types of requests.

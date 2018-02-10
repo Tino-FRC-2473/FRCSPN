@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.requests.RequesterThread;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -83,6 +84,7 @@ public class TeamEventsStage extends Stage {
 	}
 
 	public void loadNormal() {
+		System.out.println("LOADNORM");
 		for (Map.Entry<StringWithColor, ArrayList<Integer>> entry : teams.entrySet()) {
 			for (Integer i : entry.getValue()) {
 				TeamInfo info = new TeamInfo(i.intValue(), entry.getKey().getValue());
@@ -119,12 +121,17 @@ public class TeamEventsStage extends Stage {
 				} else {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
+					
+					for (int i = 0; i < teamNums.size(); i++) {
+						ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teamNums.get(i), 2018);
+					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setScene(loadingScene);
+		setState(State.NORMAL);
 	}
 
 	private void unloadLoading() {

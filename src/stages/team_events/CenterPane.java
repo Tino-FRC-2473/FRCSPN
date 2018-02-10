@@ -86,7 +86,24 @@ public class CenterPane extends HBox {
 		removedTeams = new ArrayList<>();
 		getScrollPane().clearAddedCategories();
 		writeFile();
-		changeState();
+		getTeamEventsStage().getTeams().clear();
+		ArrayList<String> addedCat = new ArrayList<>();
+		for(TeamInfo i:teams) {
+			String cat = i.getCategory();
+			System.out.println("CAT: " + i.getCategory());
+			if(!addedCat.contains(cat)) {
+				addedCat.add(cat);
+				getTeamEventsStage().getTeams().put(new StringWithColor(i.getCategory(), i.getColor()), new ArrayList<Integer>());
+			}
+		}
+		for(StringWithColor c:getTeamEventsStage().getTeams().keySet()) {
+			for(TeamInfo i:teams) {
+				if(c.getValue().equals(i.getCategory())) {
+					getTeamEventsStage().getTeams().get(c).add(new Integer(i.getNumber()));
+				}
+			}
+		}
+		System.out.println("TEAMHASH:"+getTeamEventsStage().getTeams());
 	}
 
 	private void writeFile() {
