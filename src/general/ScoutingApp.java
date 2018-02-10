@@ -20,9 +20,6 @@ public class ScoutingApp extends Application {
 	private static RequesterThread reqThread;
 	private static Database database;
 	
-	@Deprecated private static Requester requester;
-	@Deprecated public static Requester getRequester() { return requester; }
-	
 	public static void launchTeamEvents() {
 		teStage = new TeamEventsStage();
 		teStage.show();
@@ -30,6 +27,10 @@ public class ScoutingApp extends Application {
 	
 	public static Database getDatabase() {
 		return database;
+	}
+	
+	public static RequesterThread getRequesterThread() {
+		return reqThread;
 	}
 	
 	private static void testAddingRequests() {
@@ -90,7 +91,6 @@ public class ScoutingApp extends Application {
 		database = new Database();
 		reqThread = new RequesterThread();
 		reqThread.start();
-		requester = new Requester(true);
 //		testAddingRequests();
         launch(args);
     }
