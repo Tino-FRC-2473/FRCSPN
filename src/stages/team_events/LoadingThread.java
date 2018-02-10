@@ -1,7 +1,5 @@
 package stages.team_events;
 
-import java.util.concurrent.CyclicBarrier;
-
 import general.ScoutingApp;
 import javafx.application.Platform;
 
@@ -22,23 +20,26 @@ public class LoadingThread extends Thread {
 				first = false;
 				continue;
 			}
-			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && !stage.getState().equals(TeamEventsStage.State.LOADING)) {
-				System.out.println("***ADD SET LOADING***");
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						System.out.println("CHANGE LOADING");
-						stage.setState(TeamEventsStage.State.LOADING);
-					}
-				});
-
-			} else if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(TeamEventsStage.State.LOADING)) {
+//			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && !stage.getState().equals(TeamEventsStage.State.LOADING)) {
+//				System.out.println("***ADD SET LOADING***");
+//				Platform.runLater(new Runnable() {
+//					@Override
+//					public void run() {
+//						System.out.println("CHANGE LOADING");
+//						stage.setState(TeamEventsStage.State.LOADING);
+//						
+//					}
+//				});
+//
+//			} else 
+			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(TeamEventsStage.State.LOADING)) {
 				System.out.println("***ADD SET NORMAL***");
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 						System.out.println("CHANGE NORMAL");
 						stage.setState(TeamEventsStage.State.NORMAL);
+						end();
 					}
 				});
 			}
