@@ -2,8 +2,11 @@ package gui;
 
 import general.ScoutingApp;
 import general.images.I;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import stages.team_events.TeamEventsStage.State;
 
 public class ClickableButton extends ImageView {
@@ -18,9 +21,17 @@ public class ClickableButton extends ImageView {
 		
 		normal = I.getInstance().getImg(i);
 		indented = I.getInstance().getImg(c);
+		
 		desc = d;
 		
-		setImage(normal);
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent e) { onPress(); }
+		});
+		this.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) { onRelease(); }
+		});
+		
+		this.setImage(normal);
 	}
 	
 	public ClickableButton(I.Type i) {
@@ -46,6 +57,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	public void doAction() {
+		System.out.println("do action");
 		switch(type) {
 		case TEAM_EVENTS_BTN:
 			ScoutingApp.launchTeamEvents();
@@ -62,28 +74,17 @@ public class ClickableButton extends ImageView {
 			ScoutingApp.teStage.setState(State.NORMAL);
 			break;
 		default:
-			System.out.println("Unknown button action.");
+			System.out.println("Unknown button action for type " + type);
 			break;
 		}
 	}
-	
-	
 
-	public void setType(I.Type i) {
+	private void setType(I.Type i) {
 		type = i;
 		setImage(I.getInstance().getImg(type));
 	}
 	
-	public I.Type getType() {
-		return type;
-	}
-	
-	public String getDesc() {
-		return desc;
-	}
-
-	@Override
-	public String toString() {
-		return type.toString();
-	}
+	public I.Type getType() { return type; }
+	public String getDesc() { return desc; }
+	@Override public String toString() { return type.toString(); }
 }
