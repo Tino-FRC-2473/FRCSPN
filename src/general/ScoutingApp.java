@@ -1,7 +1,6 @@
 package general;
 
 import general.requests.Database;
-import general.requests.Requester;
 import general.requests.RequesterThread;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,9 +19,6 @@ public class ScoutingApp extends Application {
 	private static RequesterThread reqThread;
 	private static Database database;
 	
-	@Deprecated private static Requester requester;
-	@Deprecated public static Requester getRequester() { return requester; }
-	
 	public static void launchTeamEvents() {
 		teStage = new TeamEventsStage();
 		teStage.show();
@@ -33,7 +29,6 @@ public class ScoutingApp extends Application {
 	}
 	
 	private static void testAddingRequests() {
-//		System.out.println(reqThread.tempGetRequester().getTBAStatus()); //NEED THIS TO BE RUN IN A LOAD SCREEN
 		reqThread.addRequestStatus();
 		reqThread.addRequestEventKeysInYear(2017);
 		reqThread.addRequestEventGeneralInfo("2017tur");
@@ -82,7 +77,7 @@ public class ScoutingApp extends Application {
 		        System.exit(0);
 		    }
 		});
-		startTestGetRequestsThread();
+//		startTestGetRequestsThread();
 		stage.show();
 	}
 	
@@ -90,8 +85,7 @@ public class ScoutingApp extends Application {
 		database = new Database();
 		reqThread = new RequesterThread();
 		reqThread.start();
-		requester = new Requester(true);
-		testAddingRequests();
+//		testAddingRequests();
         launch(args);
     }
 }

@@ -6,10 +6,11 @@ import javafx.scene.layout.Pane;
 import general.constants.*;
 
 
-public class LoadingScene extends Scene{
+public class LoadingScene extends Scene {
 	Label message;
 	Pane pane;
 	TeamEventsStage s;
+	
 	public LoadingScene(Pane p, TeamEventsStage s) {
 		super(p);
 		this.s = s;
@@ -24,6 +25,4 @@ public class LoadingScene extends Scene{
 		message.setLayoutX((K.TEAM_EVENTS.LEFT_WIDTH+K.TEAM_EVENTS.CENTER_WIDTH)/2);
 		pane.getChildren().add(message);
 	}
-	
-	
 }
