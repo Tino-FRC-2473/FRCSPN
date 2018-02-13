@@ -1,18 +1,13 @@
 package stages.team_events;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 import general.constants.K;
 import general.images.I;
 import gui.ClickableButton;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -22,7 +17,6 @@ public class LeftScrollPane extends ScrollPane {
 	private ClickableButton toggleButton;
 
 	private ArrayList<Label> labels;
-	private StringWithColor lastClick;
 
 	public LeftScrollPane() {
 		super();
@@ -35,16 +29,18 @@ public class LeftScrollPane extends ScrollPane {
 		this.setFitToWidth(true);
 		this.setStyle("-fx-background-color: #CCCCCC;");
 		this.setContent(v);
+		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent e) { handleClick(e); }
+		});
 
 		toggleButton = new ClickableButton(I.Type.TE_TEAM_LIST_BTN);
 		v.getChildren().add(toggleButton);
 		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
 		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent e) {
 				toggleButton.onPress();
-				if (toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
+				if(toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
 					back();
 				} else {
 //					File teamlist = new File("docs/team_list.txt");
@@ -79,13 +75,32 @@ public class LeftScrollPane extends ScrollPane {
 //							}
 //						}
 //					}
-					getTeamEventsStage().loadNormal();
+					getTeamEventsStage().loadViewing();
 					edit();
 				}
 			}
 
 		});
 		labels = new ArrayList<Label>();
+	}
+	
+	public void initializeViewing(StringWithColor[] arr) {
+		this.clear();
+		for(StringWithColor sc : arr) {
+			LeftLabel l = new LeftLabel(sc);
+			labels.add(l);
+			v.getChildren().add(l);
+			l.setOnMouseClicked(new onLabelClicked(sc));
+		}
+	}
+	
+	private void clear() {
+		for(int i = 0; i < v.getChildren().size(); i++) {
+			if(v.getChildren().get(i).getClass().toString().equals(Label.class.toString())) {
+				v.getChildren().remove(i);
+				i--;
+			}
+		}
 	}
 
 	public void edit() {
@@ -99,35 +114,12 @@ public class LeftScrollPane extends ScrollPane {
 	}
 
 	public void back() {
-		for (int i = 0; i < v.getChildren().size(); i++) {
-			if (v.getChildren().get(i).equals(new Label("Add"))) {
+		for(int i = 0; i < v.getChildren().size(); i++) {
+			if(v.getChildren().get(i).equals(new Label("Add"))) {
 				v.getChildren().remove(i);
 			}
 		}
 		getCenterPane().saveChanges();
-	}
-
-	public void update(StringWithColor[] arr) {
-		this.clear();
-		for (StringWithColor sc : arr) {
-			Label l = new Label(sc.getValue());
-			l.setStyle("-fx-background-color: #" + sc.getColor() + "; "
-					+ "-fx-font-size: 20; -fx-stroke: black; -fx-font-weight: bold");
-			labels.add(l);
-			l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
-			l.setPadding(K.getInsets());
-			v.getChildren().add(l);
-			l.setOnMouseClicked(new onLabelClicked(sc));
-		}
-	}
-
-	private void clear() {
-		for (int i = 0; i < v.getChildren().size(); i++) {
-			if (v.getChildren().get(i).getClass().toString().equals(Label.class.toString())) {
-				v.getChildren().remove(i);
-				i--;
-			}
-		}
 	}
 
 	public void handleClick(MouseEvent e) {
@@ -145,40 +137,35 @@ public class LeftScrollPane extends ScrollPane {
 	}
 
 	private TeamEventsStage getTeamEventsStage() {
-		return ((TeamEventsStage) ((BorderPane) getParent()).getScene().getWindow());
+		return((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
 	}
 
 	private CenterPane getCenterPane() {
-		return ((CenterPane) ((BorderPane) getParent()).getCenter());
+		return((CenterPane)((BorderPane) getParent()).getCenter());
 	}
 
 	private class onLabelClicked implements EventHandler<MouseEvent> {
-		private StringWithColor strWC;
+		private StringWithColor sc;
 
 		private onLabelClicked(StringWithColor s) {
-			this.strWC = s;
+			sc = s;
 		}
 
 		@Override
 		public void handle(MouseEvent event) {
-			HashMap<StringWithColor, ArrayList<Integer>> teams = getTeamEventsStage().getTeams();
-			CenterPane cp = getCenterPane();
-			while (cp.getChildren().size() > 0) {
-				cp.getChildren().remove(0);
-			}
-			// while (cp.teams.size() > 0) {
-			// cp.teams.remove(0);
-			// }
-			for (StringWithColor b : teams.keySet()) {
-				for (Integer d : teams.get(b)) {
-					System.out.println(b);
-					if (strWC.toString().equals(b.toString())) {
-						System.out.println("category: " + b);
-						getCenterPane().updateTeamInfo(d.intValue(), b.toString(), b.getColor());
-					}
-				}
-			}
-			// System.out.println(getCenterPane().getTeams());
+			getCenterPane().addFor(sc);
+//			ArrayList<Integer> teams = getTeamEventsStage().getTeams(sc);
+//			CenterPane cp = getCenterPane();
+//			while(cp.getChildren().size() > 0) {
+//				cp.getChildren().remove(0);
+//			}
+//			// while(cp.teams.size() > 0) {
+//			// cp.teams.remove(0);
+//			// }
+//			for(int team : teams) {
+//				getCenterPane().updateTeamInfo(team, sc);
+//			}
+//			// System.out.println(getCenterPane().getTeams());
 		}
 	}
 

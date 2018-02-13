@@ -18,8 +18,14 @@ public class LoadingThread extends Thread {
 		while(alive) {
 			if(first) {
 				first = false;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				continue;
 			}
+			
 //			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && !stage.getState().equals(TeamEventsStage.State.LOADING)) {
 //				System.out.println("***ADD SET LOADING***");
 //				Platform.runLater(new Runnable() {
@@ -38,7 +44,7 @@ public class LoadingThread extends Thread {
 					@Override
 					public void run() {
 						System.out.println("CHANGE NORMAL");
-						stage.setState(TeamEventsStage.State.NORMAL);
+						stage.setState(TeamEventsStage.State.VIEWING);
 						end();
 					}
 				});
@@ -50,11 +56,11 @@ public class LoadingThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("thread ended");
+		System.out.println("loading thread ended");
 	}
 	
 	public void end() {
-		System.out.println("thread told to end");
+		System.out.println("loading thread told to end");
 		alive = false;
 	}
 }

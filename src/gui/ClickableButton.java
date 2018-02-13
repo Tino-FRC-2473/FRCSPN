@@ -3,7 +3,6 @@ package gui;
 import general.ScoutingApp;
 import general.images.I;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -67,11 +66,11 @@ public class ClickableButton extends ImageView {
 			break;
 		case TE_TEAM_LIST_BTN:
 			setType(I.Type.TE_BACK_BTN);
-			ScoutingApp.teStage.setState(State.TEAM_LIST);
+			ScoutingApp.teStage.setState(State.EDITING);
 			break;
 		case TE_BACK_BTN:
 			setType(I.Type.TE_TEAM_LIST_BTN);
-			ScoutingApp.teStage.setState(State.NORMAL);
+			ScoutingApp.teStage.setState(State.VIEWING);
 			break;
 		default:
 			System.out.println("Unknown button action for type " + type);

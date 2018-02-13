@@ -9,7 +9,7 @@ public class StringWithColor {
 		color = c;
 	}
 	
-	public String getValue() {
+	public String getString() {
 		return str;
 	}
 	
@@ -18,7 +18,5 @@ public class StringWithColor {
 	}
 	
 	@Override
-	public String toString() {
-		return str+" "+color;
-	}
+	public String toString() { return str + " " + color; }
 }

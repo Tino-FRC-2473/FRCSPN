@@ -78,7 +78,6 @@ public class Database {
 	 * @param reqs An ArrayList of such requests.
 	 */
 	public void putIncompleteRequests(ArrayList<R> reqs) {
-		if(reqs.size() > 0) System.out.println(reqs.size());
 		incomplete.addAll(reqs);
 	}
 	

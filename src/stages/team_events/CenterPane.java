@@ -1,13 +1,9 @@
 package stages.team_events;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
 
 import general.ScoutingApp;
 import general.constants.K;
@@ -16,22 +12,18 @@ import gui.ClickableButton;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
 
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.Event;
 
 public class CenterPane extends HBox {
-
 	public int x;
-	private double spacing = 10;
 	public ArrayList<VBox> columns;
 	public ArrayList<TeamInfo> teams;
-
+	private StringWithColor lastSC;
+	
 	public boolean getState() {
 		return true;
 	}
@@ -51,9 +43,12 @@ public class CenterPane extends HBox {
 		newTeams = new ArrayList<>();
 		removedTeams = new ArrayList<>();
 		x = 0;
-		setPadding(K.getInsets());
-		setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
-		setStyle("-fx-background-color: #FFFFFF");
+		this.setPadding(K.getInsets());
+		this.setPrefWidth(K.TEAM_EVENTS.CENTER_WIDTH);
+		this.setStyle("-fx-background-color: #FFFFFF");
+		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent e) { handleClick(e); }
+		});
 	}
 
 	public ArrayList<TeamInfo> getTeams() {
@@ -62,18 +57,18 @@ public class CenterPane extends HBox {
 
 	public void saveChanges() {
 		System.out.println("teams: " + teams);
-		for (int b = 0; b < newTeams.size(); b++) {
-			for (int i = 0; i < teams.size(); i++) {
-				if (teams.get(i).equals(newTeams.get(b))) {
+		for(int b = 0; b < newTeams.size(); b++) {
+			for(int i = 0; i < teams.size(); i++) {
+				if(teams.get(i).equals(newTeams.get(b))) {
 					newTeams.remove(b);
 					b--;
 				}
 			}
 		}
 		teams.addAll(newTeams);
-		for (int i = 0; i < removedTeams.size(); i++) {
-			for (int b = 0; b < teams.size(); b++) {
-				if (teams.get(b).equals(removedTeams.get(i))) {
+		for(int i = 0; i < removedTeams.size(); i++) {
+			for(int b = 0; b < teams.size(); b++) {
+				if(teams.get(b).equals(removedTeams.get(i))) {
 					removedTeams.remove(i);
 					teams.remove(b);
 					i--;
@@ -98,7 +93,7 @@ public class CenterPane extends HBox {
 		}
 		for(StringWithColor c:getTeamEventsStage().getTeams().keySet()) {
 			for(TeamInfo i:teams) {
-				if(c.getValue().equals(i.getCategory())) {
+				if(c.getString().equals(i.getCategory())) {
 					getTeamEventsStage().getTeams().get(c).add(new Integer(i.getNumber()));
 				}
 			}
@@ -107,80 +102,105 @@ public class CenterPane extends HBox {
 	}
 
 	private void writeFile() {
-		File list = new File("docs\\team_list.txt");
+		File list = new File("docs/team_list.txt");
 		FileWriter w = null;
 		try {
 			w = new FileWriter(list);
 			w.close();
 			w = new FileWriter(list);
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		ArrayList<String> cat = new ArrayList<>();
 		ArrayList<Integer> nums = new ArrayList<>();
-		for (TeamInfo t : teams) {
+		for(TeamInfo t : teams) {
 			try {
-				if (!cat.contains(t.getCategory())) {
+				if(!cat.contains(t.getCategory())) {
 					cat.add(t.getCategory());
 					w.write("*" + t.getCategory() + "*" + " " + t.getColor());
 					w.write("\n");
-					for (TeamInfo b : teams) {
+					for(TeamInfo b : teams) {
 						System.out.println(new StringWithColor(b.getCategory(), b.getColor()));
-						if (b.getCategory().equals(t.getCategory()) && !nums.contains(b.getNumber())) {
+						if(b.getCategory().equals(t.getCategory()) && !nums.contains(b.getNumber())) {
 							nums.add(new Integer(b.getNumber()));
 							w.write(b.getNumber() + " ");
 						}
 					}
 					w.write("\n");
 				}
-			} catch (IOException e) {
+			} catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
 		try {
 			w.close();
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		teams = new ArrayList<>();
 	}
 
 	private LeftScrollPane getScrollPane() {
-		// (LeftScrollPane)
-		return (LeftScrollPane) ((BorderPane) this.getParent()).getLeft();
+		return(LeftScrollPane)((BorderPane) this.getParent()).getLeft();
 	}
 
 	private TeamEventsStage getTeamEventsStage() {
-		return ((TeamEventsStage) ((BorderPane) getParent()).getScene().getWindow());
+		return((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
+	}
+	
+	public void addFor(StringWithColor sc) {
+		if(lastSC != null && sc.equals(lastSC))
+			return;
+		
+		lastSC = sc;
+		while(teams.size() > 0) {
+			TeamInfo t = teams.remove(0);
+			this.getChildren().remove(t);
+			for(VBox col : columns) {
+				col.getChildren().remove(t);
+			}
+		}
+		
+		ArrayList<Integer> toAdd = getTeamEventsStage().getTeams(sc);
+		for(int teamNum : toAdd) {
+			System.out.println("ADDED: " + teamNum);
+			TeamInfo team = new TeamInfo(teamNum, sc.getString());
+			teams.add(team);
+			if(getChildren().size() == x) {
+				VBox box = new VBox();
+				box.setPadding(K.getInsets());
+				this.getChildren().add(box);
+				columns.add(box);
+			}
+			columns.get(x).getChildren().add(team);
+			team.setColor(sc.getColor());
+		}
 	}
 
-	public void updateTeamInfo(int teamNumber, String category, String color) {
-		System.out.println("UPDATED");
-		System.out.println(teamNumber);
-		TeamInfo team = new TeamInfo(teamNumber, category);
+	public void updateTeamInfo(int teamNumber, StringWithColor sc) {
+		System.out.println("UPDATED: " + teamNumber);
+		TeamInfo team = new TeamInfo(teamNumber, sc.getString());
 		teams.add(team);
-		if (getChildren().size() == x) {
+		if(getChildren().size() == x) {
 			VBox box = new VBox();
 			box.setPadding(K.getInsets());
 			getChildren().add(box);
 			columns.add(box);
 		}
 		columns.get(x).getChildren().add(team);
-		team.setColor(color);
+		team.setColor(sc.getColor());
 	}
 
 	public void handleClick(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
-		for (int i = 0; i < teams.size(); i++) {
-			TeamInfo n = teams.get(i);
-			if (n.getLayoutX() <= e.getX() && n.getSizeX() + n.getLayoutX() >= e.getX() && n.getLayoutY() <= e.getY()
-
-					&& n.getSizeY() + n.getLayoutY() >= e.getY()) {
-				if (state) {
-					removedTeams.add(n);
+		for(int i = 0; i < teams.size(); i++) {
+			TeamInfo team = teams.get(i);
+			if(team.contains(e)) {
+				if(state) {
+					removedTeams.add(team);
 					teams.remove(i);
 				} else {
-					n.switchState();
+					team.switchState();
 				}
 				update();
 				return;
@@ -191,15 +211,15 @@ public class CenterPane extends HBox {
 
 	public void update() {
 		System.out.println("UPDATED");
-		if (state) {
-			for (TeamInfo t : teams) {
+		if(state) {
+			for(TeamInfo t : teams) {
 				t.editMode();
 			}
 		}
 		x = 0;
 		double height = 0;
-		for (int i = 0; i < columns.size(); i++) {
-			while (columns.get(i).getChildren().size() > 0) {
+		for(int i = 0; i < columns.size(); i++) {
+			while(columns.get(i).getChildren().size() > 0) {
 				columns.get(i).getChildren().remove(0);
 			}
 		}
@@ -207,10 +227,10 @@ public class CenterPane extends HBox {
 		for(int i = 0; i < teams.size(); i++) {
 			TeamInfo n = teams.get(i);
 			height += n.getHeight() + 10;
-			if (height > 600) {
+			if(height > 600) {
 				height = n.getHeight() + 10;
 				x++;
-				if (getChildren().size() == x) {
+				if(getChildren().size() == x) {
 					VBox box = new VBox();
 					box.setPadding(K.getInsets());
 					getChildren().add(box);
@@ -225,7 +245,7 @@ public class CenterPane extends HBox {
 
 	public void changeState() {
 		state = !state;
-		if (state) {
+		if(state) {
 			getChildren().add(addButton);
 		} else {
 			getChildren().remove(addButton);
@@ -234,22 +254,21 @@ public class CenterPane extends HBox {
 }
 
 class TeamInfo extends VBox {
+	private double sizeOpened = 0;
+	private double sizeClosed = 0;
+	private double titleSize = 32;
+//	private double eventTitleSize = 22;
+//	private double textSize = 17;
 
-	double sizeOpened = 0;
-	double sizeClosed = 0;
-	double titleSize = 32;
-	double eventTitleSize = 22;
-	double textSize = 17;
+	private String color = "";
 
-	String color = "";
-
-	public boolean state = false;
-	Event[] events;
-	Label name;
-	public boolean opened = false;
-	int number;
-	public boolean editMode = false;
-	public String category;
+	public boolean state = false;//
+	private Event[] events;
+	private Label name;
+	public boolean opened = false;//
+	private int number;
+	public boolean editMode = false;//
+	public String category;//
 
 	public TeamInfo(int teamNum, String c) {
 		super(2);
@@ -267,27 +286,27 @@ class TeamInfo extends VBox {
 	}
 
 	public void addEvents() {
-		for (Event i : events) {
+		for(Event i : events) {
 			Label eventName = new Label(i.name);
 			eventName.setStyle("-fx-font-size: 15");
-			if (!opened)
+			if(!opened)
 				sizeOpened += eventName.getHeight();
 			Label eventInfo = new Label(
 					i.city + ", " + i.state_prov + "\t" + dateConvert(i.start_date) + " - " + dateConvert(i.end_date));
-			if (!opened)
+			if(!opened)
 				sizeOpened += eventInfo.getHeight();
 			getChildren().addAll(eventName, eventInfo);
 		}
-		if (!opened)
+		if(!opened)
 			opened = true;
 	}
 
 	public void removeEvents() {
-		for (int i = 0; i < getChildren().size(); i++) {
+		for(int i = 0; i < getChildren().size(); i++) {
 			getChildren().remove(i);
 			i--;
 		}
-		if (editMode) {
+		if(editMode) {
 			HBox h = new HBox();
 			h.getChildren().add(name);
 			Label x = new Label();
@@ -310,7 +329,7 @@ class TeamInfo extends VBox {
 		d = d.substring(d.indexOf('-') + 1);
 		String month = d.substring(0, d.indexOf('-'));
 		String day = d.substring(d.indexOf('-') + 1);
-		switch (month) {
+		switch(month) {
 		case "01":
 			month = "January";
 			break;
@@ -352,7 +371,7 @@ class TeamInfo extends VBox {
 	}
 
 	public double getSize() {
-		if (state) {
+		if(state) {
 			return sizeOpened;
 		} else {
 			return sizeClosed;
@@ -370,11 +389,16 @@ class TeamInfo extends VBox {
 	public double getSizeY() {
 		return this.getHeight();
 	}
+	
+	public boolean contains(MouseEvent e) {
+		return this.getLayoutX() <= e.getX() && this.getSizeX() + this.getLayoutX() >= e.getX() &&
+				this.getLayoutY() <= e.getY() && this.getSizeY() + this.getLayoutY() >= e.getY();
+	}
 
 	public void switchState() {
 		System.out.println("update:" + number + "\n");
 		state = !state;
-		if (state) {
+		if(state) {
 			addEvents();
 		} else {
 			removeEvents();
@@ -391,7 +415,7 @@ class TeamInfo extends VBox {
 	}
 
 	public boolean equals(TeamInfo o) {
-		if (o.number == number && o.category.equals(category)) {
+		if(o.number == number && o.category.equals(category)) {
 			return true;
 		} else {
 			return false;

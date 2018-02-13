@@ -32,6 +32,7 @@ public class ScoutingApp extends Application {
 		return reqThread;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testAddingRequests() {
 		reqThread.addRequestStatus();
 		reqThread.addRequestEventKeysInYear(2017);
@@ -43,6 +44,7 @@ public class ScoutingApp extends Application {
 		reqThread.addRequestStatusForTeamAtEvent(254, "2017dal");
 	}
 	
+	@SuppressWarnings("unused")
 	private static void startTestGetRequestsThread() {
 		new Thread() {
 			@Override

@@ -7,7 +7,7 @@ import models.*;
 import models.matches.yr2017.*;
 import models.matches.yr2018.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "deprecation" })
 public class Driver {
 	public static void main(String[] args) {
 		Requester req = new Requester(false);

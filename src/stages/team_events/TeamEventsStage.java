@@ -3,19 +3,13 @@ package stages.team_events;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import general.ScoutingApp;
 import general.constants.K;
-import general.requests.RequesterThread;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -26,33 +20,30 @@ public class TeamEventsStage extends Stage {
 	private BorderPane root;
 	private CenterPane cPane;
 	private LeftScrollPane lPane;
+	
+	private Scene mainScene;
 	private LoadingScene loadingScene;
-	private Scene scene;
 	private LoadingThread loadingThread;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
 	public TeamEventsStage() {
 		root = new BorderPane();
-		setResizable(false);
-		setTitle("Team Events (FRCSPN)");
+		this.setResizable(false);
+		this.setTitle("Team Events (FRCSPN)");
 
-		scene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
+		mainScene = new Scene(root, K.TEAM_EVENTS.WIDTH, K.TEAM_EVENTS.HEIGHT);
 
 		cPane = new CenterPane();
-		cPane.setOnMouseClicked(new CClickHandler());
 		root.setCenter(cPane);
 
 		lPane = new LeftScrollPane();
-		lPane.setOnMouseClicked(new LClickHandler());
+		root.setLeft(lPane);
 
-		loadingScene = new LoadingScene(new Pane(), this);
+		
+		loadingScene = new LoadingScene(new Pane());
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
-
-		// loadNormal();
-
-		root.setLeft(lPane);
 
 		state = State.LOADING;
 		
@@ -60,21 +51,23 @@ public class TeamEventsStage extends Stage {
 	}
 
 	public void setState(State s) {
-		System.out.println("Changing state: " + state + " -> " + s);
-		if (!state.equals(s)) {
-			if (state.equals(State.NORMAL)) {
-				unloadNormal();
-			} else if (state.equals(State.TEAM_LIST)) {
-				unloadTeamList();
-			} else if (state.equals(State.LOADING)) {
+		System.out.println("changing state from " + state + " -> " + s);
+		if(!state.equals(s)) {
+			if(state.equals(State.VIEWING)) {
+				unloadViewing();
+			} else if(state.equals(State.EDITING)) {
+				unloadEditing();
+			} else if(state.equals(State.LOADING)) {
 				unloadLoading();
 			}
+			
 			state = s;
-			if (state.equals(State.NORMAL)) {
-				loadNormal();
-			} else if (state.equals(State.TEAM_LIST)) {
-				loadTeamList();
-			} else if (state.equals(State.LOADING)) {
+			
+			if(state.equals(State.VIEWING)) {
+				loadViewing();
+			} else if(state.equals(State.EDITING)) {
+				loadEditing();
+			} else if(state.equals(State.LOADING)) {
 				loadLoading();
 			}
 		}
@@ -82,31 +75,31 @@ public class TeamEventsStage extends Stage {
 	
 	public State getState() { return state; }
 
-	private void unloadTeamList() {
-
-	}
-
-	public void loadNormal() {
-		System.out.println("LOADNORM");
-		for (Map.Entry<StringWithColor, ArrayList<Integer>> entry : teams.entrySet()) {
-			for (Integer i : entry.getValue()) {
-				TeamInfo info = new TeamInfo(i.intValue(), entry.getKey().getValue());
-				info.setColor(entry.getKey().getColor());
-				this.cPane.getTeams().add(info);
-			}
-		}
-		for (StringWithColor k : teams.keySet()) {
+	public void loadViewing() {
+		System.out.println("LOAD VIEWING");
+//		for(Map.Entry<StringWithColor, ArrayList<Integer>> entry : teams.entrySet()) {
+//			for(Integer i : entry.getValue()) {
+//				TeamInfo info = new TeamInfo(i.intValue(), entry.getKey().getString());
+//				info.setColor(entry.getKey().getColor());
+//				this.cPane.getTeams().add(info);
+//			}
+//		}
+		for(StringWithColor k : teams.keySet()) {
 			System.out.println(k);
 			System.out.println(teams.get(k));
 		}
-		lPane.update(teams.keySet().toArray(new StringWithColor[] {}));
+		lPane.initializeViewing(teams.keySet().toArray(new StringWithColor[] {}));
 	}
 
-	private void unloadNormal() {
+	private void unloadViewing() {
 
 	}
 
-	private void loadTeamList() {
+	private void loadEditing() {
+
+	}
+	
+	private void unloadEditing() {
 
 	}
 
@@ -116,8 +109,8 @@ public class TeamEventsStage extends Stage {
 			String line;
 			StringWithColor key = null;
 			String keyStr = "";
-			while ((line = br.readLine()) != null) {
-				if (line.charAt(0) == '*') {
+			while((line = br.readLine()) != null) {
+				if(line.charAt(0) == '*') {
 					keyStr = line.substring(1, line.indexOf('*', 1));
 					key = new StringWithColor(keyStr, line.substring(keyStr.length() + 3));
 					teams.put(key, new ArrayList<Integer>());
@@ -125,28 +118,28 @@ public class TeamEventsStage extends Stage {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
 					
-					for (int i = 0; i < teamNums.size(); i++) {
+					for(int i = 0; i < teamNums.size(); i++) {
 						ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teamNums.get(i), 2018);
 					}
 				}
 			}
-			System.out.println("# incomplete: " + ScoutingApp.getDatabase().getNumberIncompleteRequests());
-		} catch (IOException e) {
+//			System.out.println("# incomplete: " + ScoutingApp.getDatabase().getNumberIncompleteRequests());
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		setScene(loadingScene);
+		this.setScene(loadingScene);
 		loadingThread = new LoadingThread(this);
 		loadingThread.start();
 	}
 
 	private void unloadLoading() {
-		setScene(scene);
+		this.setScene(mainScene);
 	}
 
 	private ArrayList<Integer> splitLineInt(String s) {
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		StringTokenizer st = new StringTokenizer(s);
-		while (st.hasMoreTokens()) {
+		while(st.hasMoreTokens()) {
 			arr.add(Integer.parseInt(st.nextToken()));
 		}
 		return arr;
@@ -160,23 +153,9 @@ public class TeamEventsStage extends Stage {
 		return teams.get(strWC);
 	}
 
-	private class LClickHandler implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent e) {
-			lPane.handleClick(e);
-		}
-	}
-
-	private class CClickHandler implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent e) {
-			cPane.handleClick(e);
-		}
-	}
-
 	
 
 	public enum State {
-		NORMAL, TEAM_LIST, LOADING
+		VIEWING, EDITING, LOADING
 	}
 }
