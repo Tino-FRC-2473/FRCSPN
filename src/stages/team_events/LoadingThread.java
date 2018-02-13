@@ -56,11 +56,11 @@ public class LoadingThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("loading thread ended");
+//		System.out.println("loading thread ended");
 	}
 	
 	public void end() {
-		System.out.println("loading thread told to end");
+//		System.out.println("loading thread told to end");
 		alive = false;
 	}
 }

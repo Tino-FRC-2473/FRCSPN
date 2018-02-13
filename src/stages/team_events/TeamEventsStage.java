@@ -84,11 +84,12 @@ public class TeamEventsStage extends Stage {
 //				this.cPane.getTeams().add(info);
 //			}
 //		}
-		for(StringWithColor k : teams.keySet()) {
-			System.out.println(k);
-			System.out.println(teams.get(k));
-		}
-		lPane.initializeViewing(teams.keySet().toArray(new StringWithColor[] {}));
+		
+//		for(StringWithColor k : teams.keySet()) {
+//			System.out.println(k);
+//			System.out.println(teams.get(k));
+//		}
+		lPane.initializeViewing(teams.keySet().toArray(new StringWithColor[]{}));
 	}
 
 	private void unloadViewing() {

@@ -98,7 +98,6 @@ public class CenterPane extends HBox {
 				}
 			}
 		}
-		System.out.println("TEAMHASH:"+getTeamEventsStage().getTeams());
 	}
 
 	private void writeFile() {
@@ -163,7 +162,7 @@ public class CenterPane extends HBox {
 		
 		ArrayList<Integer> toAdd = getTeamEventsStage().getTeams(sc);
 		for(int teamNum : toAdd) {
-			System.out.println("ADDED: " + teamNum);
+			System.out.println("ADDING: " + teamNum);
 			TeamInfo team = new TeamInfo(teamNum, sc.getString());
 			teams.add(team);
 			if(getChildren().size() == x) {
@@ -175,20 +174,6 @@ public class CenterPane extends HBox {
 			columns.get(x).getChildren().add(team);
 			team.setColor(sc.getColor());
 		}
-	}
-
-	public void updateTeamInfo(int teamNumber, StringWithColor sc) {
-		System.out.println("UPDATED: " + teamNumber);
-		TeamInfo team = new TeamInfo(teamNumber, sc.getString());
-		teams.add(team);
-		if(getChildren().size() == x) {
-			VBox box = new VBox();
-			box.setPadding(K.getInsets());
-			getChildren().add(box);
-			columns.add(box);
-		}
-		columns.get(x).getChildren().add(team);
-		team.setColor(sc.getColor());
 	}
 
 	public void handleClick(MouseEvent e) {

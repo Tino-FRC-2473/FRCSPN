@@ -36,13 +36,12 @@ public class LeftScrollPane extends ScrollPane {
 		toggleButton = new ClickableButton(I.Type.TE_TEAM_LIST_BTN);
 		v.getChildren().add(toggleButton);
 		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
-		toggleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				toggleButton.onPress();
-				if(toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
-					back();
-				} else {
+
+		// this used to be in a on clicked for the toggle if need reference
+//				toggleButton.onPress();
+//				if(toggleButton.getType() == I.Type.TE_TEAM_LIST_BTN) {
+//					back();
+//				} else {
 //					File teamlist = new File("docs/team_list.txt");
 //					Scanner in = null;
 //					try {
@@ -75,12 +74,11 @@ public class LeftScrollPane extends ScrollPane {
 //							}
 //						}
 //					}
-					getTeamEventsStage().loadViewing();
-					edit();
-				}
-			}
+//					getTeamEventsStage().loadViewing();
+//					edit();
+//				}
+//			}
 
-		});
 		labels = new ArrayList<Label>();
 	}
 	
