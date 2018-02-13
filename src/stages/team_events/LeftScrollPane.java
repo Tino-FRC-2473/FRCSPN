@@ -15,12 +15,12 @@ import javafx.scene.layout.VBox;
 public class LeftScrollPane extends ScrollPane {
 	private VBox v;
 	private ClickableButton toggleButton;
-
+	private String viewedLabel;
 	private ArrayList<Label> labels;
 
 	public LeftScrollPane() {
 		super();
-
+		viewedLabel = "";
 		v = new VBox();
 		v.setPadding(K.getInsets());
 		v.setSpacing(K.TEAM_EVENTS.SPACING);
@@ -153,6 +153,7 @@ public class LeftScrollPane extends ScrollPane {
 		@Override
 		public void handle(MouseEvent event) {
 			getCenterPane().addFor(sc);
+			viewedLabel = sc.toString();
 //			ArrayList<Integer> teams = getTeamEventsStage().getTeams(sc);
 //			CenterPane cp = getCenterPane();
 //			while(cp.getChildren().size() > 0) {
@@ -181,5 +182,9 @@ public class LeftScrollPane extends ScrollPane {
 	// make these methods
 	public boolean getState() {
 		return true;
+	}
+	
+	public String getViewedLabel() {
+		return viewedLabel;
 	}
 }
