@@ -117,7 +117,6 @@ public class LeftScrollPane extends ScrollPane {
 				v.getChildren().remove(i);
 			}
 		}
-		getCenterPane().saveChanges();
 	}
 
 	public void handleClick(MouseEvent e) {

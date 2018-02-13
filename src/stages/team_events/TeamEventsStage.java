@@ -93,15 +93,15 @@ public class TeamEventsStage extends Stage {
 	}
 
 	private void unloadViewing() {
-
+		
 	}
 
 	private void loadEditing() {
-
+		
 	}
 	
 	private void unloadEditing() {
-
+		cPane.saveChanges();
 	}
 
 	private void loadLoading() {
@@ -153,8 +153,6 @@ public class TeamEventsStage extends Stage {
 	public ArrayList<Integer> getTeams(StringWithColor strWC) {
 		return teams.get(strWC);
 	}
-
-	
 
 	public enum State {
 		VIEWING, EDITING, LOADING
