@@ -36,8 +36,8 @@ public class CenterPane extends HBox {
 	public CenterPane() {
 		super();
 		addButton = new ClickableButton(I.Type.TE_ADD_BTN);
-		addButton.setLayoutX(50);
-		addButton.setLayoutY(500);
+		addButton.setLayoutX(0);
+		addButton.setLayoutY(K.TEAM_EVENTS.CENTER_WIDTH*.8);
 		teams = new ArrayList<>();
 		columns = new ArrayList<>();
 		newTeams = new ArrayList<>();
@@ -56,10 +56,11 @@ public class CenterPane extends HBox {
 	}
 
 	public void saveChanges() {
-		System.out.println("teams: " + teams);
+		//System.out.println("teams: " + teams);
 		for(int b = 0; b < newTeams.size(); b++) {
 			for(int i = 0; i < teams.size(); i++) {
 				if(teams.get(i).equals(newTeams.get(b))) {
+					teams.add(newTeams.get(b));
 					newTeams.remove(b);
 					b--;
 				}
@@ -69,9 +70,7 @@ public class CenterPane extends HBox {
 		for(int i = 0; i < removedTeams.size(); i++) {
 			for(int b = 0; b < teams.size(); b++) {
 				if(teams.get(b).equals(removedTeams.get(i))) {
-					removedTeams.remove(i);
 					teams.remove(b);
-					i--;
 					b--;
 					break;
 				}
@@ -228,13 +227,12 @@ public class CenterPane extends HBox {
 		}
 	}
 
-	public void changeState() {
-		state = !state;
-		if(state) {
-			getChildren().add(addButton);
-		} else {
-			getChildren().remove(addButton);
-		}
+	public void loadEditing() {
+		getChildren().add(addButton);
+	}
+	
+	public void unloadEditing() {
+		getChildren().remove(addButton);
 	}
 }
 
@@ -247,7 +245,7 @@ class TeamInfo extends VBox {
 
 	private String color = "";
 
-	public boolean state = false;//
+	public boolean isOpen = false;//
 	private Event[] events;
 	private Label name;
 	public boolean opened = false;//
@@ -356,7 +354,7 @@ class TeamInfo extends VBox {
 	}
 
 	public double getSize() {
-		if(state) {
+		if(isOpen) {
 			return sizeOpened;
 		} else {
 			return sizeClosed;
@@ -382,8 +380,8 @@ class TeamInfo extends VBox {
 
 	public void switchState() {
 		System.out.println("update:" + number + "\n");
-		state = !state;
-		if(state) {
+		isOpen = !isOpen;
+		if(isOpen) {
 			addEvents();
 		} else {
 			removeEvents();
@@ -412,7 +410,7 @@ class TeamInfo extends VBox {
 	}
 
 	public void editMode() {
-		state = false;
+		isOpen = false;
 		removeEvents();
 	}
 
