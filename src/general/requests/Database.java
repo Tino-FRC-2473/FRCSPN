@@ -124,6 +124,9 @@ public class Database {
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
 	}
+	public Event[] getEventsInYear(int y) {
+		return generalGet(new R(R.Type.EVENTS_IN_YEAR, y), Event[].class);
+	}
 	
 	//debugging methods
 	

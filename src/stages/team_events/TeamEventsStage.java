@@ -23,7 +23,7 @@ public class TeamEventsStage extends Stage {
 	
 	private Scene mainScene;
 	private LoadingScene loadingScene;
-	private LoadingThread loadingThread;
+	private TELoadingThread loadingThread;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
@@ -131,7 +131,7 @@ public class TeamEventsStage extends Stage {
 			e.printStackTrace();
 		}
 		this.setScene(loadingScene);
-		loadingThread = new LoadingThread(this);
+		loadingThread = new TELoadingThread(this);
 		loadingThread.start();
 	}
 

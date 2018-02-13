@@ -1,12 +1,18 @@
 package stages.matches;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
+import general.ScoutingApp;
 import general.constants.K;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Event;
 import stages.team_events.LoadingScene;
 
 public class MatchesStage extends Stage {
@@ -14,6 +20,7 @@ public class MatchesStage extends Stage {
 	private State state;
 	
 	private HashMap<State, Scene> sceneMap;
+	private MLoadingThread loadingThread;
 	
 	public MatchesStage() {
 		root = new BorderPane();
@@ -23,8 +30,8 @@ public class MatchesStage extends Stage {
 		initScenesMap();
 		
 		
-		state = State.SELECTING;
-		loadSelecting();
+		state = State.LOADING;
+		setLoading();
 	}
 	
 	public void setState(State toSet) {
@@ -32,7 +39,10 @@ public class MatchesStage extends Stage {
 		if(!state.equals(toSet)) {
 			switch(state) {
 			case SELECTING:
-				unloadSelecting();
+				exitSelecting();
+				break;
+			case LOADING:
+				exitLoading();
 				break;
 			default:
 				System.out.println("Unknown previous state: " + state);
@@ -43,7 +53,10 @@ public class MatchesStage extends Stage {
 			
 			switch(state) {
 			case SELECTING:
-				loadSelecting();
+				setSelecting();
+				break;
+			case LOADING:
+				setLoading();
 				break;
 			default:
 				System.out.println("Unknown previous state: " + state);
@@ -52,11 +65,45 @@ public class MatchesStage extends Stage {
 		}
 	}
 	
-	private void loadSelecting() {
-		this.setScene(sceneMap.get(State.SELECTING));
+	public State getState() {
+		return state;
 	}
 	
-	private void unloadSelecting() {
+	private void setSelecting() {
+		this.setScene(sceneMap.get(State.SELECTING));
+		ArrayList<Event> allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
+		
+		Event tempEvent = new Event();
+		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+		tempEvent.end_date = tempEvent.start_date;
+		allEvents.add(tempEvent);
+		
+		Collections.sort(allEvents, new Comparator<Event>() {
+			@Override public int compare(Event e1, Event e2) {
+				if(e1.start_date.compareTo(e2.start_date) == 0)
+					return e1.end_date.compareTo(e2.end_date);
+				return e1.start_date.compareTo(e2.start_date);
+			}
+		});
+		allEvents.subList(0, allEvents.indexOf(tempEvent)+1).clear();
+		
+		Event[] events = allEvents.subList(0, Math.min(allEvents.size(), 15)).toArray(new Event[Math.min(allEvents.size(), 15)]);
+		//some amount of suggested events should appear in a top VBox
+		//center pane should have a event selector
+	}
+	
+	private void exitSelecting() {
+		
+	}
+	
+	private void setLoading() {
+		ScoutingApp.getRequesterThread().addRequestEventsInYear(2018);
+		this.setScene(sceneMap.get(State.LOADING));
+		loadingThread = new MLoadingThread(this);
+		loadingThread.start();
+	}
+	
+	private void exitLoading() {
 		
 	}
 	

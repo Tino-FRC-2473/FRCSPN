@@ -57,6 +57,8 @@ public class R {
 			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/matches";
 		case STATUS_FOR_TEAM_AT_EVENT:
 			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/status";
+		case EVENTS_IN_YEAR:
+			return "events/" + params[0] + "/simple";
 		default:
 			return "Unknown Request Type: " + type;
 		}
@@ -76,6 +78,7 @@ public class R {
 		EVENTS_FOR_TEAM_IN_YEAR,
 		MATCHES_FOR_TEAM_AT_EVENT,
 		STATUS_FOR_TEAM_AT_EVENT,
+		EVENTS_IN_YEAR,
 		
 		MATCHES_AT_EVENT
 		;

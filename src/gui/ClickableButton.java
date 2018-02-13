@@ -56,7 +56,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	private void doAction() {
-		System.out.println("do action");
+//		System.out.println("do action");
 		switch(type) {
 		case TEAM_EVENTS_BTN:
 			ScoutingApp.launchTeamEvents();

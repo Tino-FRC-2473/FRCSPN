@@ -124,6 +124,7 @@ public class RequesterThread extends Thread {
 	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
 	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
 	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
+	public void addRequestEventsInYear(int y) { addRequest(new R(R.Type.EVENTS_IN_YEAR, y)); }
 	
 	/**
 	 * Ends the thread.
