@@ -8,6 +8,7 @@ public class K {
 	
 	public static final KMain MAIN = new KMain();
 	public static final KTeamEvents TEAM_EVENTS = new KTeamEvents();
+	public static final KMatches MATCHES = new KMatches();
 	
 	public static final BoxPaddingInsets getInsets() {
 		return new BoxPaddingInsets();

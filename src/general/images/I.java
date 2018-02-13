@@ -18,6 +18,10 @@ public class I {
 				new Image(base + "main" + "/team_events.png", K.MAIN.BTN_LEN, 0, true, true));
 		images.put(Type.TEAM_EVENTS_BTN_CLICKED,
 				new Image(base + "main" + "/team_events_clicked.png", K.MAIN.BTN_LEN, 0, true, true));
+		images.put(Type.MATCHES_BTN,
+				new Image(base + "main" + "/matches.png", K.MAIN.BTN_LEN, 0, true, true));
+		images.put(Type.MATCHES_BTN_CLICKED,
+				new Image(base + "main" + "/matches_clicked.png", K.MAIN.BTN_LEN, 0, true, true));
 		images.put(Type.COMING_SOON_BTN,
 				new Image(base + "main" + "/coming_soon.png", K.MAIN.BTN_LEN, 0, true, true));
 		images.put(Type.TE_TEAM_LIST_BTN,
@@ -42,7 +46,7 @@ public class I {
 	}
 	
 	public enum Type {
-		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED, COMING_SOON_BTN, COMING_SOON_BTN_CLICKED,
+		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED, COMING_SOON_BTN, COMING_SOON_BTN_CLICKED, MATCHES_BTN, MATCHES_BTN_CLICKED,
 		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
 	}
 }
