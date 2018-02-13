@@ -140,11 +140,11 @@ public class CenterPane extends HBox {
 	}
 
 	private LeftScrollPane getScrollPane() {
-		return(LeftScrollPane)((BorderPane) this.getParent()).getLeft();
+		return (LeftScrollPane)((BorderPane) this.getParent()).getLeft();
 	}
 
 	private TeamEventsStage getTeamEventsStage() {
-		return((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
+		return ((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
 	}
 	
 	public void addFor(StringWithColor sc) {

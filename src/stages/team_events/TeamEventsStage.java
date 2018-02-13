@@ -53,23 +53,21 @@ public class TeamEventsStage extends Stage {
 	public void setState(State s) {
 		System.out.println("changing state from " + state + " -> " + s);
 		if(!state.equals(s)) {
-			if(state.equals(State.VIEWING)) {
+			if(state.equals(State.VIEWING))
 				unloadViewing();
-			} else if(state.equals(State.EDITING)) {
+			else if(state.equals(State.EDITING))
 				unloadEditing();
-			} else if(state.equals(State.LOADING)) {
+			else if(state.equals(State.LOADING))
 				unloadLoading();
-			}
 			
 			state = s;
 			
-			if(state.equals(State.VIEWING)) {
+			if(state.equals(State.VIEWING))
 				loadViewing();
-			} else if(state.equals(State.EDITING)) {
+			else if(state.equals(State.EDITING))
 				loadEditing();
-			} else if(state.equals(State.LOADING)) {
+			else if(state.equals(State.LOADING))
 				loadLoading();
-			}
 		}
 	}
 	
@@ -93,15 +91,15 @@ public class TeamEventsStage extends Stage {
 	}
 
 	private void unloadViewing() {
-
+		
 	}
 
 	private void loadEditing() {
-
+		
 	}
 	
 	private void unloadEditing() {
-
+		cPane.saveChanges();
 	}
 
 	private void loadLoading() {
@@ -153,8 +151,6 @@ public class TeamEventsStage extends Stage {
 	public ArrayList<Integer> getTeams(StringWithColor strWC) {
 		return teams.get(strWC);
 	}
-
-	
 
 	public enum State {
 		VIEWING, EDITING, LOADING
