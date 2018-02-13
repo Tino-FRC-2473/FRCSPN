@@ -43,7 +43,14 @@ public class CenterPane extends HBox {
 		teamDialog.setTitle("New Team");
 		teamDialog.setHeaderText("New Team");
 		teamDialog.setContentText("Enter the team number:");
-		addButton = new ClickableButton(I.Type.TE_ADD_BTN);
+		addButton = new ClickableButton(I.Type.TE_ADD_BTN) {
+			public boolean equals(Object o) {
+				if (!(o instanceof ClickableButton)) {
+					return false;
+				}
+				return true;
+			}
+		};
 		addButton.setLayoutX(0);
 		addButton.setLayoutY(K.TEAM_EVENTS.CENTER_WIDTH*.8);
 		teams = new ArrayList<>();
@@ -64,10 +71,11 @@ public class CenterPane extends HBox {
 	}
 
 	public void saveChanges() {
-		System.out.println("teams: " + teams);
+		//System.out.println("teams: " + teams);
 		for(int b = 0; b < newTeams.size(); b++) {
 			for(int i = 0; i < teams.size(); i++) {
 				if(teams.get(i).equals(newTeams.get(b))) {
+					teams.add(newTeams.get(b));
 					newTeams.remove(b);
 					b--;
 				}
@@ -77,9 +85,7 @@ public class CenterPane extends HBox {
 		for(int i = 0; i < removedTeams.size(); i++) {
 			for(int b = 0; b < teams.size(); b++) {
 				if(teams.get(b).equals(removedTeams.get(i))) {
-					removedTeams.remove(i);
 					teams.remove(b);
-					i--;
 					b--;
 					break;
 				}
@@ -240,21 +246,14 @@ public class CenterPane extends HBox {
 	}
 
 	public void loadEditing() {
-		state = true;
 		getChildren().add(addButton);
 	}
 	
 	public void unloadEditing() {
-		state = false;
-		for (int i = 0; i < getChildren().size(); i++) {
-			if (getChildren().get(i).equals(addButton)) {
-				getChildren().remove(i);
-				i--;
-			}
-		}
+		getChildren().remove(addButton);
 	}
 	
-	private void addDialog() {
+	public void addDialog() {
 		Optional<String> result = teamDialog.showAndWait();
 		if (result.isPresent()) {
 			int teamNumber = Integer.parseInt(result.get());
