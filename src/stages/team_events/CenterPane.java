@@ -56,10 +56,11 @@ public class CenterPane extends HBox {
 	}
 
 	public void saveChanges() {
-		System.out.println("teams: " + teams);
+		//System.out.println("teams: " + teams);
 		for(int b = 0; b < newTeams.size(); b++) {
 			for(int i = 0; i < teams.size(); i++) {
 				if(teams.get(i).equals(newTeams.get(b))) {
+					teams.add(newTeams.get(b));
 					newTeams.remove(b);
 					b--;
 				}
@@ -69,9 +70,7 @@ public class CenterPane extends HBox {
 		for(int i = 0; i < removedTeams.size(); i++) {
 			for(int b = 0; b < teams.size(); b++) {
 				if(teams.get(b).equals(removedTeams.get(i))) {
-					removedTeams.remove(i);
 					teams.remove(b);
-					i--;
 					b--;
 					break;
 				}
@@ -229,12 +228,10 @@ public class CenterPane extends HBox {
 	}
 
 	public void loadEditing() {
-		state = true;
 		getChildren().add(addButton);
 	}
 	
 	public void unloadEditing() {
-		state = false;
 		getChildren().remove(addButton);
 	}
 }

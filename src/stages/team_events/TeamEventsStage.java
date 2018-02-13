@@ -95,7 +95,7 @@ public class TeamEventsStage extends Stage {
 	}
 
 	private void loadEditing() {
-		
+		lPane.edit();
 	}
 	
 	private void unloadEditing() {
@@ -116,7 +116,11 @@ public class TeamEventsStage extends Stage {
 				} else {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
-					
+					for(Integer i:teams.get(key)) {
+						TeamInfo t = new TeamInfo(i, key.getString());
+						t.setColor(key.getColor());
+						cPane.getTeams().add(t);
+					}
 					for(int i = 0; i < teamNums.size(); i++) {
 						ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teamNums.get(i), 2018);
 					}
