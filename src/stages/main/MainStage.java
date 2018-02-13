@@ -19,6 +19,7 @@ public class MainStage extends Stage {
 		this.setTitle("FRCSPN (" + K.VERSION + ")");
 
 		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "Lists events for teams this year.");
+		buttons[1][0] = new ClickableButton(I.Type.MATCHES_BTN, I.Type.MATCHES_BTN_CLICKED, "Look up matches for an event.");
 		for(int i = 0; i < buttons.length; i++) {
 			for(int j = 0; j < buttons[i].length; j++) {
 				if(buttons[i][j] == null)
@@ -28,12 +29,12 @@ public class MainStage extends Stage {
 				buttons[i][j].setY(j * K.MAIN.BTN_SPACE_LEN + K.MAIN.BTN_PAD);
 			}
 		}
-		pane.setOnMouseReleased(new MainStageOnRelease());
-		pane.setOnMouseMoved(new MainStageOnMoved());
+//		pane.setOnMouseReleased(new MainStageOnRelease());
+//		pane.setOnMouseMoved(new MainStageOnMoved());
 		
 		this.setScene(new Scene(pane, K.MAIN.WIDTH, K.MAIN.HEIGHT));
 	}
-
+/*
 	private class MainStageOnRelease implements EventHandler<MouseEvent> {
 		@Override public void handle(MouseEvent e) {
 			for(ClickableButton[] bArr : buttons) {
@@ -43,8 +44,8 @@ public class MainStage extends Stage {
 				}
 			}
 		}
-	}
-	
+	}/*
+	/*
 	private class MainStageOnMoved implements EventHandler<MouseEvent> {
 		private Label label;
 		private boolean added;
@@ -95,4 +96,5 @@ public class MainStage extends Stage {
 //			System.out.println("END");
 		}
 	}
+	*/
 }

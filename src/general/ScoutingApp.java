@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import stages.main.MainStage;
+import stages.matches.MatchesStage;
 import stages.team_events.TeamEventsStage;
 
 /**
@@ -16,12 +17,18 @@ import stages.team_events.TeamEventsStage;
 public class ScoutingApp extends Application {
 	public static MainStage stage;
 	public static TeamEventsStage teStage;
+	public static MatchesStage mStage;
 	private static RequesterThread reqThread;
 	private static Database database;
 	
 	public static void launchTeamEvents() {
 		teStage = new TeamEventsStage();
 		teStage.show();
+	}
+	
+	public static void launchMatches() {
+		mStage = new MatchesStage();
+		mStage.show();
 	}
 	
 	public static Database getDatabase() {
