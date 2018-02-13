@@ -75,6 +75,8 @@ public class ClickableButton extends ImageView {
 			setType(I.Type.TE_TEAM_LIST_BTN);
 			ScoutingApp.teStage.setState(State.VIEWING);
 			break;
+		case TE_ADD_BTN:
+			ScoutingApp.teStage.getCPane().addDialog();
 		default:
 			System.out.println("Unknown button action for type " + type);
 			break;

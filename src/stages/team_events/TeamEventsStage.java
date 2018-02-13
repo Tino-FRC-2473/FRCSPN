@@ -99,7 +99,7 @@ public class TeamEventsStage extends Stage {
 	}
 	
 	private void unloadEditing() {
-		cPane.saveChanges();
+		lPane.back();
 	}
 
 	private void loadLoading() {
@@ -154,6 +154,10 @@ public class TeamEventsStage extends Stage {
 
 	public ArrayList<Integer> getTeams(StringWithColor strWC) {
 		return teams.get(strWC);
+	}
+	
+	public CenterPane getCPane() {
+		return cPane;
 	}
 
 	public enum State {
