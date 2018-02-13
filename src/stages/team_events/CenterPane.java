@@ -78,13 +78,13 @@ public class CenterPane extends HBox {
 		}
 		newTeams = new ArrayList<>();
 		removedTeams = new ArrayList<>();
-		getScrollPane().clearAddedCategories();
+		//getScrollPane().clearAddedCategories();
 		writeFile();
 		getTeamEventsStage().getTeams().clear();
 		ArrayList<String> addedCat = new ArrayList<>();
 		for(TeamInfo i:teams) {
 			String cat = i.getCategory();
-			System.out.println("CAT: " + i.getCategory());
+			//System.out.println("CAT: " + i.getCategory());
 			if(!addedCat.contains(cat)) {
 				addedCat.add(cat);
 				getTeamEventsStage().getTeams().put(new StringWithColor(i.getCategory(), i.getColor()), new ArrayList<Integer>());
@@ -97,6 +97,7 @@ public class CenterPane extends HBox {
 				}
 			}
 		}
+		System.out.println("TEEEAAAAMHASH: "+getTeamEventsStage().getTeams());
 	}
 
 	private void writeFile() {

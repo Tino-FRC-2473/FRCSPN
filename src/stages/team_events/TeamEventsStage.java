@@ -95,11 +95,12 @@ public class TeamEventsStage extends Stage {
 	}
 
 	private void loadEditing() {
+		System.out.println(cPane.getTeams());
 		lPane.edit();
 	}
 	
 	private void unloadEditing() {
-		cPane.saveChanges();
+		lPane.back();
 	}
 
 	private void loadLoading() {
@@ -118,6 +119,7 @@ public class TeamEventsStage extends Stage {
 					teams.get(key).addAll(teamNums);
 					for(Integer i:teams.get(key)) {
 						TeamInfo t = new TeamInfo(i, key.getString());
+						System.out.println("TEAM INFO ADDED TO TEAMS: " + t);
 						t.setColor(key.getColor());
 						cPane.getTeams().add(t);
 					}
