@@ -108,7 +108,7 @@ public class LeftScrollPane extends ScrollPane {
 		l.setPrefSize(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), K.TEAM_EVENTS.LEFT_BUTTON_HEIGHT);
 		l.setPadding(K.getInsets());
 		v.getChildren().add(l);
-		getCenterPane().changeState();
+		getCenterPane().loadEditing();
 	}
 
 	public void back() {
@@ -118,6 +118,7 @@ public class LeftScrollPane extends ScrollPane {
 			}
 		}
 		getCenterPane().saveChanges();
+		getCenterPane().unloadEditing();
 	}
 
 	public void handleClick(MouseEvent e) {
