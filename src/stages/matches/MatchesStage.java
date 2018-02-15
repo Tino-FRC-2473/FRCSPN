@@ -25,6 +25,8 @@ public class MatchesStage extends Stage {
 	
 	private HashMap<State, Scene> sceneMap;
 	private MLoadingThread loadingThread;
+	EventsPane lP;
+
 	
 	public MatchesStage() {
 		root = new BorderPane();
@@ -77,7 +79,9 @@ public class MatchesStage extends Stage {
 	private void setSelecting() {
 		this.setScene(sceneMap.get(State.SELECTING));
 		ArrayList<Event> allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
-		
+		lP = new EventsPane(allEvents);
+		lP.addAllEvents();
+		lP.setPrefWidth(K.MATCHES.LEFT_WIDTH);
 		Event tempEvent = new Event();
 		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 		tempEvent.end_date = tempEvent.start_date;
@@ -100,6 +104,8 @@ public class MatchesStage extends Stage {
 			top.getChildren().add(new Label(e.key));
 		}
 		root.setTop(top);
+		root.setLeft(lP);
+		root.setPadding(K.getInsets());
 	}
 	
 	private void exitSelecting() {
