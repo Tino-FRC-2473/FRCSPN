@@ -6,11 +6,11 @@ import javafx.scene.layout.Pane;
 import general.constants.*;
 
 
-public class LoadingScene extends Scene {
+public class TELoadingScene extends Scene {
 	private Label message;
 	private Pane pane;
 	
-	public LoadingScene(Pane p) {
+	public TELoadingScene(Pane p) {
 		super(p);
 		pane = p;
 		pane.setPadding(K.getInsets());

@@ -1,6 +1,5 @@
 package general;
 
-import general.images.I;
 import general.requests.Database;
 import general.requests.RequesterThread;
 import javafx.application.Application;

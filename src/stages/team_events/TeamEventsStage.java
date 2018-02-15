@@ -23,7 +23,7 @@ public class TeamEventsStage extends Stage {
 	private LeftScrollPane lPane;
 	
 	private Scene mainScene;
-	private LoadingScene loadingScene;
+	private TELoadingScene loadingScene;
 	private TELoadingThread loadingThread;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
@@ -42,7 +42,7 @@ public class TeamEventsStage extends Stage {
 		root.setLeft(lPane);
 
 		
-		loadingScene = new LoadingScene(new Pane());
+		loadingScene = new TELoadingScene(new Pane());
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
