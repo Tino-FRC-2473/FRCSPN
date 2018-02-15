@@ -14,10 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Event;
-import stages.team_events.LoadingScene;
 
 public class MatchesStage extends Stage {
 	private BorderPane root;
@@ -115,7 +113,7 @@ public class MatchesStage extends Stage {
 	private void setLoading() {
 		ScoutingApp.getRequesterThread().addRequestEventsInYear(2018);
 		this.setScene(sceneMap.get(State.LOADING));
-		loadingThread = new MLoadingThread(this);
+		loadingThread = new MLoadingThread(this, (MLoadingScene)sceneMap.get(State.LOADING));
 		loadingThread.start();
 	}
 	
@@ -126,7 +124,7 @@ public class MatchesStage extends Stage {
 	private void initScenesMap() {
 		sceneMap = new HashMap<State, Scene>();
 		sceneMap.put(State.SELECTING, new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
-		sceneMap.put(State.LOADING, new LoadingScene(new Pane()));
+		sceneMap.put(State.LOADING, new MLoadingScene(new Pane()));
 		sceneMap.put(State.MAIN, null/*new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT)*/);
 	}
 	

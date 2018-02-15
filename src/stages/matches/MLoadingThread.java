@@ -5,39 +5,21 @@ import javafx.application.Platform;
 
 public class MLoadingThread extends Thread {
 	private boolean alive;
-	private boolean first;
 	private MatchesStage stage;
+	private MLoadingScene scene;
 	
-	public MLoadingThread(MatchesStage s) {
+	public MLoadingThread(MatchesStage st, MLoadingScene sc) {
 		alive = true;
-		first = true;
-		stage = s;
+		stage = st;
+		scene = sc;
 	}
 
 	public void run() {
 		while(alive) {
-			if(first) {
-				first = false;
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				continue;
-			}
+			scene.rotate();
 			
-//			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() > 0 && !stage.getState().equals(TeamEventsStage.State.LOADING)) {
-//				System.out.println("***ADD SET LOADING***");
-//				Platform.runLater(new Runnable() {
-//					@Override
-//					public void run() {
-//						System.out.println("CHANGE LOADING");
-//						stage.setState(TeamEventsStage.State.LOADING);
-//						
-//					}
-//				});
-//
-//			} else 
+			try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
+			
 			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(MatchesStage.State.LOADING)) {
 				System.out.println("***ADD SET SELECTING***");
 				Platform.runLater(new Runnable() {
@@ -48,12 +30,6 @@ public class MLoadingThread extends Thread {
 						end();
 					}
 				});
-			}
-			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 //		System.out.println("loading thread ended");
