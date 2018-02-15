@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import general.ScoutingApp;
 import general.constants.K;
 import general.images.I;
 import gui.ClickableButton;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
@@ -32,10 +35,22 @@ public class CenterPane extends HBox {
 	public ArrayList<TeamInfo> newTeams;
 	public ArrayList<TeamInfo> removedTeams;
 	ClickableButton addButton;
+	TextInputDialog teamDialog;
 
 	public CenterPane() {
 		super();
-		addButton = new ClickableButton(I.Type.TE_ADD_BTN);
+		teamDialog  = new TextInputDialog();
+		teamDialog.setTitle("New Team");
+		teamDialog.setHeaderText("New Team");
+		teamDialog.setContentText("Enter the team number:");
+		addButton = new ClickableButton(I.Type.TE_ADD_BTN) {
+			public boolean equals(Object o) {
+				if (!(o instanceof ClickableButton)) {
+					return false;
+				}
+				return true;
+			}
+		};
 		addButton.setLayoutX(0);
 		addButton.setLayoutY(K.TEAM_EVENTS.CENTER_WIDTH*.8);
 		teams = new ArrayList<>();
@@ -178,6 +193,9 @@ public class CenterPane extends HBox {
 
 	public void handleClick(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
+		if (state && addButton.contains(new Point2D(e.getX(),e.getY()))) {
+			addDialog();
+		}
 		for(int i = 0; i < teams.size(); i++) {
 			TeamInfo team = teams.get(i);
 			if(team.contains(e)) {
@@ -234,6 +252,16 @@ public class CenterPane extends HBox {
 	
 	public void unloadEditing() {
 		getChildren().remove(addButton);
+	}
+	
+	public void addDialog() {
+		Optional<String> result = teamDialog.showAndWait();
+		if (result.isPresent()) {
+			int teamNumber = Integer.parseInt(result.get());
+			TeamInfo t = new TeamInfo(teamNumber, getScrollPane().getViewedLabel());
+			teams.add(t);
+			newTeams.add(t);
+		}
 	}
 }
 

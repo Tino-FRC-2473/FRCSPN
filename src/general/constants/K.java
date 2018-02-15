@@ -3,11 +3,12 @@ package general.constants;
 import gui.BoxPaddingInsets;
 
 public class K {
-	public static final String VERSION = "beta 0.0";
+	public static final String VERSION = "5.0 beta";
 	public static final boolean DEBUG = true;
 	
 	public static final KMain MAIN = new KMain();
 	public static final KTeamEvents TEAM_EVENTS = new KTeamEvents();
+	public static final KMatches MATCHES = new KMatches();
 	
 	public static final BoxPaddingInsets getInsets() {
 		return new BoxPaddingInsets();

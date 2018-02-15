@@ -1,14 +1,14 @@
-package stages.team_events;
+package stages.matches;
 
 import general.ScoutingApp;
 import javafx.application.Platform;
 
-public class LoadingThread extends Thread {
+public class MLoadingThread extends Thread {
 	private boolean alive;
 	private boolean first;
-	private TeamEventsStage stage;
+	private MatchesStage stage;
 	
-	public LoadingThread(TeamEventsStage s) {
+	public MLoadingThread(MatchesStage s) {
 		alive = true;
 		first = true;
 		stage = s;
@@ -38,13 +38,13 @@ public class LoadingThread extends Thread {
 //				});
 //
 //			} else 
-			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(TeamEventsStage.State.LOADING)) {
-				System.out.println("***ADD SET NORMAL***");
+			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(MatchesStage.State.LOADING)) {
+				System.out.println("***ADD SET SELECTING***");
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("CHANGE NORMAL");
-						stage.setState(TeamEventsStage.State.VIEWING);
+						System.out.println("CHANGE SELECTING");
+						stage.setState(MatchesStage.State.SELECTING);
 						end();
 					}
 				});

@@ -9,31 +9,61 @@ import javafx.scene.image.ImageView;
 public class I {
 	private static I instance;
 	private static HashMap<Type, Image> images;
-	private static final String base = "file:images/";
+	private static final String BASE = "file:images/";
 	
 	private I() {
 		images = new HashMap<Type, Image>();
-		
-		images.put(Type.TEAM_EVENTS_BTN,
-				new Image(base + "main" + "/team_events.png", K.MAIN.BTN_LEN, 0, true, true));
-		images.put(Type.TEAM_EVENTS_BTN_CLICKED,
-				new Image(base + "main" + "/team_events_clicked.png", K.MAIN.BTN_LEN, 0, true, true));
-		images.put(Type.COMING_SOON_BTN,
-				new Image(base + "main" + "/coming_soon.png", K.MAIN.BTN_LEN, 0, true, true));
-		images.put(Type.TE_TEAM_LIST_BTN,
-				new Image(base + "team_events" + "/edit_teams.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
-		images.put(Type.TE_BACK_BTN,
-				new Image(base + "team_events" + "/back.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
-		images.put(Type.TE_ADD_BTN,
-				new Image(base + "team_events" + "/add.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true));
 	}
 	
 	public Image getImg(Type i) {
+		if(images.get(i) == null) addImg(i);
 		return images.get(i);
     }
 	
+	public void addImg(Type i) {
+		Image img = null;
+		
+		switch(i) {
+		case MAIN_ICON:
+			img = new Image(BASE + "main" + "/icon.png");
+			break;
+		case COMING_SOON_BTN:
+			img = new Image(BASE + "main" + "/coming_soon.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case COMING_SOON_BTN_CLICKED:
+			img = new Image(BASE + "main" + "/coming_soon_clicked.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case MATCHES_BTN:
+			img = new Image(BASE + "main" + "/matches.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case MATCHES_BTN_CLICKED:
+			img = new Image(BASE + "main" + "/matches_clicked.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case TEAM_EVENTS_BTN:
+			img = new Image(BASE + "main" + "/team_events.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case TEAM_EVENTS_BTN_CLICKED:
+			img = new Image(BASE + "main" + "/team_events_clicked.png", K.MAIN.BTN_LEN, 0, true, true);
+			break;
+		case TE_ADD_BTN:
+			img = new Image(BASE + "team_events" + "/add.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true);
+			break;
+		case TE_BACK_BTN:
+			img = new Image(BASE + "team_events" + "/back.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true);
+			break;
+		case TE_TEAM_LIST_BTN:
+			img = new Image(BASE + "team_events" + "/edit_teams.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true);
+			break;
+		default:
+			System.out.println("Image of type " + i + " not found.");
+			return;
+		}
+		
+		images.put(i, img);
+	}
+	
 	public ImageView getSeparator(double w, double h) {
-		return new ImageView(new Image(base + "main" + "/separator.png", w, h, false, true));
+		return new ImageView(new Image(BASE + "main" + "/separator.png", w, h, false, true));
 	}
 	
 	public static I getInstance() {
@@ -42,7 +72,11 @@ public class I {
 	}
 	
 	public enum Type {
-		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED, COMING_SOON_BTN, COMING_SOON_BTN_CLICKED,
+		TEAM_EVENTS_BTN, TEAM_EVENTS_BTN_CLICKED,
+		MATCHES_BTN, MATCHES_BTN_CLICKED,
+		COMING_SOON_BTN, COMING_SOON_BTN_CLICKED,
+		MAIN_ICON,
+		
 		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
 	}
 }

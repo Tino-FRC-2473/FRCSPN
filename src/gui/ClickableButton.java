@@ -19,7 +19,7 @@ public class ClickableButton extends ImageView {
 		type = i;
 		
 		normal = I.getInstance().getImg(i);
-		indented = I.getInstance().getImg(c);
+		indented = (c==null)?null:I.getInstance().getImg(c);
 		
 		desc = d;
 		
@@ -39,7 +39,7 @@ public class ClickableButton extends ImageView {
 
 	
 	public void onPress() {
-		System.out.println("on press");
+//		System.out.println("on press");
 		if(indented == null)
 			doAction();
 		else
@@ -48,7 +48,7 @@ public class ClickableButton extends ImageView {
 	}
 	
 	public void onRelease() {
-		System.out.println("on release");
+//		System.out.println("on release");
 		if(indented != null) {
 			setImage(normal);
 			doAction();
@@ -56,10 +56,13 @@ public class ClickableButton extends ImageView {
 	}
 	
 	private void doAction() {
-		System.out.println("do action");
+//		System.out.println("do action");
 		switch(type) {
 		case TEAM_EVENTS_BTN:
 			ScoutingApp.launchTeamEvents();
+			break;
+		case MATCHES_BTN:
+			ScoutingApp.launchMatches();
 			break;
 		case COMING_SOON_BTN:
 			System.out.println("COMING SOON");
@@ -72,6 +75,8 @@ public class ClickableButton extends ImageView {
 			setType(I.Type.TE_TEAM_LIST_BTN);
 			ScoutingApp.teStage.setState(State.VIEWING);
 			break;
+		case TE_ADD_BTN:
+			ScoutingApp.teStage.getCPane().addDialog();
 		default:
 			System.out.println("Unknown button action for type " + type);
 			break;

@@ -2,7 +2,6 @@ package tests;
 
 import java.util.Arrays;
 
-import general.requests.Requester;
 import models.*;
 import models.matches.yr2017.*;
 import models.matches.yr2018.*;

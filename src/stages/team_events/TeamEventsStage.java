@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.images.I;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -23,7 +24,7 @@ public class TeamEventsStage extends Stage {
 	
 	private Scene mainScene;
 	private LoadingScene loadingScene;
-	private LoadingThread loadingThread;
+	private TELoadingThread loadingThread;
 
 	private HashMap<StringWithColor, ArrayList<Integer>> teams;
 
@@ -45,8 +46,9 @@ public class TeamEventsStage extends Stage {
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
-		state = State.LOADING;
+		getIcons().add(I.getInstance().getImg(I.Type.MAIN_ICON));
 		
+		state = State.LOADING;
 		loadLoading();
 	}
 
@@ -117,7 +119,7 @@ public class TeamEventsStage extends Stage {
 				} else {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
-					for(Integer i:teams.get(key)) {
+					for(Integer i : teams.get(key)) {
 						TeamInfo t = new TeamInfo(i, key.getString());
 						System.out.println("TEAM INFO ADDED TO TEAMS: " + t);
 						t.setColor(key.getColor());
@@ -133,7 +135,7 @@ public class TeamEventsStage extends Stage {
 			e.printStackTrace();
 		}
 		this.setScene(loadingScene);
-		loadingThread = new LoadingThread(this);
+		loadingThread = new TELoadingThread(this);
 		loadingThread.start();
 	}
 
@@ -156,6 +158,10 @@ public class TeamEventsStage extends Stage {
 
 	public ArrayList<Integer> getTeams(StringWithColor strWC) {
 		return teams.get(strWC);
+	}
+	
+	public CenterPane getCPane() {
+		return cPane;
 	}
 
 	public enum State {
