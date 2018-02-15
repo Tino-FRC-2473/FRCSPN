@@ -24,6 +24,8 @@ public class MatchesStage extends Stage {
 	
 	private HashMap<State, Scene> sceneMap;
 	private MLoadingThread loadingThread;
+	EventsPane lP;
+
 	
 	public MatchesStage() {
 		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
