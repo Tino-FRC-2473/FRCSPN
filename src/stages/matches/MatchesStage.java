@@ -20,6 +20,7 @@ import models.Event;
 import stages.team_events.LoadingScene;
 
 public class MatchesStage extends Stage {
+	private ArrayList<Event> allEvents;
 	private BorderPane root;
 	private State state;
 	
@@ -27,6 +28,7 @@ public class MatchesStage extends Stage {
 	private MLoadingThread loadingThread;
 	
 	public MatchesStage() {
+		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
 		root = new BorderPane();
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
@@ -75,31 +77,31 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void setSelecting() {
-		this.setScene(sceneMap.get(State.SELECTING));
-		ArrayList<Event> allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
-		
-		Event tempEvent = new Event();
-		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-		tempEvent.end_date = tempEvent.start_date;
-		allEvents.add(tempEvent);
-		
-		Collections.sort(allEvents, new Comparator<Event>() {
-			@Override public int compare(Event e1, Event e2) {
-				if(e1.start_date.compareTo(e2.start_date) == 0)
-					return e1.end_date.compareTo(e2.end_date);
-				return e1.start_date.compareTo(e2.start_date);
-			}
-		});
-		allEvents.subList(0, allEvents.indexOf(tempEvent)+1).clear();
-		
-		Event[] events = allEvents.subList(0, Math.min(allEvents.size(), 15)).toArray(new Event[Math.min(allEvents.size(), 15)]);
-		//some amount of suggested events should appear in a top VBox
-		//center pane should have a event selector
-		HBox top = new HBox();
-		for(Event e : events) {
-			top.getChildren().add(new Label(e.key));
-		}
-		root.setTop(top);
+//		this.setScene(sceneMap.get(State.SELECTING));
+//		
+//		Event tempEvent = new Event();
+//		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+//		tempEvent.end_date = tempEvent.start_date;
+//		allEvents.add(tempEvent);
+//		
+//		Collections.sort(allEvents, new Comparator<Event>() {
+//			@Override public int compare(Event e1, Event e2) {
+//				if(e1.start_date.compareTo(e2.start_date) == 0)
+//					return e1.end_date.compareTo(e2.end_date);
+//				return e1.start_date.compareTo(e2.start_date);
+//			}
+//		});
+//		allEvents.subList(0, allEvents.indexOf(tempEvent)+1).clear();
+//		Event[] events = allEvents.subList(0, Math.min(allEvents.size(), 15)).toArray(new Event[Math.min(allEvents.size(), 15)]);
+//		//some amount of suggested events should appear in a top VBox
+//		//center pane should have a event selector
+//		HBox top = new HBox();
+//		for(Event e : events) {
+//			top.getChildren().add(new Label(e.key));
+//		}
+//		root.setTop(top);
+		SuggestionsTab tab = new SuggestionsTab(15);
+		this.setScene(new Scene(root));
 	}
 	
 	private void exitSelecting() {
@@ -122,6 +124,10 @@ public class MatchesStage extends Stage {
 		sceneMap.put(State.SELECTING, new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
 		sceneMap.put(State.LOADING, new LoadingScene(new Pane()));
 		sceneMap.put(State.MAIN, null/*new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT)*/);
+	}
+	
+	public ArrayList<Event> getAllEvents(){
+		return allEvents;
 	}
 	
 	public enum State {
