@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.images.I;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -45,8 +46,9 @@ public class TeamEventsStage extends Stage {
 
 		teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 
-		state = State.LOADING;
+		getIcons().add(I.getInstance().getImg(I.Type.MAIN_ICON));
 		
+		state = State.LOADING;
 		loadLoading();
 	}
 
@@ -116,7 +118,7 @@ public class TeamEventsStage extends Stage {
 				} else {
 					ArrayList<Integer> teamNums = splitLineInt(line);
 					teams.get(key).addAll(teamNums);
-					for(Integer i:teams.get(key)) {
+					for(Integer i : teams.get(key)) {
 						TeamInfo t = new TeamInfo(i, key.getString());
 						t.setColor(key.getColor());
 						cPane.getTeams().add(t);

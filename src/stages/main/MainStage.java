@@ -16,7 +16,7 @@ public class MainStage extends Stage {
 
 	public MainStage() {
 		this.setResizable(false);
-		this.setTitle("FRCSPN (" + K.VERSION + ")");
+		this.setTitle("FRCSPN v" + K.VERSION);
 
 		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "Lists events for teams this year.");
 		buttons[1][0] = new ClickableButton(I.Type.MATCHES_BTN, I.Type.MATCHES_BTN_CLICKED, "Look up matches for an event.");
@@ -33,6 +33,7 @@ public class MainStage extends Stage {
 //		pane.setOnMouseMoved(new MainStageOnMoved());
 		
 		this.setScene(new Scene(pane, K.MAIN.WIDTH, K.MAIN.HEIGHT));
+		this.getIcons().add(I.getInstance().getImg(I.Type.MAIN_ICON));
 	}
 /*
 	private class MainStageOnRelease implements EventHandler<MouseEvent> {

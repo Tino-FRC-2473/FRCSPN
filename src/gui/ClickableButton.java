@@ -19,7 +19,7 @@ public class ClickableButton extends ImageView {
 		type = i;
 		
 		normal = I.getInstance().getImg(i);
-		indented = I.getInstance().getImg(c);
+		indented = (c==null)?null:I.getInstance().getImg(c);
 		
 		desc = d;
 		

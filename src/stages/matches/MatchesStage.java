@@ -8,9 +8,13 @@ import java.util.HashMap;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.images.I;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Event;
 import stages.team_events.LoadingScene;
@@ -29,6 +33,7 @@ public class MatchesStage extends Stage {
 		
 		initScenesMap();
 		
+		this.getIcons().add(I.getInstance().getImg(I.Type.MAIN_ICON));
 		
 		state = State.LOADING;
 		setLoading();
@@ -90,6 +95,11 @@ public class MatchesStage extends Stage {
 		Event[] events = allEvents.subList(0, Math.min(allEvents.size(), 15)).toArray(new Event[Math.min(allEvents.size(), 15)]);
 		//some amount of suggested events should appear in a top VBox
 		//center pane should have a event selector
+		HBox top = new HBox();
+		for(Event e : events) {
+			top.getChildren().add(new Label(e.key));
+		}
+		root.setTop(top);
 	}
 	
 	private void exitSelecting() {
