@@ -38,6 +38,8 @@ public class MatchesStage extends Stage {
 		
 		state = State.LOADING;
 		setLoading();
+		
+		
 	}
 	
 	public void setState(State toSet) {
@@ -76,8 +78,8 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void setSelecting() {
-//		this.setScene(sceneMap.get(State.SELECTING));
-//		
+		this.setScene(sceneMap.get(State.SELECTING));
+		
 //		Event tempEvent = new Event();
 //		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 //		tempEvent.end_date = tempEvent.start_date;
@@ -99,8 +101,7 @@ public class MatchesStage extends Stage {
 //			top.getChildren().add(new Label(e.key));
 //		}
 //		root.setTop(top);
-		SuggestionsTab tab = new SuggestionsTab(15);
-		this.setScene(new Scene(root));
+//		SuggestionsTab tab = new SuggestionsTab(15);
 	}
 	
 	private void exitSelecting() {
@@ -124,6 +125,9 @@ public class MatchesStage extends Stage {
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
+		lP = new EventsPane(allEvents);
+		lP.addAllEvents();
+		root.setLeft(lP);
 	}
 	
 	private void initScenesMap() {
