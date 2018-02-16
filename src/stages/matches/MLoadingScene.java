@@ -33,7 +33,7 @@ public class MLoadingScene extends Scene {
 		
 		circles = new Circle[12];
 		for(int i = 1; i <= 12; i++) {
-			circles[i-1] = new Circle(0.055 * K.MATCHES.HEIGHT);
+			circles[i-1] = new Circle(0.05 * K.MATCHES.HEIGHT);
 			p.getChildren().add(circles[i-1]);
 			circles[i-1].setCenterX(K.MATCHES.WIDTH/2 + K.MATCHES.HEIGHT*0.35*Math.sin(Math.toRadians(360.0/12*(12-i))));
 			circles[i-1].setCenterY(K.MATCHES.HEIGHT/2 + K.MATCHES.HEIGHT*0.35*Math.cos(Math.toRadians(360.0/12*(12-i))));

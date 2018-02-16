@@ -13,25 +13,32 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Event;
 
 public class MatchesStage extends Stage {
 	private ArrayList<Event> allEvents;
 	private BorderPane root;
+	private SearchHBox searchBox;
 	private State state;
 	
 	private HashMap<State, Scene> sceneMap;
 	private MLoadingThread loadingThread;
-	EventsPane lP;
+	private EventsPane lEventsPane;
 
 	
 	public MatchesStage() {
-		root = new BorderPane();
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
+		
+		root = new BorderPane();
+		
+		VBox top = new VBox();
+		searchBox = new SearchHBox();
+		top.getChildren().add(searchBox);
+		root.setTop(top);
 		
 		initScenesMap();
 		
@@ -39,6 +46,11 @@ public class MatchesStage extends Stage {
 		
 		state = State.LOADING;
 		setLoading();
+	}
+	
+	public void filterEvents() {
+		System.out.println("outer filter");
+		lEventsPane.filter(searchBox.getText());
 	}
 	
 	public void setState(State toSet) {
@@ -78,28 +90,7 @@ public class MatchesStage extends Stage {
 	
 	private void setSelecting() {
 		this.setScene(sceneMap.get(State.SELECTING));
-//		
-//		Event tempEvent = new Event();
-//		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-//		tempEvent.end_date = tempEvent.start_date;
-//		allEvents.add(tempEvent);
-//		
-//		Collections.sort(allEvents, new Comparator<Event>() {
-//			@Override public int compare(Event e1, Event e2) {
-//				if(e1.start_date.compareTo(e2.start_date) == 0)
-//					return e1.end_date.compareTo(e2.end_date);
-//				return e1.start_date.compareTo(e2.start_date);
-//			}
-//		});
-//		allEvents.subList(0, allEvents.indexOf(tempEvent)+1).clear();
-//		Event[] events = allEvents.subList(0, Math.min(allEvents.size(), 15)).toArray(new Event[Math.min(allEvents.size(), 15)]);
-//		//some amount of suggested events should appear in a top VBox
-//		//center pane should have a event selector
-//		HBox top = new HBox();
-//		for(Event e : events) {
-//			top.getChildren().add(new Label(e.key));
-//		}
-//		root.setTop(top);
+
 		SuggestionsTab tab = new SuggestionsTab(15,20);
 		root.setTop(tab);
 		tab.generateSuggestions();
@@ -126,9 +117,10 @@ public class MatchesStage extends Stage {
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
-		for(Event e:allEvents) {
-			System.out.println("Look for null here: " + e.name);
-		}
+
+		lEventsPane = new EventsPane(allEvents);
+		lEventsPane.addAllEvents();
+		root.setLeft(lEventsPane);
 	}
 	
 	private void initScenesMap() {

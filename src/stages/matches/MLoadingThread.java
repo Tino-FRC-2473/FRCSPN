@@ -18,7 +18,7 @@ public class MLoadingThread extends Thread {
 		while(alive) {
 			scene.rotate();
 			
-			try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
+			try { Thread.sleep(250); } catch (InterruptedException e) { e.printStackTrace(); }
 			
 			if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0 && stage.getState().equals(MatchesStage.State.LOADING)) {
 				System.out.println("***ADD SET SELECTING***");
