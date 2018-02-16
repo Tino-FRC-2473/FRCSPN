@@ -2,17 +2,25 @@ package stages.matches;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class SuggestedLabel extends Label{
-	public SuggestedLabel(String name) {
+	private int size = 0;
+	
+	public SuggestedLabel(String name, int size) {
 		super(name);
-//		this.setStyle("-fx-background-color: #ADD8E6; -fx-stroke: white");
+		this.size = size;
 		this.setOpacity(1.0);
-		Circle c = new Circle();
-		c.setStyle("-fx-background-color: #ADD8E6; -fx-stroke: white");
-		this.getParent().getChildrenUnmodifiable().add(c);
-		c.setLayoutX(this.getLayoutX());
-		c.setLayoutY(this.getLayoutY());
+		this.setStyle("-fx-background-color: #ADD8E6; " + "-fx-font-size:"+size+"; -fx-stroke: black; -fx-font-weight: bold");
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public int getSize() {
+		return size;
 	}
 }

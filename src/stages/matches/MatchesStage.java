@@ -11,6 +11,7 @@ import general.constants.K;
 import general.images.I;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -76,7 +77,7 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void setSelecting() {
-//		this.setScene(sceneMap.get(State.SELECTING));
+		this.setScene(sceneMap.get(State.SELECTING));
 //		
 //		Event tempEvent = new Event();
 //		tempEvent.start_date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
@@ -99,8 +100,9 @@ public class MatchesStage extends Stage {
 //			top.getChildren().add(new Label(e.key));
 //		}
 //		root.setTop(top);
-		SuggestionsTab tab = new SuggestionsTab(15);
-		this.setScene(new Scene(root));
+		SuggestionsTab tab = new SuggestionsTab(15,20);
+		root.setTop(tab);
+		tab.generateSuggestions();
 	}
 	
 	private void exitSelecting() {
@@ -124,6 +126,9 @@ public class MatchesStage extends Stage {
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
+		for(Event e:allEvents) {
+			System.out.println("Look for null here: " + e.name);
+		}
 	}
 	
 	private void initScenesMap() {
