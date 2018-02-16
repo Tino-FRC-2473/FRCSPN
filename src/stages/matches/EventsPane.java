@@ -13,18 +13,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
 
-public class EventsPane extends VBox{
+public class EventsPane extends VBox {
 	
 	private Label allTeams;
 	private ScrollPane scrollPane;
 	private VBox events;
 	private ArrayList<EventsDisplay> displayList;
-	public EventsPane(ArrayList<Event> e) {
-		setMaxWidth(K.MATCHES.LEFT_WIDTH);
+	
+	public EventsPane(ArrayList<Event> arr) {
+		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		allTeams = new Label("All Teams");
-		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #990000;");
+		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000;");
 	    allTeams.setTextFill(Color.WHITE);
 		allTeams.setPadding(K.getInsets(7));
+		allTeams.setPrefWidth(K.MATCHES.LEFT_WIDTH);
+		
 		scrollPane = new ScrollPane();
 		events = new VBox();
 		events.setPadding(K.getInsets(3));
@@ -34,14 +37,13 @@ public class EventsPane extends VBox{
 		Random r = new Random();
 		int last = 0;
 		displayList = new ArrayList<>();
-		for (Event i: e) {
+		for (Event i: arr) {
 			int c = r.nextInt(6);
 			EventsDisplay display = new EventsDisplay(i);
 			displayList.add(display);
 			while(c==last) {c=r.nextInt(6);}
 			display.setColor(colors[c]);
 			last = c;
-			
 		}
 		getChildren().addAll(allTeams, scrollPane);
 	}
@@ -53,6 +55,7 @@ public class EventsPane extends VBox{
 	}
 	
 	public void filter(String s) {
+		System.out.println("inner filter: " + s);
 		events.getChildren().clear();
 		for (int i = 0; i < displayList.size(); i++) {
 			if (displayList.get(i).getName().indexOf(s) != -1) {
@@ -137,7 +140,7 @@ class EventsDisplay extends VBox {
 		case "09": month = "September"; break;
 		case "10": month = "October"; break;
 		case "11": month = "November"; break;
-		case "12": month = "January"; break;
+		case "12": month = "December"; break;
 		}
 		return month + " " + day + ", " + year;
 	}

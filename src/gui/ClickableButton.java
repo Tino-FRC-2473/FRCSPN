@@ -79,6 +79,7 @@ public class ClickableButton extends ImageView {
 			ScoutingApp.teStage.getCPane().addDialog();
 			break;
 		case M_SEARCH_BTN:
+			ScoutingApp.mStage.filterEvents();
 			break;
 		case M_SELECT_BTN:
 			break;

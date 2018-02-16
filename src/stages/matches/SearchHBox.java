@@ -32,6 +32,10 @@ public class SearchHBox extends HBox {
 		this.getChildren().add(selectButton);
 	}
 	
+	public String getText() {
+		return searchBar.getText();
+	}
+	
 	private MatchesStage getStage() {
 		return ((MatchesStage)((BorderPane) getParent()).getScene().getWindow());
 	}
