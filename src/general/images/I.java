@@ -54,6 +54,12 @@ public class I {
 		case TE_TEAM_LIST_BTN:
 			img = new Image(BASE + "team_events" + "/edit_teams.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true);
 			break;
+		case M_SEARCH_BTN:
+			img = new Image(BASE + "matches" + "/search.png", K.MATCHES.SEARCH_BTN_SIZE, 0, true, true);
+			break;
+		case M_SELECT_BTN:
+			img = new Image(BASE + "matches" + "/select.png", 0, K.MATCHES.SEARCH_BTN_SIZE, true, true);
+			break;
 		default:
 			System.out.println("Image of type " + i + " not found.");
 			return;
@@ -76,6 +82,8 @@ public class I {
 		MATCHES_BTN, MATCHES_BTN_CLICKED,
 		COMING_SOON_BTN, COMING_SOON_BTN_CLICKED,
 		MAIN_ICON,
+		
+		M_SEARCH_BTN, M_SELECT_BTN,
 		
 		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
 	}

@@ -56,7 +56,7 @@ public class EventsPane extends VBox{
 	}
 }
 
-class EventsDisplay extends VBox{
+class EventsDisplay extends VBox {
 	private Label name;
 	private Label location;
 	private Label date;

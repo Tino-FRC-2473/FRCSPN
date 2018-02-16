@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import models.Event;
 
-public class SuggestionsTab extends HBox{
+public class SuggestionsTab extends HBox {
 	private Event[] suggested; 
 	private ArrayList<SuggestedLabel> labels;
 	

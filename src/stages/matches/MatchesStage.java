@@ -14,12 +14,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Event;
 
 public class MatchesStage extends Stage {
 	private ArrayList<Event> allEvents;
 	private BorderPane root;
+	private VBox top;
 	private State state;
 	
 	private HashMap<State, Scene> sceneMap;
@@ -28,9 +30,14 @@ public class MatchesStage extends Stage {
 
 	
 	public MatchesStage() {
-		root = new BorderPane();
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
+		
+		root = new BorderPane();
+		
+		top = new VBox();
+		top.getChildren().add(new SearchHBox());
+		root.setTop(top);
 		
 		initScenesMap();
 		
@@ -99,8 +106,9 @@ public class MatchesStage extends Stage {
 //			top.getChildren().add(new Label(e.key));
 //		}
 //		root.setTop(top);
-		SuggestionsTab tab = new SuggestionsTab(15);
-		this.setScene(new Scene(root));
+		
+//		SuggestionsTab tab = new SuggestionsTab(15);
+		this.setScene(sceneMap.get(State.SELECTING));
 	}
 	
 	private void exitSelecting() {
