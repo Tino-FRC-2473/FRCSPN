@@ -3,10 +3,7 @@ package stages.main;
 import general.constants.K;
 import general.images.I;
 import gui.ClickableButton;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 

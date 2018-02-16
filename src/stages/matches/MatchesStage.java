@@ -28,7 +28,6 @@ public class MatchesStage extends Stage {
 
 	
 	public MatchesStage() {
-		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
 		root = new BorderPane();
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
@@ -116,7 +115,15 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void exitLoading() {
+		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
 		
+		Collections.sort(allEvents, new Comparator<Event>() {
+			@Override public int compare(Event e1, Event e2) {
+				if(e1.start_date.compareTo(e2.start_date) == 0)
+					return e1.end_date.compareTo(e2.end_date);
+				return e1.start_date.compareTo(e2.start_date);
+			}
+		});
 	}
 	
 	private void initScenesMap() {

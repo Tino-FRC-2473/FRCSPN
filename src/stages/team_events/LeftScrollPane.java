@@ -136,12 +136,12 @@ public class LeftScrollPane extends ScrollPane {
 		return labels;
 	}
 
-	private TeamEventsStage getTeamEventsStage() {
-		return((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
-	}
+//	private TeamEventsStage getTeamEventsStage() {
+//		return ((TeamEventsStage)((BorderPane) getParent()).getScene().getWindow());
+//	}
 
 	private CenterPane getCenterPane() {
-		return((CenterPane)((BorderPane) getParent()).getCenter());
+		return ((CenterPane)((BorderPane) getParent()).getCenter());
 	}
 
 	private class onLabelClicked implements EventHandler<MouseEvent> {
