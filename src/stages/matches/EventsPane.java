@@ -10,27 +10,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
 
-public class EventsPane extends VBox{
+public class EventsPane extends VBox {
 	
 	private Label allTeams;
 	private ScrollPane scrollPane;
 	private VBox events;
 	private ArrayList<EventsDisplay> displayList;
 	
-	public EventsPane(ArrayList<Event> e) {
-		setMaxWidth(K.MATCHES.LEFT_WIDTH);
+	public EventsPane(ArrayList<Event> arr) {
+		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
+		
 		allTeams = new Label("All Teams");
-		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #990000;");
+		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000;");
 	    allTeams.setTextFill(Color.WHITE);
 		allTeams.setPadding(K.getInsets(7));
+		allTeams.setPrefWidth(K.MATCHES.LEFT_WIDTH);
+		
 		scrollPane = new ScrollPane();
 		events = new VBox();
 		events.setPadding(K.getInsets(3));
 		scrollPane.setContent(events);
-		displayList = new ArrayList<>();
-		for (Event i: e) {
-			EventsDisplay display = new EventsDisplay(i);
-			displayList.add(display);
+		scrollPane.setFitToWidth(true);
+		
+		displayList = new ArrayList<EventsDisplay>();
+		for(Event e : arr) {
+			displayList.add(new EventsDisplay(e));
 		}
 		getChildren().addAll(allTeams, scrollPane);
 	}
@@ -42,6 +46,7 @@ public class EventsPane extends VBox{
 	}
 	
 	public void filter(String s) {
+		System.out.println("inner filter: " + s);
 		events.getChildren().clear();
 		for (int i = 0; i < displayList.size(); i++) {
 			if (displayList.get(i).getName().indexOf(s) != -1) {
@@ -102,7 +107,7 @@ class EventsDisplay extends VBox {
 		else if (c==2) color = "#ffffba";
 		else if (c==3) color = "#baffc9";
 		else color = "#bae1ff";
-		setStyle("-fx-background-color: " + color);
+		this.setStyle("-fx-background-color: " + color);
 	}
 	
 	public String dateConvert(String d) {
@@ -122,7 +127,7 @@ class EventsDisplay extends VBox {
 		case "09": month = "September"; break;
 		case "10": month = "October"; break;
 		case "11": month = "November"; break;
-		case "12": month = "January"; break;
+		case "12": month = "December"; break;
 		}
 		return month + " " + day + ", " + year;
 	}
