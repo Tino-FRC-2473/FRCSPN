@@ -18,25 +18,30 @@ import models.Event;
 
 public class MatchesStage extends Stage {
 	private ArrayList<Event> allEvents;
-	private BorderPane root;
-	private SearchHBox searchBox;
 	private State state;
 	
 	private HashMap<State, Scene> sceneMap;
+	private BorderPane selectingRoot;
+	
 	private MLoadingThread loadingThread;
-	private EventsPane lEventsPane;
+	
+	private SearchHBox searchBox;
+	private SuggestionsBox suggestionsBox;
+	private EventsVBox lEventsBox;
 
 	
 	public MatchesStage() {
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
 		
-		root = new BorderPane();
+		selectingRoot = new BorderPane();
 		
 		VBox top = new VBox();
 		searchBox = new SearchHBox();
 		top.getChildren().add(searchBox);
-		root.setTop(top);
+//		suggestionsBox = new SuggestionsBox(15);
+//		top.getChildren().add(suggestionsBox);
+		selectingRoot.setTop(top);
 		
 		initScenesMap();
 		
@@ -47,8 +52,7 @@ public class MatchesStage extends Stage {
 	}
 	
 	public void filterEvents() {
-		System.out.println("outer filter");
-		lEventsPane.filter(searchBox.getText());
+		lEventsBox.filter(searchBox.getText());
 	}
 	
 	public void setState(State toSet) {
@@ -111,14 +115,14 @@ public class MatchesStage extends Stage {
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
-		lEventsPane = new EventsPane(allEvents);
-		lEventsPane.addAllEvents();
-		root.setLeft(lEventsPane);
+		lEventsBox = new EventsVBox(allEvents);
+		lEventsBox.addAllEvents();
+		selectingRoot.setLeft(lEventsBox);
 	}
 	
 	private void initScenesMap() {
 		sceneMap = new HashMap<State, Scene>();
-		sceneMap.put(State.SELECTING, new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
+		sceneMap.put(State.SELECTING, new Scene(selectingRoot, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
 		sceneMap.put(State.LOADING, new MLoadingScene(new Pane()));
 		sceneMap.put(State.MAIN, null/*new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT)*/);
 	}
