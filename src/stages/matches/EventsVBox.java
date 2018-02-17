@@ -95,7 +95,7 @@ class EventsDisplay extends VBox {
 		name.setWrapText(true);
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH - 16);
 		location = new Label(e.city + ", " + e.state_prov + ", " + e.country);
-		date = new Label(dateConvert(e.start_date) + " - " + dateConvert(e.end_date));
+		date = new Label(dateConvert(e.start_date) + ((e.start_date.equals(e.end_date)) ? "" : " - " + dateConvert(e.end_date)));
 		this.getChildren().addAll(name, location, date);
 		this.setPadding(K.getInsets(3));
 	}

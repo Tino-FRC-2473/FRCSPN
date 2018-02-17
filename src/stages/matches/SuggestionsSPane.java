@@ -9,14 +9,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.Event;
 
-public class SuggestionsBox extends ScrollPane {
+public class SuggestionsSPane extends ScrollPane {
 	private Event[] suggested; 
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
 	private int size;
 	private HBox box;
 	
-	public SuggestionsBox(int n, int size) {
+	public SuggestionsSPane(int n, int size) {
 		this.n = n;
 		this.size = size;
 	}
