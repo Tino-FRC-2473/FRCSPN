@@ -28,6 +28,8 @@ public class MatchesStage extends Stage {
 	private SearchHBox searchBox;
 	private SuggestionsSPane suggestionsSPane;
 	private EventsVBox lEventsBox;
+	
+	private PreviewPane previewPane;
 
 	
 	public MatchesStage() {
@@ -38,9 +40,14 @@ public class MatchesStage extends Stage {
 		
 		searchBox = new SearchHBox();
 		suggestionsSPane = new SuggestionsSPane(15, 20);
+		previewPane = new PreviewPane();
+		
 		VBox top = new VBox();
 		top.getChildren().addAll(searchBox, suggestionsSPane);
 		selectingRoot.setTop(top);
+		
+		previewPane = new PreviewPane();
+		selectingRoot.setCenter(previewPane);
 		
 		initScenesMap();
 		

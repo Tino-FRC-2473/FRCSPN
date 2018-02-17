@@ -35,7 +35,9 @@ public class SuggestionsSPane extends ScrollPane {
 		} else if(startIndex >= getStage().getAllEvents().size()) {
 			startIndex = getStage().getAllEvents().size()-1;
 		}
-
+		while(startIndex>=1 && getStage().getAllEvents().get(startIndex-1).start_date.compareTo(getStage().getAllEvents().get(startIndex).start_date)==0) {
+			startIndex--;
+		}
 		suggested = new Event[Math.min(n, getStage().getAllEvents().size()-1)-startIndex+1];
 		int index = 0;
 		for(int i = startIndex; i < Math.min(n, getStage().getAllEvents().size()-1); i++) {
