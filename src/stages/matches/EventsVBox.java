@@ -22,6 +22,7 @@ public class EventsVBox extends VBox {
 	
 	public EventsVBox(ArrayList<Event> arr) {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
+		
 		allTeams = new Label("All Teams");
 		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000; -fx-font-weight: bold;");
 	    allTeams.setTextFill(Color.WHITE);
@@ -34,6 +35,8 @@ public class EventsVBox extends VBox {
 		events.setSpacing(3);
 		scrollPane.setContent(events);
 		scrollPane.setFitToWidth(true);
+		scrollPane.setMinHeight(K.MATCHES.L_EVENTS_HEIGHT);
+		
 		String[] colors = {"#FFC4CA", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff", "#F9B0FF"};
 		Random r = new Random();
 		int last = 0;
