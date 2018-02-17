@@ -1,10 +1,13 @@
 package stages.matches;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import general.constants.K;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,7 +22,6 @@ public class EventsPane extends VBox {
 	
 	public EventsPane(ArrayList<Event> arr) {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
-		
 		allTeams = new Label("All Teams");
 		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000;");
 	    allTeams.setTextFill(Color.WHITE);
@@ -29,12 +31,19 @@ public class EventsPane extends VBox {
 		scrollPane = new ScrollPane();
 		events = new VBox();
 		events.setPadding(K.getInsets(3));
+		events.setSpacing(3);
 		scrollPane.setContent(events);
-		scrollPane.setFitToWidth(true);
-		
-		displayList = new ArrayList<EventsDisplay>();
-		for(Event e : arr) {
-			displayList.add(new EventsDisplay(e));
+		String[] colors = {"#FFC4CA", "#ffdfba", "#ffffba", "#baffc9","#bae1ff","#F9B0FF"};
+		Random r = new Random();
+		int last = 0;
+		displayList = new ArrayList<>();
+		for (Event i: arr) {
+			int c = r.nextInt(6);
+			EventsDisplay display = new EventsDisplay(i);
+			displayList.add(display);
+			while(c==last) {c=r.nextInt(6);}
+			display.setColor(colors[c]);
+			last = c;
 		}
 		getChildren().addAll(allTeams, scrollPane);
 	}
@@ -64,6 +73,16 @@ public class EventsPane extends VBox {
 	public MatchesStage getMatchesStage() {
 		return ((MatchesStage)((BorderPane) getParent()).getScene().getWindow());
 	}
+	
+	private class eventClicked implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }
 
 class EventsDisplay extends VBox {
@@ -81,7 +100,6 @@ class EventsDisplay extends VBox {
 		date = new Label(dateConvert(e.start_date) + " - " + dateConvert(e.end_date));
 		getChildren().addAll(name, location, date);
 		setPadding(K.getInsets(3));
-		setColor();
 	}
 	
 	public Event getEvent() {
@@ -100,14 +118,9 @@ class EventsDisplay extends VBox {
 		return location.getText();
 	}
 	
-	public void setColor() {
-		int c = (getLocation().charAt(0) - 65)/5;
-		if (c == 0) color = "#ffb3ba";
-		else if (c==1) color = "#ffdfba";
-		else if (c==2) color = "#ffffba";
-		else if (c==3) color = "#baffc9";
-		else color = "#bae1ff";
-		this.setStyle("-fx-background-color: " + color);
+	public void setColor(String s) {
+		color = s;
+		setStyle("-fx-background-color: " + color);
 	}
 	
 	public String dateConvert(String d) {
