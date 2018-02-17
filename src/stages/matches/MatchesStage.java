@@ -26,7 +26,7 @@ public class MatchesStage extends Stage {
 	private MLoadingThread loadingThread;
 	
 	private SearchHBox searchBox;
-	private SuggestionsBox suggestionsBox;
+	private SuggestionsSPane suggestionsBox;
 	private EventsVBox lEventsBox;
 
 	
@@ -36,11 +36,10 @@ public class MatchesStage extends Stage {
 		
 		selectingRoot = new BorderPane();
 		
-		VBox top = new VBox();
 		searchBox = new SearchHBox();
-		top.getChildren().add(searchBox);
-//		suggestionsBox = new SuggestionsBox(15);
-//		top.getChildren().add(suggestionsBox);
+		suggestionsBox = new SuggestionsSPane(15, 20);
+		VBox top = new VBox();
+		top.getChildren().addAll(searchBox, suggestionsBox);
 		selectingRoot.setTop(top);
 		
 		initScenesMap();
@@ -92,6 +91,7 @@ public class MatchesStage extends Stage {
 	
 	private void setSelecting() {
 		this.setScene(sceneMap.get(State.SELECTING));
+		suggestionsBox.generateSuggestions();
 	}
 	
 	private void exitSelecting() {
@@ -115,6 +115,7 @@ public class MatchesStage extends Stage {
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
+		
 		lEventsBox = new EventsVBox(allEvents);
 		lEventsBox.addAllEvents();
 		selectingRoot.setLeft(lEventsBox);
