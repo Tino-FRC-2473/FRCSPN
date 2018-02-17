@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 import models.Event;
 
 public class EventsVBox extends VBox {
-	
 	private Label allTeams;
 	private ScrollPane scrollPane;
 	private VBox events;
@@ -28,6 +27,7 @@ public class EventsVBox extends VBox {
 	    allTeams.setTextFill(Color.WHITE);
 		allTeams.setPadding(K.getInsets(7));
 		allTeams.setPrefWidth(K.MATCHES.LEFT_WIDTH);
+		this.getChildren().add(allTeams);
 		
 		scrollPane = new ScrollPane();
 		events = new VBox();
@@ -35,7 +35,7 @@ public class EventsVBox extends VBox {
 		events.setSpacing(3);
 		scrollPane.setContent(events);
 		scrollPane.setFitToWidth(true);
-		scrollPane.setMinHeight(K.MATCHES.L_EVENTS_HEIGHT);
+		scrollPane.setMinHeight(K.MATCHES.L_EVENTS_HEIGHT - K.MATCHES.ALL_TEAMS_HEIGHT - 3*3 - 1);
 		
 		String[] colors = {"#FFC4CA", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff", "#F9B0FF"};
 		Random r = new Random();
@@ -50,7 +50,7 @@ public class EventsVBox extends VBox {
 			display.setColor(colors[c]);
 			last = c;
 		}
-		this.getChildren().addAll(allTeams, scrollPane);
+		this.getChildren().add(scrollPane);
 	}
 	
 	public void addAllEvents() {

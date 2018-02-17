@@ -2,7 +2,8 @@ package stages.matches;
 
 import java.util.ArrayList;
 
-import general.constants.K;
+import gui.BoxPaddingInsets;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -13,17 +14,14 @@ public class SuggestionsSPane extends ScrollPane {
 	private Event[] suggested; 
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
-	private int size;
 	private HBox box;
 	
-	public SuggestionsSPane(int n, int size) {
+	public SuggestionsSPane(int n) {
 		this.n = n;
-		this.size = size;
 	}
 	
 	public void generateSuggestions() {
 		box = new HBox();
-		box.setPadding(K.getInsets());
 		labels = new ArrayList<SuggestedLabel>();
 		
 		//get all events then filter using binary search WITHOUT MODIFYING allevents
@@ -42,21 +40,20 @@ public class SuggestionsSPane extends ScrollPane {
 			//System.out.println(getStage().getAllEvents().get(i).name);
 			suggested[index] = getStage().getAllEvents().get(i);
 			index++;
-			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i).name, size);
+			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i).name);
 //			Circle c = new Circle();
 //			c.setFill(new Color(0.67,0.84,0.9,1.0));
 //			c.setRadius(size);
 //			c.setLayoutX(l.getLayoutX());
 //			c.setLayoutY(l.getLayoutY());
 //			s.getChildren().add(c);
-			l.setOpacity(1.0);
-			l.setPrefHeight(size*2);
+//			l.setOpacity(1.0);
 			labels.add(l);
 			box.getChildren().add(l);
 		}
-		box.setSpacing(size);
+		box.setPadding(new Insets(BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET*7.0/4, BoxPaddingInsets.OFFSET/2.0));
+		box.setSpacing(BoxPaddingInsets.OFFSET/2.0);
 		this.setContent(box);
-		this.setPadding(K.getInsets(size));
 		this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		this.setFitToHeight(true);
 	}

@@ -37,7 +37,7 @@ public class MatchesStage extends Stage {
 		selectingRoot = new BorderPane();
 		
 		searchBox = new SearchHBox();
-		suggestionsSPane = new SuggestionsSPane(15, 20);
+		suggestionsSPane = new SuggestionsSPane(15);
 		VBox top = new VBox();
 		top.getChildren().addAll(searchBox, suggestionsSPane);
 		selectingRoot.setTop(top);

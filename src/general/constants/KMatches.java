@@ -7,6 +7,7 @@ public class KMatches {
 	public final double HEIGHT = WIDTH/2;
 	
 	public final double LEFT_WIDTH = WIDTH/4.5;
+	public final double ALL_TEAMS_HEIGHT = LEFT_WIDTH*2.5/7;
 	
 	public final double SEARCH_WIDTH = WIDTH/1.15;
 	public final double SEARCH_HEIGHT = HEIGHT/15;
