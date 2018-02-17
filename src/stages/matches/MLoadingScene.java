@@ -11,7 +11,7 @@ import general.constants.*;
 public class MLoadingScene extends Scene {
 	private Pane pane;
 	private Circle[] circles;
-	private final Color GREY = new Color(0.75, 0.75, 0.75, 1);
+	private final Color GREY = new Color(0.78, 0.78, 0.78, 1);
 	private int i;
 	
 	@SuppressWarnings("deprecation")
