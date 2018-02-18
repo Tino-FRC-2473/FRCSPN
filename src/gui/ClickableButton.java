@@ -82,6 +82,7 @@ public class ClickableButton extends ImageView {
 			ScoutingApp.mStage.filterEvents();
 			break;
 		case M_SELECT_BTN:
+			ScoutingApp.mStage.selectEvent();
 			break;
 		default:
 			System.out.println("Unknown button action for type " + type);

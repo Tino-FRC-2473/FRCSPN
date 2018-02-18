@@ -35,7 +35,7 @@ public class LeftScrollPane extends ScrollPane {
 
 		toggleButton = new ClickableButton(I.Type.TE_TEAM_LIST_BTN);
 		v.getChildren().add(toggleButton);
-		v.getChildren().add(I.getInstance().getSeparator(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
+		v.getChildren().add(I.getInstance().getSeparatorBlack(K.TEAM_EVENTS.LEFT_WIDTH - 2 * v.getPadding().getTop(), 5));
 
 		// this used to be in a on clicked for the toggle if need reference
 //				toggleButton.onPress();

@@ -2,62 +2,68 @@ package stages.matches;
 
 import java.util.ArrayList;
 
+import general.constants.K;
 import gui.BoxPaddingInsets;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.Event;
 
-public class SuggestionsSPane extends ScrollPane {
+public class SuggestionsHBox extends HBox {
+	private Label title;
+	private ScrollPane sPane;
+	private HBox contents;
+	
 	private Event[] suggested; 
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
-	private HBox box;
 	
-	public SuggestionsSPane(int n) {
+	public SuggestionsHBox(int n) {
 		this.n = n;
 	}
 	
 	public void generateSuggestions() {
-		box = new HBox();
+		contents = new HBox();
 		labels = new ArrayList<SuggestedLabel>();
 		
-		//get all events then filter using binary search WITHOUT MODIFYING allevents
 		String startdate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-		//binary search
+		
 		int startIndex = bsearch(startdate, 0, getStage().getAllEvents().size()-1);
-		if(startIndex < 0) {
+		if(startIndex < 0)
 			startIndex = 0;
-		} else if(startIndex >= getStage().getAllEvents().size()) {
+		else if(startIndex >= getStage().getAllEvents().size())
 			startIndex = getStage().getAllEvents().size()-1;
-		}
-		while(startIndex>=1 && getStage().getAllEvents().get(startIndex-1).start_date.compareTo(getStage().getAllEvents().get(startIndex).start_date)==0) {
+		
+		while(startIndex>=1 && getStage().getAllEvents().get(startIndex-1).start_date.compareTo(getStage().getAllEvents().get(startIndex).start_date)==0)
 			startIndex--;
-		}
+		
 		suggested = new Event[Math.min(n, getStage().getAllEvents().size()-1)-startIndex+1];
 		int index = 0;
 		for(int i = startIndex; i < Math.min(n, getStage().getAllEvents().size()-1); i++) {
-			//System.out.println(getStage().getAllEvents().get(i).name);
 			suggested[index] = getStage().getAllEvents().get(i);
 			index++;
 			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i).name);
-//			Circle c = new Circle();
-//			c.setFill(new Color(0.67,0.84,0.9,1.0));
-//			c.setRadius(size);
-//			c.setLayoutX(l.getLayoutX());
-//			c.setLayoutY(l.getLayoutY());
-//			s.getChildren().add(c);
-//			l.setOpacity(1.0);
 			labels.add(l);
-			box.getChildren().add(l);
+			contents.getChildren().addAll(l);
 		}
-		box.setPadding(new Insets(BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET*7.0/4, BoxPaddingInsets.OFFSET/2.0));
-		box.setSpacing(BoxPaddingInsets.OFFSET/2.0);
-		this.setContent(box);
-		this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		this.setFitToHeight(true);
+		
+		contents.setPadding(new Insets(BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET*7.0/4, BoxPaddingInsets.OFFSET/2.0));
+		contents.setSpacing(BoxPaddingInsets.OFFSET/2.0);
+		sPane = new ScrollPane();
+		sPane.setContent(contents);
+		sPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		sPane.setFitToHeight(true);
+		
+		title = new Label("Upcoming Events");
+		title.setStyle("-fx-font-size: 18; -fx-background-color: #FFD32A; -fx-font-weight: bold;");
+		title.setPadding(K.getInsets(7));
+		title.setMinWidth(K.MATCHES.LEFT_WIDTH*0.65);
+		
+		this.getChildren().addAll(title, sPane);
+		title.setPrefHeight(((VBox)getParent()).getHeight()*0.95);
 	}
 	
 	private MatchesStage getStage() {

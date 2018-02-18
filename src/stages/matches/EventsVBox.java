@@ -6,28 +6,31 @@ import java.util.Map;
 import java.util.Random;
 
 import general.constants.K;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
 
 public class EventsVBox extends VBox {
-	private Label allTeams;
+	private Label title;
 	private ScrollPane scrollPane;
 	private VBox events;
 	private ArrayList<EventsDisplay> displayList;
+	private EventsDisplay selected;
 	
 	public EventsVBox(ArrayList<Event> arr) {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		
-		allTeams = new Label("All Teams");
-		allTeams.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000; -fx-font-weight: bold;");
-	    allTeams.setTextFill(Color.WHITE);
-		allTeams.setPadding(K.getInsets(7));
-		allTeams.setPrefWidth(K.MATCHES.LEFT_WIDTH);
-		this.getChildren().add(allTeams);
+		title = new Label("All Teams");
+		title.setStyle("-fx-font-size: 18; -fx-background-color: #DD0000; -fx-font-weight: bold;");
+	    title.setTextFill(Color.WHITE);
+		title.setPadding(K.getInsets(7));
+		title.setPrefWidth(K.MATCHES.LEFT_WIDTH);
+		this.getChildren().add(title);
 		
 		scrollPane = new ScrollPane();
 		events = new VBox();
@@ -37,6 +40,8 @@ public class EventsVBox extends VBox {
 		scrollPane.setFitToWidth(true);
 		scrollPane.setMinHeight(K.MATCHES.L_EVENTS_HEIGHT - K.MATCHES.ALL_TEAMS_HEIGHT - 3*3 - 1);
 		
+		selected = null;
+		
 		String[] colors = {"#FFC4CA", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff", "#F9B0FF"};
 		Random r = new Random();
 		int last = 0;
@@ -44,6 +49,11 @@ public class EventsVBox extends VBox {
 		for(Event i : arr) {
 			int c = r.nextInt(6);
 			EventsDisplay display = new EventsDisplay(i);
+			display.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override public void handle(MouseEvent e) {
+					indicateSelected(display);
+				}
+			});
 			displayList.add(display);
 			while(c==last)
 				c=r.nextInt(6);
@@ -51,6 +61,18 @@ public class EventsVBox extends VBox {
 			last = c;
 		}
 		this.getChildren().add(scrollPane);
+	}
+	
+	public Event getSelectedEvent() {
+		return (selected == null) ? null : selected.getEvent();
+	}
+	
+	public void indicateSelected(EventsDisplay d) {
+		if(!d.equals(selected)) {
+			if(selected != null) selected.highlight(false);
+			selected = d;
+			selected.highlight(true);
+		}
 	}
 	
 	public void addAllEvents() {
@@ -102,6 +124,13 @@ class EventsDisplay extends VBox {
 	
 	public Event getEvent() {
 		return event;
+	}
+	
+	public void highlight(boolean h) {
+		if(h)
+			this.setStyle("-fx-border-color: yellow; -fx-border-width: 7; -fx-background-color: " + color);
+		else
+			this.setStyle("-fx-border-radius: 0; -fx-background-color: " + color);
 	}
 	
 	public String getName() {

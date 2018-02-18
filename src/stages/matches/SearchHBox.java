@@ -21,7 +21,7 @@ public class SearchHBox extends HBox {
 	public SearchHBox() {
 		this.setPadding(K.getInsets());
 		this.setSpacing(BoxPaddingInsets.OFFSET);
-		this.setStyle("-fx-background-color: #EEEEEE");
+		this.setStyle("-fx-background-color: #F0F0F0");
 		this.setAlignment(Pos.CENTER_LEFT);
 		
 		searchBar = new TextField();

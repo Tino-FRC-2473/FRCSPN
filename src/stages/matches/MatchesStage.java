@@ -11,6 +11,7 @@ import general.constants.K;
 import general.images.I;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -26,24 +27,30 @@ public class MatchesStage extends Stage {
 	private MLoadingThread loadingThread;
 	
 	private SearchHBox searchBox;
-	private SuggestionsSPane suggestionsSPane;
+	private SuggestionsHBox suggestionsSPane;
 	private EventsVBox lEventsBox;
 	
 	private PreviewPane previewPane;
-
+	
+	private BorderPane mainRoot;
+	
+	private Event event;
 	
 	public MatchesStage() {
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
 		
 		selectingRoot = new BorderPane();
+		selectingRoot.setStyle("-fx-background-color: #F0F0F0");
+		
+		mainRoot = new BorderPane();
+		mainRoot.setStyle("-fx-background-color: #F0F0F0");
 		
 		searchBox = new SearchHBox();
-
-		suggestionsSPane = new SuggestionsSPane(15);
+		suggestionsSPane = new SuggestionsHBox(15);
 
 		VBox top = new VBox();
-		top.getChildren().addAll(searchBox, suggestionsSPane);
+		top.getChildren().addAll(searchBox, suggestionsSPane, I.getInstance().getSeparatorWhite(K.MATCHES.WIDTH, 6));
 		selectingRoot.setTop(top);
 		
 		previewPane = new PreviewPane();
@@ -61,6 +68,13 @@ public class MatchesStage extends Stage {
 		lEventsBox.filter(searchBox.getText());
 	}
 	
+	public void selectEvent() {
+		if(lEventsBox.getSelectedEvent() != null) {
+			event = lEventsBox.getSelectedEvent();
+			this.setState(State.MAIN);
+		}
+	}
+	
 	public void setState(State toSet) {
 		System.out.println("changing state from " + state + " -> " + toSet);
 		if(!state.equals(toSet)) {
@@ -70,6 +84,9 @@ public class MatchesStage extends Stage {
 				break;
 			case LOADING:
 				exitLoading();
+				break;
+			case MAIN:
+				exitMain();
 				break;
 			default:
 				System.out.println("Unknown previous state: " + state);
@@ -85,6 +102,9 @@ public class MatchesStage extends Stage {
 			case LOADING:
 				setLoading();
 				break;
+			case MAIN:
+				setMain();
+				break;
 			default:
 				System.out.println("Unknown previous state: " + state);
 				break;
@@ -96,13 +116,25 @@ public class MatchesStage extends Stage {
 		return state;
 	}
 	
+	public Event getEvent() {
+		return event;
+	}
+	
+	private void setMain() {
+		
+	}
+	
+	private void exitMain() {
+		
+	}
+	
 	private void setSelecting() {
 		this.setScene(sceneMap.get(State.SELECTING));
 		suggestionsSPane.generateSuggestions();
 	}
 	
 	private void exitSelecting() {
-		
+		this.setScene(sceneMap.get(State.MAIN));
 	}
 	
 	private void setLoading() {
@@ -125,14 +157,16 @@ public class MatchesStage extends Stage {
 		
 		lEventsBox = new EventsVBox(allEvents);
 		lEventsBox.addAllEvents();
-		selectingRoot.setLeft(lEventsBox);
+		HBox left = new HBox();
+		left.getChildren().addAll(lEventsBox, I.getInstance().getSeparatorWhite(6, K.MATCHES.L_EVENTS_HEIGHT));
+		selectingRoot.setLeft(left);
 	}
 	
 	private void initScenesMap() {
 		sceneMap = new HashMap<State, Scene>();
 		sceneMap.put(State.SELECTING, new Scene(selectingRoot, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
 		sceneMap.put(State.LOADING, new MLoadingScene(new Pane()));
-		sceneMap.put(State.MAIN, null/*new Scene(root, K.MATCHES.WIDTH, K.MATCHES.HEIGHT)*/);
+		sceneMap.put(State.MAIN, new Scene(mainRoot, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
 	}
 	
 	public ArrayList<Event> getAllEvents(){

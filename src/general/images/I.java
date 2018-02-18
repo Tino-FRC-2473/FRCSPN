@@ -68,8 +68,12 @@ public class I {
 		images.put(i, img);
 	}
 	
-	public ImageView getSeparator(double w, double h) {
-		return new ImageView(new Image(BASE + "main" + "/separator.png", w, h, false, true));
+	public ImageView getSeparatorBlack(double w, double h) {
+		return new ImageView(new Image(BASE + "main" + "/separator_black.png", w, h, false, true));
+	}
+	
+	public ImageView getSeparatorWhite(double w, double h) {
+		return new ImageView(new Image(BASE + "main" + "/separator_white.png", w, h, false, true));
 	}
 	
 	public static I getInstance() {
