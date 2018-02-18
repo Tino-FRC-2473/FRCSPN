@@ -62,7 +62,7 @@ public class SuggestionsSPane extends ScrollPane {
 //			c.setLayoutY(l.getLayoutY());
 //			s.getChildren().add(c);
 //			l.setOpacity(1.0);
-			l.setOnMouseClicked(new onLabelClicked(l.getEvent()));
+			l.setOnMouseClicked(new onLabelClicked(getStage().getAllEvents().get(i)));
 			labels.add(l);
 			box.getChildren().add(l);
 		}

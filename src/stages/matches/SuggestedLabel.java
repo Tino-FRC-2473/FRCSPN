@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import models.Event;
 
 public class SuggestedLabel extends Label {
-	Event event;
+	private Event event;
 	
 	public SuggestedLabel(Event event) {
 		super(event.name);
