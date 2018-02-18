@@ -3,8 +3,10 @@ package stages.matches;
 import java.util.ArrayList;
 
 import gui.BoxPaddingInsets;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,7 +17,17 @@ public class SuggestionsSPane extends ScrollPane {
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
 	private HBox box;
-	
+	private class onLabelClicked implements EventHandler<MouseEvent> {
+		Event event;
+		public onLabelClicked(Event event) {
+			this.event = event;
+		}
+		@Override
+		public void handle(MouseEvent e) {
+			getStage().getPreviewPane().setContent(this.event);
+		}
+		
+	}
 	public SuggestionsSPane(int n) {
 		this.n = n;
 	}
@@ -42,7 +54,7 @@ public class SuggestionsSPane extends ScrollPane {
 			//System.out.println(getStage().getAllEvents().get(i).name);
 			suggested[index] = getStage().getAllEvents().get(i);
 			index++;
-			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i).name);
+			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i));
 //			Circle c = new Circle();
 //			c.setFill(new Color(0.67,0.84,0.9,1.0));
 //			c.setRadius(size);
@@ -50,6 +62,7 @@ public class SuggestionsSPane extends ScrollPane {
 //			c.setLayoutY(l.getLayoutY());
 //			s.getChildren().add(c);
 //			l.setOpacity(1.0);
+			l.setOnMouseClicked(new onLabelClicked(l.getEvent()));
 			labels.add(l);
 			box.getChildren().add(l);
 		}
@@ -85,3 +98,4 @@ public class SuggestionsSPane extends ScrollPane {
 		   }
 		}
 }
+
