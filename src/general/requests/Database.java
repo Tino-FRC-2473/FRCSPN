@@ -11,7 +11,6 @@ import models.event_status.EventStatus;
 import models.matches.yr2017.*;
 import models.matches.yr2018.*;
 
-@SuppressWarnings("unused")
 /**
  * A place for Requests and their responses to be stored. Parses each response
  * from a StringBuffer to its corresponding class upon call to a get method.
@@ -81,6 +80,15 @@ public class Database {
 		incomplete.addAll(reqs);
 	}
 	
+	public StringBuffer getRaw(R req) {
+		for(R r : database.keySet()) {
+			if(r.equals(req)) {
+				return database.get(r);
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * General method to get the value of a completed request. All other get methods
 	 * call this one. Returns null if such a request has not completed yet.
@@ -115,8 +123,11 @@ public class Database {
 	public Event[] getEventsForTeamInYear(int t, int y) {
 		return generalGet(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y), Event[].class);
 	} 
-	public Match_Steamworks[] getMatchesForTeamAtEvent(int t, String e) {
+	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_Steamworks[].class);
+	}
+	public Match_PowerUp[] getMatches2018ForTeamAtEvent(int t, String e) {
+		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_PowerUp[].class);
 	}
 	public Team[] getTeamsAtEvent(String e) {
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import general.ScoutingApp;
 import general.constants.K;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
@@ -72,6 +72,7 @@ public class EventsVBox extends VBox {
 			if(selected != null) selected.highlight(false);
 			selected = d;
 			selected.highlight(true);
+			ScoutingApp.mStage.preview(d);
 		}
 	}
 	
@@ -88,10 +89,6 @@ public class EventsVBox extends VBox {
 				events.getChildren().add(displayList.get(i));
 			}
 		}
-	}
-	
-	public MatchesStage getMatchesStage() {
-		return ((MatchesStage)((BorderPane) getParent()).getScene().getWindow());
 	}
 	
 //	private class eventClicked implements EventHandler<MouseEvent> {

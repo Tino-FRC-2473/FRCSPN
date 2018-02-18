@@ -1,5 +1,6 @@
 package stages.matches;
 
+import general.ScoutingApp;
 import general.constants.K;
 import general.images.I.Type;
 import gui.BoxPaddingInsets;
@@ -9,9 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class SearchHBox extends HBox {
 	private TextField searchBar;
@@ -31,7 +30,7 @@ public class SearchHBox extends HBox {
 		    @Override
 		    public void handle(KeyEvent e) {
 		        if(e.getCode() == KeyCode.ENTER) {
-		        	getStage().filterEvents();
+		        	ScoutingApp.mStage.filterEvents();
 		        }
 		    }
 		});
@@ -46,13 +45,5 @@ public class SearchHBox extends HBox {
 	
 	public String getText() {
 		return searchBar.getText();
-	}
-	
-	private MatchesStage getStage() {
-		return (MatchesStage)
-					((BorderPane)
-							((VBox)getParent())
-					.getParent())
-				.getScene().getWindow();
 	}
 }

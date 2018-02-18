@@ -30,7 +30,7 @@ public class MatchesStage extends Stage {
 	private SuggestionsHBox suggestionsSPane;
 	private EventsVBox lEventsBox;
 	
-	private PreviewPane previewPane;
+	private PreviewBox previewBox;
 	
 	private BorderPane mainRoot;
 	
@@ -53,8 +53,8 @@ public class MatchesStage extends Stage {
 		top.getChildren().addAll(searchBox, suggestionsSPane, I.getInstance().getSeparatorWhite(K.MATCHES.WIDTH, 6));
 		selectingRoot.setTop(top);
 		
-		previewPane = new PreviewPane();
-		selectingRoot.setCenter(previewPane);
+		previewBox = new PreviewBox();
+		selectingRoot.setCenter(previewBox);
 		
 		initScenesMap();
 		
@@ -62,6 +62,10 @@ public class MatchesStage extends Stage {
 		
 		state = State.LOADING;
 		setLoading();
+	}
+	
+	public void preview(EventsDisplay d) {
+		previewBox.setContent(d.getEvent());
 	}
 	
 	public void filterEvents() {
@@ -173,8 +177,8 @@ public class MatchesStage extends Stage {
 		return allEvents;
 	}
 	
-	public PreviewPane getPreviewPane() {
-		return this.previewPane;
+	public PreviewBox getPreviewPane() {
+		return this.previewBox;
 	}
 	
 	public enum State {
