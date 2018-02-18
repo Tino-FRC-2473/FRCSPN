@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import general.constants.K;
 import gui.BoxPaddingInsets;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +25,18 @@ public class SuggestionsHBox extends HBox {
 	
 	public SuggestionsHBox(int n) {
 		this.n = n;
+	}
+	
+	private class onLabelClicked implements EventHandler<MouseEvent> {
+		Event event;
+		public onLabelClicked(Event event) {
+			this.event = event;
+		}
+		@Override
+		public void handle(MouseEvent e) {
+			getStage().getPreviewPane().setContent(this.event);
+		}
+		
 	}
 	
 	public void generateSuggestions() {
@@ -45,7 +59,8 @@ public class SuggestionsHBox extends HBox {
 		for(int i = startIndex; i < Math.min(n, getStage().getAllEvents().size()-1); i++) {
 			suggested[index] = getStage().getAllEvents().get(i);
 			index++;
-			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i).name);
+			SuggestedLabel l = new SuggestedLabel(getStage().getAllEvents().get(i));
+			l.setOnMouseClicked(new onLabelClicked(getStage().getAllEvents().get(i)));
 			labels.add(l);
 			contents.getChildren().addAll(l);
 		}
@@ -91,3 +106,4 @@ public class SuggestionsHBox extends HBox {
 		   }
 		}
 }
+

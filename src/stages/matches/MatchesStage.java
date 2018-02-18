@@ -173,6 +173,10 @@ public class MatchesStage extends Stage {
 		return allEvents;
 	}
 	
+	public PreviewPane getPreviewPane() {
+		return this.previewPane;
+	}
+	
 	public enum State {
 		SELECTING, LOADING, MAIN
 	}
