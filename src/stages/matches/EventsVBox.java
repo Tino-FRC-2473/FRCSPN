@@ -86,6 +86,7 @@ public class EventsVBox extends VBox {
 	}
 	
 	public void addAllEvents() {
+		events.getChildren().clear();
 		for(EventsDisplay i : displayList) {
 			events.getChildren().add(i);
 		}
