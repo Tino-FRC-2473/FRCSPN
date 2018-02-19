@@ -68,15 +68,25 @@ public class EventsVBox extends VBox {
 	}
 	
 	public void indicateSelected(EventsDisplay d) {
-		if(!d.equals(selected)) {
-			if(selected != null) selected.highlight(false);
-			selected = d;
-			selected.highlight(true);
-			ScoutingApp.mStage.preview(d);
+//		if(selected == null || !d.equals(selected)) {
+//			if(selected != null) selected.highlight(false);
+//			selected = d;
+//			selected.highlight(true);
+//			ScoutingApp.mStage.preview(d);
+//		}
+		if(selected != null) selected.highlight(false);
+		for(EventsDisplay e : displayList) {
+			if(d.equals(e)) {
+				e.highlight(true);
+				selected = e;
+				ScoutingApp.mStage.preview(selected);
+				break;
+			}
 		}
 	}
 	
 	public void addAllEvents() {
+		events.getChildren().clear();
 		for(EventsDisplay i : displayList) {
 			events.getChildren().add(i);
 		}
@@ -117,6 +127,10 @@ class EventsDisplay extends VBox {
 		date = new Label(dateConvert(e.start_date) + ((e.start_date.equals(e.end_date)) ? "" : " - " + dateConvert(e.end_date)));
 		this.getChildren().addAll(name, location, date);
 		this.setPadding(K.getInsets(3));
+	}
+	
+	public boolean equals(EventsDisplay other) {
+		return this.getEvent().equals(other.getEvent());
 	}
 	
 	public Event getEvent() {
@@ -161,6 +175,10 @@ class EventsDisplay extends VBox {
 	public void setColor(String s) {
 		color = s;
 		this.setStyle("-fx-background-color: " + color);
+	}
+	
+	public String getColor() {
+		return color;
 	}
 	
 	public String dateConvert(String d) {

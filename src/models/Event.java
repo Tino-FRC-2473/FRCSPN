@@ -16,4 +16,8 @@ public class Event {
 	public String toString() {
 		return name + " " + key + " " + event_code + " " + city + " " + state_prov + " " + country + " " + start_date + " " + end_date + " " + year;
 	}
+
+	public boolean equals(Event other) {
+		return other.key.equals(this.key);
+	}
 }
