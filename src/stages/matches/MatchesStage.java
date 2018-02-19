@@ -66,6 +66,7 @@ public class MatchesStage extends Stage {
 	
 	public void preview(EventsDisplay d) {
 		previewBox.setContent(d.getEvent());
+		previewBox.setColor(d.getColor());
 	}
 	
 	public void filterEvents() {
@@ -179,6 +180,10 @@ public class MatchesStage extends Stage {
 	
 	public PreviewBox getPreviewPane() {
 		return this.previewBox;
+	}
+	
+	public EventsVBox getEventsVBox() {
+		return this.lEventsBox;
 	}
 	
 	public enum State {
