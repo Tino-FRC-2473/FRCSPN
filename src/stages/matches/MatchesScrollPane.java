@@ -87,12 +87,15 @@ class MatchesDisplay2018 extends VBox{
 		getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
+		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
+		redBox.setStyle("fx-border-style: solid); -fx-border-width: 2;");
 		alliances.getChildren().addAll(blueBox,redBox);
 		
 		HBox blueScorePoint = new HBox();
 		blueBox.getChildren().add(blueScorePoint);
 		for (int i = 0; i < blueAlliance.length; i++) { blueBox.getChildren().add(blueAlliance[i]); }
 		VBox bluePointBox = new VBox();
+		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		blueScorePoint.getChildren().addAll(blueScore, bluePointBox);
 		for (int i = 0; i < blueRankingPoints.length;i++) { bluePointBox.getChildren().add(blueRankingPoints[i]); }
 		
@@ -100,6 +103,7 @@ class MatchesDisplay2018 extends VBox{
 		redBox.getChildren().add(redScorePoint);
 		for (int i = 0; i < redAlliance.length; i++) { redBox.getChildren().add(redAlliance[i]); }
 		VBox redPointBox = new VBox();
+		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		redScorePoint.getChildren().addAll(redScore, redPointBox);
 		for (int i = 0; i < redRankingPoints.length;i++) { redPointBox.getChildren().add(redRankingPoints[i]); }
 	}
