@@ -18,6 +18,10 @@ public class MainScene extends Scene {
 		root.setStyle("-fx-background-color: #F0F0F0");
 	}
 	
+	public void filterMatches() {
+		lMatchesSPane.filter(tSearchBox.getText());
+	}
+	
 	public void initialize(Match_PowerUp[] arr) {
 		matches = arr.clone();
 		

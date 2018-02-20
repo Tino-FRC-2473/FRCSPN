@@ -80,6 +80,10 @@ public class Database {
 		incomplete.addAll(reqs);
 	}
 	
+	public void putIncompleteRequest(R req) {
+		incomplete.add(req);
+	}
+	
 	public StringBuffer getRaw(R req) {
 		for(R r : database.keySet()) {
 			if(r.equals(req)) {

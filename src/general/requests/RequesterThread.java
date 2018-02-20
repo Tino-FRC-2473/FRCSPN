@@ -45,8 +45,9 @@ public class RequesterThread extends Thread {
 		while(alive) {
 			try {
 				long startTime = System.currentTimeMillis();
-				ScoutingApp.getDatabase().putIncompleteRequests(requests);
-				while(requests.size() > 0) {
+				
+				if(requests.size() > 0) {
+					ScoutingApp.getDatabase().putIncompleteRequest(requests.get(0));
 					requestAndStore(requests.remove(0));
 				}
 				

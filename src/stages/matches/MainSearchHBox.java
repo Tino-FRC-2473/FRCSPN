@@ -1,5 +1,6 @@
 package stages.matches;
 
+import general.ScoutingApp;
 import general.constants.K;
 import general.images.I.Type;
 import gui.BoxPaddingInsets;
@@ -28,7 +29,7 @@ public class MainSearchHBox extends HBox {
 		    @Override
 		    public void handle(KeyEvent e) {
 		        if(e.getCode() == KeyCode.ENTER) {
-		        	//ScoutingApp.mStage.filterEvents();
+		        	ScoutingApp.mStage.filterMatches();
 		        }
 		    }
 		});
@@ -36,5 +37,9 @@ public class MainSearchHBox extends HBox {
 		
 		searchButton = new ClickableButton(Type.M_SEARCH_BTN);
 		this.getChildren().add(searchButton);
+	}
+	
+	public String getText() {
+		return searchBar.getText();
 	}
 }
