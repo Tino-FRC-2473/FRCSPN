@@ -107,8 +107,8 @@ class MatchesDisplay2018 extends VBox {
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
-		blueBox.setPrefWidth(getWidth()/2 *0.95);
-		redBox.setPrefWidth(getWidth()/2 *0.95);
+		blueBox.setMinWidth(getWidth()/2*0.95);
+		redBox.setMinWidth(getWidth()/2*0.95);
 		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 		redBox.setStyle("fx-border-style: solid; -fx-border-width: 2;");
 		alliances.getChildren().addAll(blueBox,redBox);
