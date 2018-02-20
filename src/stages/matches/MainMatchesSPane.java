@@ -53,7 +53,7 @@ class MatchesDisplay2018 extends VBox {
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
 		this.setStyle("-fx-background-color: #FFD32A;");
-		this.setPrefWidth(K.MATCHES.LEFT_WIDTH-6);
+		this.setPrefWidth(K.MATCHES.LEFT_WIDTH);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
 		matchName = new Label(match.key);
@@ -103,13 +103,13 @@ class MatchesDisplay2018 extends VBox {
 	public void display() {
 		this.getChildren().add(matchName);
 		HBox alliances = new HBox();
-		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
+		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		alliances.setAlignment(Pos.TOP_CENTER);
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
-		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-2);
-		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-2);
+		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
+		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
 		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 		redBox.setStyle("fx-border-style: solid; -fx-border-width: 2;");
 		alliances.getChildren().addAll(blueBox,redBox);
