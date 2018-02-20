@@ -75,7 +75,7 @@ public class RequesterThread extends Thread {
 				}
 				
 				reader.close();
-				ifDebugPrintln("Response Length: " + response.toString().length() + "\n");
+				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
 				
 				ScoutingApp.getDatabase().put(req, response);
 			} else {
@@ -100,10 +100,10 @@ public class RequesterThread extends Thread {
 		con.setRequestProperty("User-Agent", "X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 //		con.setRequestProperty("If-Modified-Since", getTimeStamp());
-		ifDebugPrintln("Sending 'GET' request to URL: " + (BASE+req));
+		ifDebugPrintln("Requesting \"" + req + "\"");
 		int responseCode = con.getResponseCode();
 		if (responseCode == 200 || responseCode == 304) {
-			ifDebugPrintln("HTTP Connected");
+			ifDebugPrint("HTTP Connected");
 			return con;
 		} else {
 			ifDebugPrintln("Unknown Response Code: " + responseCode);
@@ -121,10 +121,14 @@ public class RequesterThread extends Thread {
 	public void addRequestEventKeysInYear(int y) { addRequest(new R(R.Type.EVENT_KEYS_IN_YEAR, y)); }
 	public void addRequestEventGeneralInfo(String e) { addRequest(new R(R.Type.EVENT_GENERAL_INFO, e)); }
 	public void addRequestEventsForTeamInYear(int t, int y) { addRequest(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y)); } 
-	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
 	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
 	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
 	public void addRequestEventsInYear(int y) { addRequest(new R(R.Type.EVENTS_IN_YEAR, y)); }
+	public void addRequestMatchKeysForEvent(String e) { addRequest(new R(R.Type.MATCH_KEYS_FOR_EVENT, e)); }
+	public void addRequestMatch(String k) { addRequest(new R(R.Type.MATCH, k)); }
+	public void addRequestAwardsAtEvent(String e) { addRequest(new R(R.Type.AWARDS_AT_EVENT, e)); }
+
+//	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
 	
 	/**
 	 * Ends the thread.
@@ -136,5 +140,8 @@ public class RequesterThread extends Thread {
 	
 	private void ifDebugPrintln(String s) {
 		if(debug) System.out.println(s);
+	}
+	private void ifDebugPrint(String s) {
+		if(debug) System.out.print(s);
 	}
 }

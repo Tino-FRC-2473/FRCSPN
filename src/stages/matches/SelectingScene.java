@@ -1,7 +1,5 @@
 package stages.matches;
 
-import java.util.ArrayList;
-
 import general.constants.K;
 import general.images.I;
 import javafx.scene.Scene;
@@ -35,7 +33,7 @@ public class SelectingScene extends Scene {
 	}
 	
 	//called post requests go through
-	public void initialize(ArrayList<Event> arr) {
+	public void initialize(Event[] arr) {
 		lEventsBox = new SelectingEventsVBox(arr);
 		lEventsBox.addAllEvents();
 		HBox left = new HBox();
