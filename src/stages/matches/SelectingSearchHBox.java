@@ -12,12 +12,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
-public class SearchHBox extends HBox {
+public class SelectingSearchHBox extends HBox {
 	private TextField searchBar;
 	private ClickableButton searchButton;
 	private ClickableButton selectButton;
 	
-	public SearchHBox() {
+	public SelectingSearchHBox() {
 		this.setPadding(K.getInsets());
 		this.setSpacing(BoxPaddingInsets.OFFSET);
 		this.setStyle("-fx-background-color: #F0F0F0");

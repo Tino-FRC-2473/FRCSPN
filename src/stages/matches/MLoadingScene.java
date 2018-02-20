@@ -1,10 +1,12 @@
 package stages.matches;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import general.ScoutingApp;
 import general.constants.*;
 
 
@@ -13,6 +15,8 @@ public class MLoadingScene extends Scene {
 	private Circle[] circles;
 	private final Color GREY = new Color(0.78, 0.78, 0.78, 1);
 	private int i;
+	
+	private MLoadingThread thread;
 	
 	@SuppressWarnings("deprecation")
 	public MLoadingScene(Pane p) {
@@ -47,5 +51,56 @@ public class MLoadingScene extends Scene {
 		circles[i++].setFill(Color.BLACK);
 		if(i >= 12) i = 0;
 		circles[i].setFill(GREY);
+	}
+	
+	public void start() {
+		thread = new MLoadingThread();
+		thread.start();
+	}
+	
+	private class MLoadingThread extends Thread {
+		private boolean alive;
+		
+		public MLoadingThread() {
+			alive = true;
+		}
+
+		public void run() {
+			while(alive) {
+				rotate();
+				
+				try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+				
+				if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0) {
+					if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING1)) {
+						System.out.println("***ADD SET SELECTING***");
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								System.out.println("CHANGE SELECTING");
+								ScoutingApp.mStage.setState(MatchesStage.State.SELECTING);
+								end();
+							}
+						});
+					} else if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING2)) {
+						System.out.println("***ADD SET MAIN***");
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								System.out.println("CHANGE MAIN");
+								ScoutingApp.mStage.setState(MatchesStage.State.MAIN);
+								end();
+							}
+						});
+					}
+				}
+			}
+//			System.out.println("loading thread ended");
+		}
+		
+		public void end() {
+//			System.out.println("loading thread told to end");
+			alive = false;
+		}
 	}
 }

@@ -12,9 +12,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import models.Event;
 
-public class SuggestionsHBox extends HBox {
+public class SelectingSuggestHBox extends HBox {
 	private Label title;
 	private ScrollPane sPane;
 	private HBox contents;
@@ -23,7 +24,7 @@ public class SuggestionsHBox extends HBox {
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
 	
-	public SuggestionsHBox(int n) {
+	public SelectingSuggestHBox(int n) {
 		this.n = n;
 	}
 	
@@ -34,8 +35,8 @@ public class SuggestionsHBox extends HBox {
 		}
 		@Override
 		public void handle(MouseEvent e) {
-			ScoutingApp.mStage.getEventsVBox().indicateSelected(new EventsDisplay(event));
-			ScoutingApp.mStage.getPreviewPane().setContent(event);
+			ScoutingApp.mStage.indicateSelected(new EventsDisplay(event));
+			ScoutingApp.mStage.setContent(event);
 		}
 		
 	}
@@ -83,20 +84,35 @@ public class SuggestionsHBox extends HBox {
 	}
 	
 	private int bsearch(String startdate, int first, int last){
-		   if(ScoutingApp.mStage.getAllEvents().get(first).start_date.equals(startdate)) {
-			   return first;
-		   } else if(ScoutingApp.mStage.getAllEvents().get(last).start_date.equals(startdate)) {
-			   return last;
-		   } else if(last-first <= 1){
-			   return Math.min(last, first);
-		   } else {
-			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) > 0)
-				   return bsearch(startdate,(first+last)/2,last);
-			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) < 0)
-				   return bsearch(startdate,first,(first+last)/2);
-			   else
-				   return (first+last)/2;
-		   }
+		if(ScoutingApp.mStage.getAllEvents().get(first).start_date.equals(startdate))
+			return first;
+		else if(ScoutingApp.mStage.getAllEvents().get(last).start_date.equals(startdate))
+			return last;
+		else if(last-first <= 1)
+			return Math.min(last, first);
+		else {
+			if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) > 0)
+				return bsearch(startdate,(first+last)/2,last);
+			else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) < 0)
+				return bsearch(startdate,first,(first+last)/2);
+			else
+				return (first+last)/2;
 		}
+	}
 }
 
+class SuggestedLabel extends Label {
+	private Event event;
+	
+	public SuggestedLabel(Event event) {
+		super(event.name);
+		this.event = event;
+		this.setStyle("-fx-background-color: #B79A00; -fx-font-size: 14; -fx-stroke: black; -fx-font-weight: bold");
+		this.setTextFill(Color.WHITE);
+		this.setPadding(new Insets(BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET, BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET));
+	}
+	
+	public Event getEvent() {
+		return this.event;
+	}
+}
