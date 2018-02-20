@@ -1,6 +1,5 @@
 package stages.matches;
 
-import general.ScoutingApp;
 import general.constants.K;
 import general.images.I.Type;
 import gui.BoxPaddingInsets;
@@ -12,25 +11,24 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
-public class SelectingSearchHBox extends HBox {
+public class MainSearchHBox extends HBox {
 	private TextField searchBar;
 	private ClickableButton searchButton;
-	private ClickableButton selectButton;
 	
-	public SelectingSearchHBox() {
+	public MainSearchHBox() {
 		this.setPadding(K.getInsets());
 		this.setSpacing(BoxPaddingInsets.OFFSET);
-		this.setStyle("-fx-background-color: #F0F0F0");
+		this.setStyle("-fx-background-color: #F8F8F8");
 		this.setAlignment(Pos.CENTER_LEFT);
 		
 		searchBar = new TextField();
-		searchBar.setPrefWidth(K.MATCHES.SEARCH_WIDTH_SELECTING);
+		searchBar.setPrefWidth(K.MATCHES.SEARCH_WIDTH_MAIN);
 		searchBar.setPrefHeight(K.MATCHES.SEARCH_HEIGHT - 2*BoxPaddingInsets.OFFSET);
 		searchBar.setOnKeyPressed(new EventHandler<KeyEvent>() {
 		    @Override
 		    public void handle(KeyEvent e) {
 		        if(e.getCode() == KeyCode.ENTER) {
-		        	ScoutingApp.mStage.filterEvents();
+		        	//ScoutingApp.mStage.filterEvents();
 		        }
 		    }
 		});
@@ -38,12 +36,5 @@ public class SelectingSearchHBox extends HBox {
 		
 		searchButton = new ClickableButton(Type.M_SEARCH_BTN);
 		this.getChildren().add(searchButton);
-		
-		selectButton = new ClickableButton(Type.M_SELECT_BTN);
-		this.getChildren().add(selectButton);
-	}
-	
-	public String getText() {
-		return searchBar.getText();
 	}
 }

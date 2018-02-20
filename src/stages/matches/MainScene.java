@@ -10,6 +10,7 @@ public class MainScene extends Scene {
 	private Match_PowerUp[] matches;
 	
 	private MainMatchesSPane lMatchesSPane;
+	private MainSearchHBox tSearchBox;
 	
 	public MainScene(BorderPane p) {
 		super(p, K.MATCHES.WIDTH, K.MATCHES.HEIGHT);
@@ -19,9 +20,12 @@ public class MainScene extends Scene {
 	
 	public void initialize(Match_PowerUp[] arr) {
 		matches = arr.clone();
+		
 		lMatchesSPane = new MainMatchesSPane(matches);
 		lMatchesSPane.addAllMatches();
-		
 		root.setLeft(lMatchesSPane);
+		
+		tSearchBox = new MainSearchHBox();
+		root.setTop(tSearchBox);
 	}
 }
