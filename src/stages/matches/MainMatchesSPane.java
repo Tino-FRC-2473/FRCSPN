@@ -18,7 +18,7 @@ public class MainMatchesSPane extends ScrollPane {
 		this.setFitToWidth(true);
 		content = new VBox();
 		this.setContent(content);
-		content.setPrefWidth(K.MATCHES.LEFT_WIDTH);
+		content.setMaxWidth(K.MATCHES.LEFT_WIDTH-6);
 		content.setSpacing(3);
 		content.setPadding(K.getInsets(3));
 		matchList = new ArrayList<MatchesDisplay2018>();
@@ -53,7 +53,7 @@ class MatchesDisplay2018 extends VBox {
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
 		this.setStyle("-fx-background-color: #FFD32A;");
-		this.setPrefWidth(K.MATCHES.LEFT_WIDTH-6);
+		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-6);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
 		matchName = new Label(match.key);
@@ -108,33 +108,36 @@ class MatchesDisplay2018 extends VBox {
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
-		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-2);
-		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-2);
+		blueBox.setAlignment(Pos.CENTER);
+		redBox.setAlignment(Pos.CENTER);
+		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-5);
+		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-5);
 		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
-		redBox.setStyle("fx-border-style: solid; -fx-border-width: 2;");
+		redBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 		alliances.getChildren().addAll(blueBox,redBox);
 		
 		HBox blueScorePoint = new HBox();
 		blueBox.getChildren().add(blueScorePoint);
-		for(int i = 0; i < blueAlliance.length; i++)
+		for(int i = 0; i < blueAlliance.length; i++) 
 			blueBox.getChildren().add(blueAlliance[i]);
 		VBox bluePointBox = new VBox();
 		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		blueScorePoint.getChildren().addAll(blueScore, bluePointBox);
 		for(int i = 0; i < blueRankingPoints.length; i++) 
 			bluePointBox.getChildren().add(blueRankingPoints[i]);
-		bluePointBox.setTranslateX(getWidth()/2 - bluePointBox.getWidth());
+		blueScore.setTranslateX(K.MATCHES.LEFT_WIDTH/4 - blueScore.getWidth()/2 - 10);
+		bluePointBox.setTranslateX(K.MATCHES.LEFT_WIDTH/2 - bluePointBox.getWidth() - 10);
 		
 		HBox redScorePoint = new HBox();
 		redBox.getChildren().add(redScorePoint);
-		for(int i = 0; i < redAlliance.length; i++)
+		for(int i = 0; i < redAlliance.length; i++) 
 			redBox.getChildren().add(redAlliance[i]);
 		VBox redPointBox = new VBox();
 		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		redScorePoint.getChildren().addAll(redPointBox,redScore);
-		for(int i = 0; i < redRankingPoints.length; i++)
+		for(int i = 0; i < redRankingPoints.length; i++) 
 			redPointBox.getChildren().add(redRankingPoints[i]);
-		redPointBox.setTranslateX(getWidth()/2);
+		redScore.setTranslateX(K.MATCHES.LEFT_WIDTH/4*3 - redScore.getWidth()/2 - 30);
 	}
 	
 	public String nameFromKey(String key) {
