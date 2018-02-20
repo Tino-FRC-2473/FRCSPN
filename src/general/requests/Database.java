@@ -123,12 +123,6 @@ public class Database {
 	public Event[] getEventsForTeamInYear(int t, int y) {
 		return generalGet(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y), Event[].class);
 	} 
-	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {
-		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_Steamworks[].class);
-	}
-	public Match_PowerUp[] getMatches2018ForTeamAtEvent(int t, String e) {
-		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_PowerUp[].class);
-	}
 	public Team[] getTeamsAtEvent(String e) {
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);
 	}
@@ -138,6 +132,41 @@ public class Database {
 	public Event[] getEventsInYear(int y) {
 		return generalGet(new R(R.Type.EVENTS_IN_YEAR, y), Event[].class);
 	}
+	public String[] getMatchKeysForEvent(String e) {
+		return generalGet(new R(R.Type.MATCH_KEYS_FOR_EVENT, e), String[].class);
+	}
+	public Award[] getAwardsAtEvent(String e) {
+		return generalGet(new R(R.Type.AWARDS_AT_EVENT, e), Award[].class);
+	}
+	public Match_Steamworks get2017Match(String k) {
+		return generalGet(new R(R.Type.MATCH, k), Match_Steamworks.class);
+	}
+	public Match_PowerUp get2018Match(String k) {
+		return generalGet(new R(R.Type.MATCH, k), Match_PowerUp.class);
+	}
+	
+	public Match_Steamworks[] getMatches2017ForEvent(String e) {
+		ArrayList<Match_Steamworks> arr = new ArrayList<Match_Steamworks>();
+		for(String key : getMatchKeysForEvent(e)) {
+			arr.add(get2017Match(key));
+		}
+		return arr.toArray(new Match_Steamworks[getMatchKeysForEvent(e).length]);
+	}
+	
+	public Match_PowerUp[] getMatches2018ForEvent(String e) {
+		ArrayList<Match_PowerUp> arr = new ArrayList<Match_PowerUp>();
+		for(String key : getMatchKeysForEvent(e)) {
+			arr.add(get2018Match(key));
+		}
+		return arr.toArray(new Match_PowerUp[getMatchKeysForEvent(e).length]);
+	}
+	
+//	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {
+//		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_Steamworks[].class);
+//	}
+//	public Match_PowerUp[] getMatches2018ForTeamAtEvent(int t, String e) {
+//		return generalGet(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e), Match_PowerUp[].class);
+//	}
 	
 	//debugging methods
 	

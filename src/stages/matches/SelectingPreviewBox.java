@@ -45,7 +45,6 @@ public class SelectingPreviewBox extends VBox {
 			this.getChildren().remove(labels.remove(0));
 		}
 		this.setStyle("-fx-background-color: #FFD32A");
-		System.out.println("CLEARED");
 		for (int i = 0; i < 10; i++) {
 			switch (infoTitle.get(i)) {
 			case "Name":

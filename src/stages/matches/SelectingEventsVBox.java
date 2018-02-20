@@ -22,7 +22,7 @@ public class SelectingEventsVBox extends VBox {
 	private ArrayList<EventsDisplay> displayList;
 	private EventsDisplay selected;
 	
-	public SelectingEventsVBox(ArrayList<Event> arr) {
+	public SelectingEventsVBox(Event[] arr) {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		
 		title = new Label("All Teams");
@@ -94,13 +94,6 @@ public class SelectingEventsVBox extends VBox {
 			}
 		}
 	}
-	
-//	private class eventClicked implements EventHandler<MouseEvent> {
-//		@Override
-//		public void handle(MouseEvent e) {
-//			
-//		}
-//	}
 }
 
 class EventsDisplay extends VBox {

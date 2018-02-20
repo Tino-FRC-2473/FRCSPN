@@ -11,9 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Event;
+import models.matches.yr2018.Match_PowerUp;
 
 public class MatchesStage extends Stage {
-	private ArrayList<Event> allEvents;
 	private State state;
 	
 	private MLoadingScene loadScene1;
@@ -21,7 +21,9 @@ public class MatchesStage extends Stage {
 	private MLoadingScene loadScene2;
 	private MainScene mainScene;
 	
+	private Event[] allEvents;
 	private Event event;
+	private Match_PowerUp[] allMatches;
 	
 	public MatchesStage() {
 		this.setResizable(false);
@@ -78,6 +80,7 @@ public class MatchesStage extends Stage {
 	public Event getEvent() { return event; }
 	
 	private void setMain() {
+		mainScene.initialize(allMatches);
 		this.setScene(mainScene);
 	}
 	
@@ -86,14 +89,21 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void setLoading2() {
-		//request all
-		ScoutingApp.getRequesterThread().addRequestStatus();
+		ScoutingApp.getRequesterThread().addRequestTeamsAtEvent(event.key);
 		this.setScene(loadScene2);
 		loadScene2.start();
 	}
 	
 	private void exitLoading2() {
+		ArrayList<Match_PowerUp> arr = new ArrayList<Match_PowerUp>(Arrays.asList(ScoutingApp.getDatabase().getMatches2018ForEvent(ScoutingApp.mStage.getEvent().key)));
 		
+		Collections.sort(arr, new Comparator<Match_PowerUp>() {
+			@Override public int compare(Match_PowerUp m1, Match_PowerUp m2) {
+				return m1.time - m2.time;
+			}
+		});
+		
+		allMatches = arr.toArray(new Match_PowerUp[arr.size()]);
 	}
 	
 	private void setSelecting() {
@@ -110,18 +120,20 @@ public class MatchesStage extends Stage {
 	}
 	
 	private void exitLoading1() {
-		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
+		ArrayList<Event> arr = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
 		
-		Collections.sort(allEvents, new Comparator<Event>() {
+		Collections.sort(arr, new Comparator<Event>() {
 			@Override public int compare(Event e1, Event e2) {
 				if(e1.start_date.compareTo(e2.start_date) == 0)
 					return e1.end_date.compareTo(e2.end_date);
 				return e1.start_date.compareTo(e2.start_date);
 			}
 		});
+		
+		allEvents = arr.toArray(new Event[arr.size()]);
 	}
 	
-	public ArrayList<Event> getAllEvents(){
+	public Event[] getAllEvents(){
 		return allEvents;
 	}
 	
