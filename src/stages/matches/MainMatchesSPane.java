@@ -53,21 +53,24 @@ class MatchesDisplay2018 extends VBox {
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
 		this.setStyle("-fx-background-color: #FFD32A;");
-		this.setPrefWidth(K.MATCHES.LEFT_WIDTH-6);
+		this.setPrefWidth(K.MATCHES.LEFT_WIDTH);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
 		matchName = new Label(match.key);
+		matchName.setStyle("-fx-font-size:28");
 		blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
-		blueScore.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
+		blueScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
 		redScore = new Label(""+m.score_breakdown.red.totalPoints);
-		redScore.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
+		redScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
 		
 		blueAlliance = new Label[3];
 		redAlliance = new Label[3];
-		for(int i = 0; i < blueAlliance.length; i++)
-			blueAlliance[i] = new Label(m.alliances.blue.team_keys[i]);
-		for(int i = 0; i < redAlliance.length; i++)
-			redAlliance[i] = new Label(m.alliances.red.team_keys[i]);
+		for(int i = 0; i < blueAlliance.length; i++) {
+			blueAlliance[i] = new Label(m.alliances.blue.team_keys[i].substring(3));
+			blueAlliance[i].setStyle("-fx-font-size: 14;"); }
+		for(int i = 0; i < redAlliance.length; i++) {
+			redAlliance[i] = new Label(m.alliances.red.team_keys[i].substring(3));
+			redAlliance[i].setStyle("-fx-font-size:14;"); }
 		
 		blueRankingPoints = new Label[2];
 		redRankingPoints = new Label[2];
@@ -100,29 +103,38 @@ class MatchesDisplay2018 extends VBox {
 	public void display() {
 		this.getChildren().add(matchName);
 		HBox alliances = new HBox();
+		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		alliances.setAlignment(Pos.TOP_CENTER);
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
-		alliances.getChildren().addAll(blueBox, redBox);
+		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
+		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
+		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
+		redBox.setStyle("fx-border-style: solid; -fx-border-width: 2;");
+		alliances.getChildren().addAll(blueBox,redBox);
 		
 		HBox blueScorePoint = new HBox();
 		blueBox.getChildren().add(blueScorePoint);
 		for(int i = 0; i < blueAlliance.length; i++)
 			blueBox.getChildren().add(blueAlliance[i]);
 		VBox bluePointBox = new VBox();
+		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		blueScorePoint.getChildren().addAll(blueScore, bluePointBox);
 		for(int i = 0; i < blueRankingPoints.length; i++) 
 			bluePointBox.getChildren().add(blueRankingPoints[i]);
+		bluePointBox.setTranslateX(getWidth()/2 - bluePointBox.getWidth());
 		
 		HBox redScorePoint = new HBox();
 		redBox.getChildren().add(redScorePoint);
 		for(int i = 0; i < redAlliance.length; i++)
 			redBox.getChildren().add(redAlliance[i]);
 		VBox redPointBox = new VBox();
-		redScorePoint.getChildren().addAll(redScore, redPointBox);
+		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
+		redScorePoint.getChildren().addAll(redPointBox,redScore);
 		for(int i = 0; i < redRankingPoints.length; i++)
 			redPointBox.getChildren().add(redRankingPoints[i]);
+		redPointBox.setTranslateX(getWidth()/2);
 	}
 	
 	public String nameFromKey(String key) {
@@ -150,10 +162,18 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public String[] getBlueAlliance() {
-		return match.alliances.blue.team_keys;
+		String[] arr = new String[3];
+		for (int i = 0; i < match.alliances.blue.team_keys.length; i++) {
+			arr[i] = match.alliances.blue.team_keys[i].substring(3);
+		}
+		return arr;
 	}
 	
 	public String[] getRedAlliance() {
-		return match.alliances.red.team_keys;
+		String[] arr = new String[3];
+		for (int i = 0; i < match.alliances.red.team_keys.length; i++) {
+			arr[i] = match.alliances.red.team_keys[i].substring(3);
+		}
+		return arr;
 	}
 }
