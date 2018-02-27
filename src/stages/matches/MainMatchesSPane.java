@@ -35,9 +35,9 @@ public class MainMatchesSPane extends ScrollPane {
 	
 	public void filter(String s) {
 		content.getChildren().clear();
-		for(int i = 0; i < matchList.size(); i++)
-			if(matchList.get(i).contains(s))
-				content.getChildren().add(matchList.get(i));
+		for(MatchesDisplay2018 m : matchList)
+			if(m.contains(s))
+				content.getChildren().add(m);
 	}
 }
 

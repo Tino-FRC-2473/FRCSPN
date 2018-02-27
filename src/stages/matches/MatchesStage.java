@@ -40,6 +40,8 @@ public class MatchesStage extends Stage {
 		setLoading1();
 	}
 	
+	public void filterMatches() { mainScene.filterMatches(); }
+	
 	public void setContent(Event event) { selectingScene.setContent(event); }
 	public void indicateSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }
 	public void preview(EventsDisplay d) { selectingScene.preview(d); }
