@@ -19,7 +19,7 @@ public class MainMatchesSPane extends ScrollPane {
 		this.setFitToWidth(true);
 		content = new VBox();
 		this.setContent(content);
-		content.setMaxWidth(K.MATCHES.LEFT_WIDTH-6);
+		content.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
 		content.setSpacing(3);
 		content.setPadding(K.getInsets(3));
 		matchList = new ArrayList<MatchesDisplay2018>();
@@ -54,11 +54,11 @@ class MatchesDisplay2018 extends VBox {
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
 		this.setStyle("-fx-background-color: #FFD32A;");
-		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-6);
+		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
-		matchName = new Label(match.key);
-		matchName.setStyle("-fx-font-size:28");
+		matchName = new Label(parseFromKey(match.key));
+		matchName.setStyle("-fx-font-size:22");
 		blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
 		blueScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
 		redScore = new Label(""+m.score_breakdown.red.totalPoints);
@@ -75,31 +75,34 @@ class MatchesDisplay2018 extends VBox {
 		
 		blueRankingPoints = new Label[2];
 		redRankingPoints = new Label[2];
-		
-		if(m.score_breakdown.blue.autoSwitchAtZero)
-			blueRankingPoints[0] = new Label("A");
+		blueRankingPoints[0] = new Label("A");
+		blueRankingPoints[1] = new Label("C");
+		redRankingPoints[0] = new Label("A");
+		redRankingPoints[1] = new Label("C");
+		if(m.score_breakdown.blue.autoRunPoints == 15)
+			blueRankingPoints[0].setVisible(true);
 		else
-			blueRankingPoints[0] = new Label();
+			blueRankingPoints[0].setVisible(false);
 		
 		if((m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot2.equals("Levitate")||m.score_breakdown.blue.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot3.equals("Levitate")||m.score_breakdown.blue.endgameRobot3.equals("Climbing")))
 		{ 
-			blueRankingPoints[1] = new Label("C");
+			blueRankingPoints[1].setVisible(true);
 		} else
-			blueRankingPoints[1] = new Label();
+			blueRankingPoints[1].setVisible(false);
 		
 		if ((m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot2.equals("Levitate")||m.score_breakdown.red.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot3.equals("Levitate")||m.score_breakdown.red.endgameRobot3.equals("Climbing"))) { 
-			redRankingPoints[1] = new Label("C"); }
+			redRankingPoints[1].setVisible(true); }
 		else
-			redRankingPoints[1] = new Label();
+			redRankingPoints[1].setVisible(false);
 		
-		if(m.score_breakdown.red.autoSwitchAtZero)
-			redRankingPoints[1] = new Label("A");
+		if(m.score_breakdown.red.autoRunPoints == 15)
+			redRankingPoints[0].setVisible(true);
 		else
-			redRankingPoints[1] = new Label();
+			redRankingPoints[0].setVisible(false);
 		
 		display();
 	}
@@ -107,7 +110,7 @@ class MatchesDisplay2018 extends VBox {
 	public void display() {
 		this.getChildren().add(matchName);
 		HBox alliances = new HBox();
-		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH);
+		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
 		alliances.setAlignment(Pos.TOP_CENTER);
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
@@ -121,9 +124,12 @@ class MatchesDisplay2018 extends VBox {
 		alliances.getChildren().addAll(blueBox, redBox);
 		
 		BorderPane blueScorePoint = new BorderPane();
+		VBox blueTeams = new VBox();
+		blueTeams.setAlignment(Pos.CENTER);
 		blueBox.getChildren().add(blueScorePoint);
 		for(int i = 0; i < blueAlliance.length; i++) 
-			blueBox.getChildren().add(blueAlliance[i]);
+			blueTeams.getChildren().add(blueAlliance[i]);
+		blueScorePoint.setBottom(blueTeams);
 		VBox bluePointBox = new VBox();
 		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		blueScorePoint.setCenter(blueScore);
@@ -132,9 +138,12 @@ class MatchesDisplay2018 extends VBox {
 			bluePointBox.getChildren().add(blueRankingPoints[i]);
 		
 		BorderPane redScorePoint = new BorderPane();
+		VBox redTeams = new VBox();
+		redTeams.setAlignment(Pos.CENTER);
 		redBox.getChildren().add(redScorePoint);
 		for(int i = 0; i < redAlliance.length; i++) 
-			redBox.getChildren().add(redAlliance[i]);
+			redTeams.getChildren().add(redAlliance[i]);
+		redScorePoint.setBottom(redTeams);
 		VBox redPointBox = new VBox();
 		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
 		redScorePoint.setCenter(redScore);
@@ -185,6 +194,14 @@ class MatchesDisplay2018 extends VBox {
 	
 	public String parseFromKey(String key) {
 		String s = "";
+		if (key.indexOf("qm") != -1) 
+			s = "Quals " + key.substring(key.indexOf("qm")+2);
+		else if (key.indexOf("qf") != -1) 
+			s = "Quarters " + key.substring(key.indexOf("qf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
+		else if (key.indexOf("sf") != -1)
+			s = "Semis " + key.substring(key.indexOf("sf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
+		else if (key.indexOf("f") != -1)
+			s = "Finals " + key.substring(key.indexOf("f")+1, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
 		return s;
 	}
 	
