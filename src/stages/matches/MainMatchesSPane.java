@@ -39,6 +39,14 @@ public class MainMatchesSPane extends ScrollPane {
 			if(m.contains(s))
 				content.getChildren().add(m);
 	}
+	
+	public void highlight(MatchesDisplay2018 m) {
+		
+	}
+	
+	public ArrayList<MatchesDisplay2018> getMatcheDisplays2018() {
+		return matchList;
+	}
 }
 
 class MatchesDisplay2018 extends VBox {

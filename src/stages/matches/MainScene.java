@@ -22,6 +22,14 @@ public class MainScene extends Scene {
 		lMatchesSPane.filter(tSearchBox.getText());
 	}
 	
+	public Match_PowerUp[] getMatches() {
+		return matches;
+	}
+	
+	public MainMatchesSPane getMainMatchesSPane() {
+		return lMatchesSPane;
+	}
+	
 	public void initialize(Match_PowerUp[] arr) {
 		matches = arr.clone();
 		
