@@ -88,7 +88,7 @@ public class SuggestionsHBox extends HBox {
 		   } else if(ScoutingApp.mStage.getAllEvents().get(last).start_date.equals(startdate)) {
 			   return last;
 		   } else if(last-first <= 1){
-			   return Math.min(last, first);
+			   return Math.max(last, first);
 		   } else {
 			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) > 0)
 				   return bsearch(startdate,(first+last)/2,last);
