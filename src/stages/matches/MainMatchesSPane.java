@@ -39,6 +39,14 @@ public class MainMatchesSPane extends ScrollPane {
 			if(m.contains(s))
 				content.getChildren().add(m);
 	}
+	
+	public void highlight(MatchesDisplay2018 m) {
+		
+	}
+	
+	public ArrayList<MatchesDisplay2018> getMatcheDisplays2018() {
+		return matchList;
+	}
 }
 
 class MatchesDisplay2018 extends VBox {
@@ -98,7 +106,6 @@ class MatchesDisplay2018 extends VBox {
 			redRankingPoints[1].setVisible(true); }
 		else
 			redRankingPoints[1].setVisible(false);
-		
 		if(m.score_breakdown.red.autoRunPoints == 15)
 			redRankingPoints[0].setVisible(true);
 		else
@@ -131,7 +138,7 @@ class MatchesDisplay2018 extends VBox {
 			blueTeams.getChildren().add(blueAlliance[i]);
 		blueScorePoint.setBottom(blueTeams);
 		VBox bluePointBox = new VBox();
-		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
+		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
 		blueScorePoint.setCenter(blueScore);
 		blueScorePoint.setRight(bluePointBox);
 		for(int i = 0; i < blueRankingPoints.length; i++) 
@@ -169,7 +176,7 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public boolean contains(String s) {
-		return false;
+		return true;
 	}
 	
 	public String getName() {
