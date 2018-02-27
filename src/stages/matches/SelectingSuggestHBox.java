@@ -84,38 +84,22 @@ public class SelectingSuggestHBox extends HBox {
 	}
 	
 	private int bsearch(String startdate, int first, int last){
-<<<<<<< HEAD:src/stages/matches/SuggestionsHBox.java
-		   if(ScoutingApp.mStage.getAllEvents().get(first).start_date.equals(startdate)) {
+		   if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate)) {
 			   return first;
-		   } else if(ScoutingApp.mStage.getAllEvents().get(last).start_date.equals(startdate)) {
+		   } else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate)) {
 			   return last;
 		   } else if(last-first <= 1){
 			   return Math.max(last, first);
 		   } else {
-			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) > 0)
+			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
 				   return bsearch(startdate,(first+last)/2,last);
-			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents().get((first+last)/2).start_date) < 0)
+			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
 				   return bsearch(startdate,first,(first+last)/2);
 			   else
 				   return (first+last)/2;
 		   }
-=======
-		if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate))
-			return first;
-		else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate))
-			return last;
-		else if(last-first <= 1)
-			return Math.min(last, first);
-		else {
-			if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
-				return bsearch(startdate,(first+last)/2,last);
-			else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
-				return bsearch(startdate,first,(first+last)/2);
-			else
-				return (first+last)/2;
->>>>>>> b1669d01fa1d963c2fee3374be051fa63d17fd58:src/stages/matches/SelectingSuggestHBox.java
+
 		}
-	}
 }
 
 class SuggestedLabel extends Label {
