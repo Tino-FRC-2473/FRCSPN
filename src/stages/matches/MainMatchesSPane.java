@@ -133,7 +133,7 @@ class MatchesDisplay2018 extends VBox {
 		for(int i = 0; i < blueAlliance.length; i++) 
 			blueBox.getChildren().add(blueAlliance[i]);
 		VBox bluePointBox = new VBox();
-		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
+		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
 		blueScorePoint.setCenter(blueScore);
 		blueScorePoint.setRight(bluePointBox);
 		for(int i = 0; i < blueRankingPoints.length; i++) 
@@ -168,7 +168,7 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public boolean contains(String s) {
-		return false;
+		return true;
 	}
 	
 	public String getName() {
