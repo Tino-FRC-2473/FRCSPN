@@ -84,21 +84,22 @@ public class SelectingSuggestHBox extends HBox {
 	}
 	
 	private int bsearch(String startdate, int first, int last){
-		if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate))
-			return first;
-		else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate))
-			return last;
-		else if(last-first <= 1)
-			return Math.min(last, first);
-		else {
-			if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
-				return bsearch(startdate,(first+last)/2,last);
-			else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
-				return bsearch(startdate,first,(first+last)/2);
-			else
-				return (first+last)/2;
+		   if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate)) {
+			   return first;
+		   } else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate)) {
+			   return last;
+		   } else if(last-first <= 1){
+			   return Math.max(last, first);
+		   } else {
+			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
+				   return bsearch(startdate,(first+last)/2,last);
+			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
+				   return bsearch(startdate,first,(first+last)/2);
+			   else
+				   return (first+last)/2;
+		   }
+
 		}
-	}
 }
 
 class SuggestedLabel extends Label {
