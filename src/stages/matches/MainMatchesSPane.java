@@ -75,28 +75,31 @@ class MatchesDisplay2018 extends VBox {
 		
 		blueRankingPoints = new Label[2];
 		redRankingPoints = new Label[2];
+		
 		if(m.score_breakdown.blue.autoSwitchAtZero)
 			blueRankingPoints[0] = new Label("A");
 		else
 			blueRankingPoints[0] = new Label();
+		
 		if((m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot2.equals("Levitate")||m.score_breakdown.blue.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot3.equals("Levitate")||m.score_breakdown.blue.endgameRobot3.equals("Climbing")))
 		{ 
-			blueRankingPoints[1] = new Label();
-		} else
 			blueRankingPoints[1] = new Label("C");
+		} else
+			blueRankingPoints[1] = new Label();
 		
 		if ((m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot2.equals("Levitate")||m.score_breakdown.red.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot3.equals("Levitate")||m.score_breakdown.red.endgameRobot3.equals("Climbing"))) { 
-			redRankingPoints[0] = new Label("A"); }
+			redRankingPoints[1] = new Label("C"); }
 		else
-			redRankingPoints[0] = new Label();
-		if(m.score_breakdown.red.endgameRobot1.equals(""))
 			redRankingPoints[1] = new Label();
+		
+		if(m.score_breakdown.red.autoSwitchAtZero)
+			redRankingPoints[1] = new Label("A");
 		else
-			redRankingPoints[1] = new Label("C");
+			redRankingPoints[1] = new Label();
 		
 		display();
 	}
