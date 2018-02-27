@@ -97,9 +97,9 @@ class MatchesDisplay2018 extends VBox {
 			redRankingPoints[1] = new Label();
 		
 		if(m.score_breakdown.red.autoSwitchAtZero)
-			redRankingPoints[1] = new Label("A");
+			redRankingPoints[0] = new Label("A");
 		else
-			redRankingPoints[1] = new Label();
+			redRankingPoints[0] = new Label();
 		
 		display();
 	}
