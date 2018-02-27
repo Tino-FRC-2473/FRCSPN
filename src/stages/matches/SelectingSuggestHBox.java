@@ -12,9 +12,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import models.Event;
 
-public class SuggestionsHBox extends HBox {
+public class SelectingSuggestHBox extends HBox {
 	private Label title;
 	private ScrollPane sPane;
 	private HBox contents;
@@ -23,7 +24,7 @@ public class SuggestionsHBox extends HBox {
 	private ArrayList<SuggestedLabel> labels;
 	private int n;
 	
-	public SuggestionsHBox(int n) {
+	public SelectingSuggestHBox(int n) {
 		this.n = n;
 	}
 	
@@ -34,8 +35,8 @@ public class SuggestionsHBox extends HBox {
 		}
 		@Override
 		public void handle(MouseEvent e) {
-			ScoutingApp.mStage.getEventsVBox().indicateSelected(new EventsDisplay(event));
-			ScoutingApp.mStage.getPreviewPane().setContent(event);
+			ScoutingApp.mStage.indicateSelected(new EventsDisplay(event));
+			ScoutingApp.mStage.setContent(event);
 		}
 		
 	}
@@ -46,22 +47,22 @@ public class SuggestionsHBox extends HBox {
 		
 		String startdate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 		
-		int startIndex = bsearch(startdate, 0, ScoutingApp.mStage.getAllEvents().size()-1);
+		int startIndex = bsearch(startdate, 0, ScoutingApp.mStage.getAllEvents().length-1);
 		if(startIndex < 0)
 			startIndex = 0;
-		else if(startIndex >= ScoutingApp.mStage.getAllEvents().size())
-			startIndex = ScoutingApp.mStage.getAllEvents().size()-1;
+		else if(startIndex >= ScoutingApp.mStage.getAllEvents().length)
+			startIndex = ScoutingApp.mStage.getAllEvents().length-1;
 		
-		while(startIndex>=1 && ScoutingApp.mStage.getAllEvents().get(startIndex-1).start_date.compareTo(ScoutingApp.mStage.getAllEvents().get(startIndex).start_date)==0)
+		while(startIndex>=1 && ScoutingApp.mStage.getAllEvents()[startIndex-1].start_date.compareTo(ScoutingApp.mStage.getAllEvents()[startIndex].start_date)==0)
 			startIndex--;
 		
-		suggested = new Event[Math.min(n, ScoutingApp.mStage.getAllEvents().size()-1)-startIndex+1];
+		suggested = new Event[Math.min(n, ScoutingApp.mStage.getAllEvents().length-1)-startIndex+1];
 		int index = 0;
-		for(int i = startIndex; i < Math.min(n, ScoutingApp.mStage.getAllEvents().size()-1); i++) {
-			suggested[index] = ScoutingApp.mStage.getAllEvents().get(i);
+		for(int i = startIndex; i < Math.min(n, ScoutingApp.mStage.getAllEvents().length-1); i++) {
+			suggested[index] = ScoutingApp.mStage.getAllEvents()[i];
 			index++;
-			SuggestedLabel l = new SuggestedLabel(ScoutingApp.mStage.getAllEvents().get(i));
-			l.setOnMouseClicked(new onLabelClicked(ScoutingApp.mStage.getAllEvents().get(i)));
+			SuggestedLabel l = new SuggestedLabel(ScoutingApp.mStage.getAllEvents()[i]);
+			l.setOnMouseClicked(new onLabelClicked(ScoutingApp.mStage.getAllEvents()[i]));
 			labels.add(l);
 			contents.getChildren().addAll(l);
 		}
@@ -83,6 +84,7 @@ public class SuggestionsHBox extends HBox {
 	}
 	
 	private int bsearch(String startdate, int first, int last){
+<<<<<<< HEAD:src/stages/matches/SuggestionsHBox.java
 		   if(ScoutingApp.mStage.getAllEvents().get(first).start_date.equals(startdate)) {
 			   return first;
 		   } else if(ScoutingApp.mStage.getAllEvents().get(last).start_date.equals(startdate)) {
@@ -97,6 +99,37 @@ public class SuggestionsHBox extends HBox {
 			   else
 				   return (first+last)/2;
 		   }
+=======
+		if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate))
+			return first;
+		else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate))
+			return last;
+		else if(last-first <= 1)
+			return Math.min(last, first);
+		else {
+			if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
+				return bsearch(startdate,(first+last)/2,last);
+			else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
+				return bsearch(startdate,first,(first+last)/2);
+			else
+				return (first+last)/2;
+>>>>>>> b1669d01fa1d963c2fee3374be051fa63d17fd58:src/stages/matches/SelectingSuggestHBox.java
 		}
+	}
 }
 
+class SuggestedLabel extends Label {
+	private Event event;
+	
+	public SuggestedLabel(Event event) {
+		super(event.name);
+		this.event = event;
+		this.setStyle("-fx-background-color: #B79A00; -fx-font-size: 14; -fx-stroke: black; -fx-font-weight: bold");
+		this.setTextFill(Color.WHITE);
+		this.setPadding(new Insets(BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET, BoxPaddingInsets.OFFSET/2.0, BoxPaddingInsets.OFFSET));
+	}
+	
+	public Event getEvent() {
+		return this.event;
+	}
+}

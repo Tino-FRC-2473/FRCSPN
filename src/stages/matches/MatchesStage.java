@@ -4,79 +4,53 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 import general.ScoutingApp;
-import general.constants.K;
 import general.images.I;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Event;
+import models.matches.yr2018.Match_PowerUp;
 
 public class MatchesStage extends Stage {
-	private ArrayList<Event> allEvents;
 	private State state;
 	
-	private HashMap<State, Scene> sceneMap;
-	private BorderPane selectingRoot;
+	private MLoadingScene loadScene1;
+	private SelectingScene selectingScene;
+	private MLoadingScene loadScene2;
+	private MainScene mainScene;
 	
-	private MLoadingThread loadingThread;
-	
-	private SearchHBox searchBox;
-	private SuggestionsHBox suggestionsSPane;
-	private EventsVBox lEventsBox;
-	
-	private PreviewBox previewBox;
-	
-	private BorderPane mainRoot;
-	
+	private Event[] allEvents;
 	private Event event;
+	private Match_PowerUp[] allMatches;
 	
 	public MatchesStage() {
 		this.setResizable(false);
 		this.setTitle("Matches (FRCSPN)");
 		
-		selectingRoot = new BorderPane();
-		selectingRoot.setStyle("-fx-background-color: #F0F0F0");
-		
-		mainRoot = new BorderPane();
-		mainRoot.setStyle("-fx-background-color: #F0F0F0");
-		
-		searchBox = new SearchHBox();
-		suggestionsSPane = new SuggestionsHBox(15);
-
-		VBox top = new VBox();
-		top.getChildren().addAll(searchBox, suggestionsSPane, I.getInstance().getSeparatorWhite(K.MATCHES.WIDTH, 6));
-		selectingRoot.setTop(top);
-		
-		previewBox = new PreviewBox();
-		selectingRoot.setCenter(previewBox);
-		
-		initScenesMap();
+		loadScene1 = new MLoadingScene(new Pane());
+		selectingScene = new SelectingScene(new BorderPane());
+		loadScene2 = new MLoadingScene(new Pane());
+		mainScene = new MainScene(new BorderPane());
 		
 		this.getIcons().add(I.getInstance().getImg(I.Type.MAIN_ICON));
 		
-		state = State.LOADING;
-		setLoading();
+		state = State.LOADING1;
+		setLoading1();
 	}
 	
-	public void preview(EventsDisplay d) {
-		previewBox.setContent(d.getEvent());
-		previewBox.setColor(d.getColor());
-	}
+	public void filterMatches() { mainScene.filterMatches(); }
 	
-	public void filterEvents() {
-		lEventsBox.filter(searchBox.getText());
-	}
+	public void setContent(Event event) { selectingScene.setContent(event); }
+	public void indicateSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }
+	public void preview(EventsDisplay d) { selectingScene.preview(d); }
+	public void filterEvents() { selectingScene.filterEvents(); }
 	
 	public void selectEvent() {
-		if(lEventsBox.getSelectedEvent() != null) {
-			event = lEventsBox.getSelectedEvent();
-			this.setState(State.MAIN);
+		if(selectingScene.getSelectedEvent() != null) {
+			event = selectingScene.getSelectedEvent();
+			this.setState(State.LOADING2);
 		}
 	}
 	
@@ -84,75 +58,73 @@ public class MatchesStage extends Stage {
 		System.out.println("changing state from " + state + " -> " + toSet);
 		if(!state.equals(toSet)) {
 			switch(state) {
-			case SELECTING:
-				exitSelecting();
-				break;
-			case LOADING:
-				exitLoading();
-				break;
-			case MAIN:
-				exitMain();
-				break;
-			default:
-				System.out.println("Unknown previous state: " + state);
-				break;
+			case LOADING1:		exitLoading1();		break;
+			case SELECTING:		exitSelecting();	break;
+			case LOADING2:		exitLoading2();		break;
+			case MAIN:			exitMain();			break;
+			default:			System.out.println("Unknown previous state: " + state); break;
 			}
 			
 			state = toSet;
 			
 			switch(state) {
-			case SELECTING:
-				setSelecting();
-				break;
-			case LOADING:
-				setLoading();
-				break;
-			case MAIN:
-				setMain();
-				break;
-			default:
-				System.out.println("Unknown previous state: " + state);
-				break;
+			case LOADING1:		setLoading1();		break;
+			case SELECTING:		setSelecting();		break;
+			case LOADING2:		setLoading2();		break;
+			case MAIN:			setMain();			break;
+			default:			System.out.println("Unknown new state: " + state); break;
 			}
 		}
 	}
 	
-	public State getState() {
-		return state;
-	}
+	public State getState() { return state; }
 	
-	public Event getEvent() {
-		return event;
-	}
+	public Event getEvent() { return event; }
 	
 	private void setMain() {
-		
+		mainScene.initialize(allMatches);
+		this.setScene(mainScene);
 	}
 	
 	private void exitMain() {
 		
 	}
 	
-	private void setSelecting() {
-		this.setScene(sceneMap.get(State.SELECTING));
-		suggestionsSPane.generateSuggestions();
+	private void setLoading2() {
+		ScoutingApp.getRequesterThread().addRequestTeamsAtEvent(event.key);
+		this.setScene(loadScene2);
+		loadScene2.start();
 	}
 	
-	private void exitSelecting() {
-		this.setScene(sceneMap.get(State.MAIN));
-	}
-	
-	private void setLoading() {
-		ScoutingApp.getRequesterThread().addRequestEventsInYear(2018);
-		this.setScene(sceneMap.get(State.LOADING));
-		loadingThread = new MLoadingThread(this, (MLoadingScene)sceneMap.get(State.LOADING));
-		loadingThread.start();
-	}
-	
-	private void exitLoading() {
-		allEvents = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
+	private void exitLoading2() {
+		ArrayList<Match_PowerUp> arr = new ArrayList<Match_PowerUp>(Arrays.asList(ScoutingApp.getDatabase().getMatches2018ForEvent(ScoutingApp.mStage.getEvent().key)));
 		
-		Collections.sort(allEvents, new Comparator<Event>() {
+		Collections.sort(arr, new Comparator<Match_PowerUp>() {
+			@Override public int compare(Match_PowerUp m1, Match_PowerUp m2) {
+				return m1.time - m2.time;
+			}
+		});
+		
+		allMatches = arr.toArray(new Match_PowerUp[arr.size()]);
+	}
+	
+	private void setSelecting() {
+		selectingScene.initialize(allEvents);
+		this.setScene(selectingScene);
+	}
+	
+	private void exitSelecting() {}
+	
+	private void setLoading1() {
+		ScoutingApp.getRequesterThread().addRequestEventsInYear(2018);
+		this.setScene(loadScene1);
+		loadScene1.start();
+	}
+	
+	private void exitLoading1() {
+		ArrayList<Event> arr = new ArrayList<Event>(Arrays.asList(ScoutingApp.getDatabase().getEventsInYear(2018)));
+		
+		Collections.sort(arr, new Comparator<Event>() {
 			@Override public int compare(Event e1, Event e2) {
 				if(e1.start_date.compareTo(e2.start_date) == 0)
 					return e1.end_date.compareTo(e2.end_date);
@@ -160,33 +132,14 @@ public class MatchesStage extends Stage {
 			}
 		});
 		
-		lEventsBox = new EventsVBox(allEvents);
-		lEventsBox.addAllEvents();
-		HBox left = new HBox();
-		left.getChildren().addAll(lEventsBox, I.getInstance().getSeparatorWhite(6, K.MATCHES.L_EVENTS_HEIGHT));
-		selectingRoot.setLeft(left);
+		allEvents = arr.toArray(new Event[arr.size()]);
 	}
 	
-	private void initScenesMap() {
-		sceneMap = new HashMap<State, Scene>();
-		sceneMap.put(State.SELECTING, new Scene(selectingRoot, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
-		sceneMap.put(State.LOADING, new MLoadingScene(new Pane()));
-		sceneMap.put(State.MAIN, new Scene(mainRoot, K.MATCHES.WIDTH, K.MATCHES.HEIGHT));
-	}
-	
-	public ArrayList<Event> getAllEvents(){
+	public Event[] getAllEvents(){
 		return allEvents;
 	}
 	
-	public PreviewBox getPreviewPane() {
-		return this.previewBox;
-	}
-	
-	public EventsVBox getEventsVBox() {
-		return this.lEventsBox;
-	}
-	
 	public enum State {
-		SELECTING, LOADING, MAIN
+		LOADING1, SELECTING, LOADING2, MAIN
 	}
 }

@@ -2,6 +2,7 @@ import os
 import pprint
 import json
 import requests
+import numpy as np
 
 allMatches = []
 
@@ -14,7 +15,7 @@ teams = []
 with open("docs/teams.txt", "r") as f:
 	for line in f:
 	    teams.append(line[:len(line)-1])
-print(teams)
+#print(teams)
 
 data = []
 
@@ -35,49 +36,82 @@ for team in teams:
 	for match in allMatches:
 		mArr = []
 		if(team in getTeams(match)):
+			blueScore = getValue(match, "score_breakdown")["blue"]
+			redScore = getValue(match, "score_breakdown")["red"]
+
+			'''name of match for testing'''
 			#mArr.append(getValue(match, "key"))
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["totalPoints"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["totalPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["autoSwitchOwnershipSec"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["autoSwitchOwnershipSec"])
+			'''general'''
+			mArr.append(blueScore["totalPoints"])
+			mArr.append(redScore["totalPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["autoScaleOwnershipSec"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["autoScaleOwnershipSec"])
+			mArr.append(blueScore["adjustPoints"])
+			mArr.append(redScore["adjustPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["autoRunPoints"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["autoRunPoints"])
+			mArr.append(blueScore["foulPoints"])
+			mArr.append(redScore["foulPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["teleopSwitchOwnershipSec"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["teleopSwitchOwnershipSec"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["teleopScaleOwnershipSec"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["teleopScaleOwnershipSec"])
+			'''auto'''
+			mArr.append(blueScore["autoPoints"])
+			mArr.append(redScore["autoPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultBoostTotal"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultBoostTotal"])
+			mArr.append(blueScore["autoSwitchOwnershipSec"])
+			mArr.append(redScore["autoSwitchOwnershipSec"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultBoostPlayed"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultBoostPlayed"])
+			mArr.append(blueScore["autoScaleOwnershipSec"])
+			mArr.append(redScore["autoScaleOwnershipSec"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultForceTotal"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultForceTotal"])
+			mArr.append(blueScore["autoRunPoints"])
+			mArr.append(redScore["autoRunPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultForcePlayed"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultForcePlayed"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultLevitateTotal"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultLevitateTotal"])
+			'''teleop'''
+			mArr.append(blueScore["teleopPoints"])
+			mArr.append(redScore["teleopPoints"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultLevitatePlayed"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultLevitatePlayed"])
+			mArr.append(blueScore["teleopSwitchOwnershipSec"])
+			mArr.append(redScore["teleopSwitchOwnershipSec"])
+			mArr.append(blueScore["teleopSwitchBoostSec"])
+			mArr.append(redScore["teleopSwitchBoostSec"])
+			mArr.append(blueScore["teleopSwitchForceSec"])
+			mArr.append(redScore["teleopSwitchForceSec"])
 
-			mArr.append(getValue(match, "score_breakdown")["blue"]["vaultLevitateTotal"])
-			mArr.append(getValue(match, "score_breakdown")["red"]["vaultLevitateTotal"])
-			
-		if len(mArr) > 0:
-			tArr.append(mArr)
+			mArr.append(blueScore["teleopScaleOwnershipSec"])
+			mArr.append(redScore["teleopScaleOwnershipSec"])
+			mArr.append(blueScore["teleopScaleBoostSec"])
+			mArr.append(redScore["teleopScaleBoostSec"])
+			mArr.append(blueScore["teleopScaleForceSec"])
+			mArr.append(redScore["teleopScaleForceSec"])
+
+
+			'''vault'''
+			mArr.append(blueScore["vaultPoints"])
+			mArr.append(redScore["vaultPoints"])
+
+			mArr.append(blueScore["vaultBoostTotal"])
+			mArr.append(redScore["vaultBoostTotal"])
+			mArr.append(blueScore["vaultBoostPlayed"])
+			mArr.append(redScore["vaultBoostPlayed"])
+
+			mArr.append(blueScore["vaultForceTotal"])
+			mArr.append(redScore["vaultForceTotal"])
+			mArr.append(blueScore["vaultForcePlayed"])
+			mArr.append(redScore["vaultForcePlayed"])
+
+			mArr.append(blueScore["vaultLevitateTotal"])
+			mArr.append(redScore["vaultLevitateTotal"])
+			mArr.append(blueScore["vaultLevitatePlayed"])
+			mArr.append(redScore["vaultLevitatePlayed"])
+
+
+		#if len(mArr) > 0:
+		tArr.append(mArr)
 	data.append(tArr)
+#pprint.pprint(data)
 
-pprint.pprint(data)
+arr = np.array(data)
+print(arr)
+print(arr.shape)

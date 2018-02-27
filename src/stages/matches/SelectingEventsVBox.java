@@ -15,14 +15,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
 
-public class EventsVBox extends VBox {
+public class SelectingEventsVBox extends VBox {
 	private Label title;
 	private ScrollPane scrollPane;
 	private VBox events;
 	private ArrayList<EventsDisplay> displayList;
 	private EventsDisplay selected;
 	
-	public EventsVBox(ArrayList<Event> arr) {
+	public SelectingEventsVBox(Event[] arr) {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH);
 		
 		title = new Label("All Teams");
@@ -68,12 +68,6 @@ public class EventsVBox extends VBox {
 	}
 	
 	public void indicateSelected(EventsDisplay d) {
-//		if(selected == null || !d.equals(selected)) {
-//			if(selected != null) selected.highlight(false);
-//			selected = d;
-//			selected.highlight(true);
-//			ScoutingApp.mStage.preview(d);
-//		}
 		if(selected != null) selected.highlight(false);
 		for(EventsDisplay e : displayList) {
 			if(d.equals(e)) {
@@ -86,6 +80,7 @@ public class EventsVBox extends VBox {
 	}
 	
 	public void addAllEvents() {
+		events.getChildren().clear();
 		for(EventsDisplay i : displayList) {
 			events.getChildren().add(i);
 		}
@@ -99,13 +94,6 @@ public class EventsVBox extends VBox {
 			}
 		}
 	}
-	
-//	private class eventClicked implements EventHandler<MouseEvent> {
-//		@Override
-//		public void handle(MouseEvent e) {
-//			
-//		}
-//	}
 }
 
 class EventsDisplay extends VBox {

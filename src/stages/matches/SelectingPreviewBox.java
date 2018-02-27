@@ -3,18 +3,17 @@ package stages.matches;
 import java.util.ArrayList;
 
 import general.constants.K;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import models.Event;
 
-public class PreviewBox extends VBox {
+public class SelectingPreviewBox extends VBox {
 	// private HashMap<String, String> labelInfo = new HashMap<String, String>();
 	private ArrayList<String> infoTitle = new ArrayList<String>();
 	private ArrayList<Label> labels = new ArrayList<Label>();
 
-	public PreviewBox() {
+	public SelectingPreviewBox() {
 		this.setPadding(K.getInsets());
 		this.setStyle("-fx-background-color: #FFD32A");
 		infoTitle.add("Name");
@@ -46,7 +45,6 @@ public class PreviewBox extends VBox {
 			this.getChildren().remove(labels.remove(0));
 		}
 		this.setStyle("-fx-background-color: #FFD32A");
-		System.out.println("CLEARED");
 		for (int i = 0; i < 10; i++) {
 			switch (infoTitle.get(i)) {
 			case "Name":

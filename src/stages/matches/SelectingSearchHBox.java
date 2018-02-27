@@ -12,19 +12,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
-public class SearchHBox extends HBox {
+public class SelectingSearchHBox extends HBox {
 	private TextField searchBar;
 	private ClickableButton searchButton;
 	private ClickableButton selectButton;
 	
-	public SearchHBox() {
+	public SelectingSearchHBox() {
 		this.setPadding(K.getInsets());
 		this.setSpacing(BoxPaddingInsets.OFFSET);
 		this.setStyle("-fx-background-color: #F0F0F0");
 		this.setAlignment(Pos.CENTER_LEFT);
 		
 		searchBar = new TextField();
-		searchBar.setPrefWidth(K.MATCHES.SEARCH_WIDTH);
+		searchBar.setPrefWidth(K.MATCHES.SEARCH_WIDTH_SELECTING);
 		searchBar.setPrefHeight(K.MATCHES.SEARCH_HEIGHT - 2*BoxPaddingInsets.OFFSET);
 		searchBar.setOnKeyPressed(new EventHandler<KeyEvent>() {
 		    @Override
