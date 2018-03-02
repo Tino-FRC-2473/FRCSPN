@@ -106,7 +106,7 @@ public class TeamEventsStage extends Stage {
 	}
 
 	private void loadLoading() {
-		try(BufferedReader br = new BufferedReader(new FileReader("docs/team_list.txt"))) {
+		try(BufferedReader br = new BufferedReader(new FileReader("userdocs/team_list.txt"))) {
 			teams = new HashMap<StringWithColor, ArrayList<Integer>>();
 			String line;
 			StringWithColor key = null;

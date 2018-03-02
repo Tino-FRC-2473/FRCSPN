@@ -1,0 +1,159 @@
+[
+    {
+        "name": "match_number",
+        "size": 1
+    },
+    {
+        "name": "videos",
+        "size": [
+            {
+                "key": "ciD4MYy3cB0",
+                "type": "youtube"
+            }
+        ]
+    },
+    {
+        "name": "alliances",
+        "size": {
+            "red": {
+                "dq_team_keys": [],
+                "score": 188,
+                "team_keys": [
+                    "frc238",
+                    "frc5687",
+                    "frc3323"
+                ],
+                "surrogate_team_keys": []
+            },
+            "blue": {
+                "dq_team_keys": [],
+                "score": 324,
+                "team_keys": [
+                    "frc501",
+                    "frc1247",
+                    "frc1729"
+                ],
+                "surrogate_team_keys": []
+            }
+        }
+    },
+    {
+        "name": "set_number",
+        "size": 1
+    },
+    {
+        "name": "event_key",
+        "size": "2018week0"
+    },
+    {
+        "name": "key",
+        "size": "2018week0_qf1m1"
+    },
+    {
+        "name": "winning_alliance",
+        "size": "blue"
+    },
+    {
+        "name": "actual_time",
+        "size": 1518891032
+    },
+    {
+        "name": "comp_level",
+        "size": "qf"
+    },
+    {
+        "name": "score_breakdown",
+        "size": {
+            "red": {
+                "vaultForceTotal": 0,
+                "endgameRobot2": "Parking",
+                "autoOwnershipPoints": 0,
+                "autoRobot1": "None",
+                "teleopOwnershipPoints": 133,
+                "teleopScaleForceSec": 0,
+                "teleopSwitchBoostSec": 0,
+                "teleopPoints": 183,
+                "autoRunPoints": 5,
+                "autoRobot2": "None",
+                "autoSwitchAtZero": false,
+                "tba_gameData": "LRL",
+                "endgameRobot3": "None",
+                "foulCount": 1,
+                "techFoulCount": 4,
+                "autoQuestRankingPoint": false,
+                "teleopScaleBoostSec": 0,
+                "autoScaleOwnershipSec": 0,
+                "autoSwitchOwnershipSec": 0,
+                "rp": 0,
+                "teleopScaleOwnershipSec": 5,
+                "endgameRobot1": "Climbing",
+                "vaultForcePlayed": 0,
+                "teleopSwitchForceSec": 0,
+                "autoPoints": 5,
+                "vaultLevitatePlayed": 2,
+                "teleopSwitchOwnershipSec": 128,
+                "endgamePoints": 35,
+                "autoRobot3": "AutoRun",
+                "vaultBoostPlayed": 0,
+                "foulPoints": 0,
+                "vaultLevitateTotal": 3,
+                "vaultBoostTotal": 0,
+                "faceTheBossRankingPoint": false,
+                "totalPoints": 188,
+                "vaultPoints": 15,
+                "adjustPoints": 0
+            },
+            "blue": {
+                "vaultForceTotal": 0,
+                "endgameRobot2": "Parking",
+                "autoOwnershipPoints": 0,
+                "autoRobot1": "None",
+                "teleopOwnershipPoints": 209,
+                "teleopScaleForceSec": 0,
+                "teleopSwitchBoostSec": 0,
+                "teleopPoints": 214,
+                "autoRunPoints": 5,
+                "autoRobot2": "None",
+                "autoSwitchAtZero": false,
+                "tba_gameData": "LRL",
+                "endgameRobot3": "None",
+                "foulCount": 0,
+                "techFoulCount": 0,
+                "autoQuestRankingPoint": false,
+                "teleopScaleBoostSec": 0,
+                "autoScaleOwnershipSec": 0,
+                "autoSwitchOwnershipSec": 0,
+                "rp": 0,
+                "teleopScaleOwnershipSec": 88,
+                "endgameRobot1": "None",
+                "vaultForcePlayed": 0,
+                "teleopSwitchForceSec": 0,
+                "autoPoints": 5,
+                "vaultLevitatePlayed": 0,
+                "teleopSwitchOwnershipSec": 121,
+                "endgamePoints": 5,
+                "autoRobot3": "AutoRun",
+                "vaultBoostPlayed": 0,
+                "foulPoints": 105,
+                "vaultLevitateTotal": 0,
+                "vaultBoostTotal": 0,
+                "faceTheBossRankingPoint": false,
+                "totalPoints": 324,
+                "vaultPoints": 0,
+                "adjustPoints": 0
+            }
+        }
+    },
+    {
+        "name": "time",
+        "size": 1518890400
+    },
+    {
+        "name": "predicted_time",
+        "size": 1518890949
+    },
+    {
+        "name": "post_result_time",
+        "size": 1518891273
+    }
+]
