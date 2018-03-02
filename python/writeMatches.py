@@ -5,12 +5,14 @@ import os
 PARAMS = {'X-TBA-Auth-Key':"gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj"}
 URL = "https://www.thebluealliance.com/api/v3/"
 
-EVENT = "week0"
+event = input("Enter 2018 event key to write match json files for: ")
+if not event[:4] == "2018":
+	event = "2018"+event
 
-matches = requests.get(url=(URL + "event/2018" + EVENT + "/matches"), params=PARAMS).json()
+matches = requests.get(url=(URL + "event/" + event + "/matches"), params=PARAMS).json()
 
 fullPath = os.getcwd()
-path = fullPath[:fullPath.rfind("\\")] + "\\data\\" + EVENT
+path = fullPath[:fullPath.rfind("\\")] + "\\data\\" + event
 
 if not os.path.exists(path + "\\matches"):
     os.makedirs(path + "\\matches")
