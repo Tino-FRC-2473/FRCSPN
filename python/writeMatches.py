@@ -10,10 +10,10 @@ EVENT = "week0"
 matches = requests.get(url=(URL + "event/2018" + EVENT + "/matches"), params=PARAMS).json()
 
 fullPath = os.getcwd()
-path = fullPath[:fullPath.rfind("\\")] + "/data/" + EVENT
+path = fullPath[:fullPath.rfind("\\")] + "\\data\\" + EVENT
 
-if not os.path.exists(path + "/matches"):
-    os.makedirs(path + "/matches")
+if not os.path.exists(path + "\\matches"):
+    os.makedirs(path + "\\matches")
 
 for match in matches:
 	with open(path + "/matches/" + match['key'][match['key'].index('_')+1:] + ".json", "w+") as file:
