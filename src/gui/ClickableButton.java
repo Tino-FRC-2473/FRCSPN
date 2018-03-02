@@ -78,12 +78,14 @@ public class ClickableButton extends ImageView {
 		case TE_ADD_BTN:
 			ScoutingApp.teStage.getCPane().addDialog();
 			break;
-		case M_SEARCH_BTN:
+		case MS_SEARCH_BTN:
 			ScoutingApp.mStage.filterEvents();
 			break;
-		case M_SELECT_BTN:
+		case MS_SELECT_BTN:
 			ScoutingApp.mStage.selectEvent();
 			break;
+		case MM_SEARCH_BTN:
+			ScoutingApp.mStage.filterMatches();
 		default:
 			System.out.println("Unknown button action for type " + type);
 			break;
