@@ -3,9 +3,11 @@ package stages.matches;
 import java.util.ArrayList;
 
 import general.constants.K;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,17 +16,27 @@ import models.matches.yr2018.Match_PowerUp;
 public class MainMatchesSPane extends ScrollPane {
 	private VBox content;
 	private ArrayList<MatchesDisplay2018> matchList;
+	private MatchesDisplay2018 selected;
 	
 	public MainMatchesSPane(Match_PowerUp[] arr) {
+		selected = null;
+		this.setMinWidth(K.MATCHES.LEFT_WIDTH);
 		this.setFitToWidth(true);
 		content = new VBox();
 		this.setContent(content);
-		content.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
+		content.setMaxWidth(K.MATCHES.LEFT_WIDTH-15);
 		content.setSpacing(3);
 		content.setPadding(K.getInsets(3));
 		matchList = new ArrayList<MatchesDisplay2018>();
-		for(Match_PowerUp m : arr)
-			matchList.add(new MatchesDisplay2018(m));
+		for(Match_PowerUp m : arr) {
+			MatchesDisplay2018 display = new MatchesDisplay2018(m);
+			matchList.add(display);
+			display.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override public void handle(MouseEvent e) {
+					highlight(display);
+				}
+			});
+		}
 	}
 	
 	public void addAllMatches() {
@@ -41,7 +53,14 @@ public class MainMatchesSPane extends ScrollPane {
 	}
 	
 	public void highlight(MatchesDisplay2018 m) {
-		
+		if (selected != null) selected.highlight(false);
+		for (MatchesDisplay2018 match : matchList) {
+			if (m.equals(match)) {
+				match.highlight(true);
+				selected = match;
+				break;
+			}
+		}
 	}
 	
 	public ArrayList<MatchesDisplay2018> getMatcheDisplays2018() {
@@ -57,12 +76,13 @@ class MatchesDisplay2018 extends VBox {
 	private Label[] redAlliance;
 	private Label[] blueRankingPoints;
 	private Label[] redRankingPoints;
-	
+	private String color;
 	private Match_PowerUp match;
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
 		this.setStyle("-fx-background-color: #FFD32A;");
-		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
+		color = "#FFD32A";
+		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-15);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
 		matchName = new Label(parseFromKey(match.key));
@@ -117,30 +137,29 @@ class MatchesDisplay2018 extends VBox {
 	public void display() {
 		this.getChildren().add(matchName);
 		HBox alliances = new HBox();
-		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH-10);
+		alliances.setMaxWidth(K.MATCHES.LEFT_WIDTH-15);
 		alliances.setAlignment(Pos.TOP_CENTER);
 		this.getChildren().add(alliances);
 		VBox blueBox = new VBox();
 		VBox redBox = new VBox();
 		blueBox.setAlignment(Pos.CENTER);
 		redBox.setAlignment(Pos.CENTER);
-		blueBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
-		redBox.setMinWidth(K.MATCHES.LEFT_WIDTH/2-25);
+		blueBox.setPrefWidth(K.MATCHES.LEFT_WIDTH/2-10);
+		redBox.setPrefWidth(K.MATCHES.LEFT_WIDTH/2-10);
 		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 		redBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 		alliances.getChildren().addAll(blueBox, redBox);
 		
 		BorderPane blueScorePoint = new BorderPane();
-		VBox blueTeams = new VBox();
-		blueTeams.setAlignment(Pos.CENTER);
 		blueBox.getChildren().add(blueScorePoint);
-		for(int i = 0; i < blueAlliance.length; i++) 
-			blueTeams.getChildren().add(blueAlliance[i]);
-		blueScorePoint.setBottom(blueTeams);
+		
 		VBox bluePointBox = new VBox();
 		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
-		blueScorePoint.setCenter(blueScore);
 		blueScorePoint.setRight(bluePointBox);
+		blueScorePoint.setCenter(blueScore);
+		for(int i = 0; i < blueAlliance.length; i++) {
+			blueBox.getChildren().add(blueAlliance[i]); 
+			blueAlliance[i].setTranslateX(-5);}
 		for(int i = 0; i < blueRankingPoints.length; i++) 
 			bluePointBox.getChildren().add(blueRankingPoints[i]);
 		
@@ -148,8 +167,9 @@ class MatchesDisplay2018 extends VBox {
 		VBox redTeams = new VBox();
 		redTeams.setAlignment(Pos.CENTER);
 		redBox.getChildren().add(redScorePoint);
-		for(int i = 0; i < redAlliance.length; i++) 
+		for(int i = 0; i < redAlliance.length; i++) {
 			redTeams.getChildren().add(redAlliance[i]);
+			redAlliance[i].setTranslateX(5); }
 		redScorePoint.setBottom(redTeams);
 		VBox redPointBox = new VBox();
 		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
@@ -169,14 +189,23 @@ class MatchesDisplay2018 extends VBox {
 				break;
 			}
 		}
-		
-		
-		
 		return name;
 	}
 	
 	public boolean contains(String s) {
-		return true;
+		if (getName().toLowerCase().indexOf(s.toLowerCase()) != -1) 
+			return true;
+		else {
+			for (int i = 0; i < getBlueAlliance().length; i++) {
+				if (getBlueAlliance()[i].indexOf(s)!= -1)
+					return true;
+			}
+			for (int i = 0; i < getRedAlliance().length; i++) {
+				if (getRedAlliance()[i].indexOf(s)!= -1)
+					return true;
+			}
+			return false;
+		}
 	}
 	
 	public String getName() {
@@ -212,5 +241,23 @@ class MatchesDisplay2018 extends VBox {
 		return s;
 	}
 	
+	public void highlight(boolean h) {
+		if(h)
+			this.setStyle("-fx-border-color: red; -fx-border-width: 7; -fx-background-color: " + color);
+		else
+			this.setStyle("-fx-border-radius: 0; -fx-background-color: " + color);
+	}
+	
+	public Match_PowerUp getMatch() {
+		return match;
+	}
+	
+	public boolean equals(MatchesDisplay2018 other) {
+		return this.getMatch().equals(other.getMatch());
+	}
+	
+	public String toString() {
+		return getName();
+	}
 	
 }

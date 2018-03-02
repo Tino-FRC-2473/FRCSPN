@@ -36,10 +36,10 @@ public class SelectingSearchHBox extends HBox {
 		});
 		this.getChildren().add(searchBar);
 		
-		searchButton = new ClickableButton(Type.M_SEARCH_BTN);
+		searchButton = new ClickableButton(Type.MS_SEARCH_BTN);
 		this.getChildren().add(searchButton);
 		
-		selectButton = new ClickableButton(Type.M_SELECT_BTN);
+		selectButton = new ClickableButton(Type.MS_SELECT_BTN);
 		this.getChildren().add(selectButton);
 	}
 	

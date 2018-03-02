@@ -54,10 +54,11 @@ public class I {
 		case TE_TEAM_LIST_BTN:
 			img = new Image(BASE + "team_events" + "/edit_teams.png", K.TEAM_EVENTS.EDIT_TEAMS_WIDTH, 0, true, true);
 			break;
-		case M_SEARCH_BTN:
+		case MS_SEARCH_BTN:
+		case MM_SEARCH_BTN:
 			img = new Image(BASE + "matches" + "/search.png", K.MATCHES.SEARCH_BTN_SIZE, 0, true, true);
 			break;
-		case M_SELECT_BTN:
+		case MS_SELECT_BTN:
 			img = new Image(BASE + "matches" + "/select.png", 0, K.MATCHES.SEARCH_BTN_SIZE, true, true);
 			break;
 		default:
@@ -87,7 +88,8 @@ public class I {
 		COMING_SOON_BTN, COMING_SOON_BTN_CLICKED,
 		MAIN_ICON,
 		
-		M_SEARCH_BTN, M_SELECT_BTN,
+		MS_SEARCH_BTN, MS_SELECT_BTN,
+		MM_SEARCH_BTN,
 		
 		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
 	}

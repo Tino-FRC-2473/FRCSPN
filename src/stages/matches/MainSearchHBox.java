@@ -35,7 +35,7 @@ public class MainSearchHBox extends HBox {
 		});
 		this.getChildren().add(searchBar);
 		
-		searchButton = new ClickableButton(Type.M_SEARCH_BTN);
+		searchButton = new ClickableButton(Type.MM_SEARCH_BTN);
 		this.getChildren().add(searchButton);
 	}
 	
