@@ -11,6 +11,7 @@ public class MainScene extends Scene {
 	
 	private MainMatchesSPane lMatchesSPane;
 	private MainSearchHBox tSearchBox;
+	private MainDisplayBPane cDisplayPane;
 	
 	public MainScene(BorderPane p) {
 		super(p, K.MATCHES.WIDTH, K.MATCHES.HEIGHT);
@@ -39,5 +40,8 @@ public class MainScene extends Scene {
 		
 		tSearchBox = new MainSearchHBox();
 		root.setTop(tSearchBox);
+		
+		cDisplayPane = new MainDisplayBPane();
+		root.setCenter(cDisplayPane);
 	}
 }

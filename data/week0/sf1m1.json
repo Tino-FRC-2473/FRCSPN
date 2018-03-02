@@ -1,0 +1,159 @@
+[
+    {
+        "size": 1518898512,
+        "name": "actual_time"
+    },
+    {
+        "size": 1518898388,
+        "name": "predicted_time"
+    },
+    {
+        "size": "2018week0_sf1m1",
+        "name": "key"
+    },
+    {
+        "size": {
+            "blue": {
+                "foulPoints": 20,
+                "autoPoints": 10,
+                "autoRobot3": "AutoRun",
+                "autoSwitchOwnershipSec": 0,
+                "vaultPoints": 20,
+                "vaultBoostTotal": 0,
+                "teleopSwitchOwnershipSec": 47,
+                "techFoulCount": 0,
+                "autoRunPoints": 10,
+                "teleopScaleBoostSec": 0,
+                "vaultLevitatePlayed": 2,
+                "endgamePoints": 40,
+                "teleopOwnershipPoints": 48,
+                "vaultBoostPlayed": 0,
+                "endgameRobot2": "Parking",
+                "rp": 0,
+                "teleopSwitchForceSec": 10,
+                "foulCount": 2,
+                "autoQuestRankingPoint": false,
+                "autoScaleOwnershipSec": 0,
+                "autoRobot1": "AutoRun",
+                "teleopSwitchBoostSec": 0,
+                "vaultForcePlayed": 1,
+                "autoOwnershipPoints": 0,
+                "autoRobot2": "None",
+                "endgameRobot1": "Levitate",
+                "teleopScaleOwnershipSec": 1,
+                "endgameRobot3": "Parking",
+                "totalPoints": 138,
+                "vaultForceTotal": 1,
+                "adjustPoints": 0,
+                "faceTheBossRankingPoint": false,
+                "teleopPoints": 108,
+                "tba_gameData": "LLL",
+                "autoSwitchAtZero": false,
+                "teleopScaleForceSec": 0,
+                "vaultLevitateTotal": 3
+            },
+            "red": {
+                "foulPoints": 10,
+                "autoPoints": 28,
+                "autoRobot3": "None",
+                "autoSwitchOwnershipSec": 9,
+                "vaultPoints": 5,
+                "vaultBoostTotal": 0,
+                "teleopSwitchOwnershipSec": 136,
+                "techFoulCount": 0,
+                "autoRunPoints": 10,
+                "teleopScaleBoostSec": 0,
+                "vaultLevitatePlayed": 0,
+                "endgamePoints": 0,
+                "teleopOwnershipPoints": 253,
+                "vaultBoostPlayed": 0,
+                "endgameRobot2": "None",
+                "rp": 0,
+                "teleopSwitchForceSec": 0,
+                "foulCount": 4,
+                "autoQuestRankingPoint": false,
+                "autoScaleOwnershipSec": 0,
+                "autoRobot1": "AutoRun",
+                "teleopSwitchBoostSec": 0,
+                "vaultForcePlayed": 0,
+                "autoOwnershipPoints": 18,
+                "autoRobot2": "AutoRun",
+                "endgameRobot1": "None",
+                "teleopScaleOwnershipSec": 117,
+                "endgameRobot3": "None",
+                "totalPoints": 296,
+                "vaultForceTotal": 0,
+                "adjustPoints": 0,
+                "faceTheBossRankingPoint": false,
+                "teleopPoints": 258,
+                "tba_gameData": "LLL",
+                "autoSwitchAtZero": true,
+                "teleopScaleForceSec": 0,
+                "vaultLevitateTotal": 1
+            }
+        },
+        "name": "score_breakdown"
+    },
+    {
+        "size": 1518898687,
+        "name": "post_result_time"
+    },
+    {
+        "size": "2018week0",
+        "name": "event_key"
+    },
+    {
+        "size": "red",
+        "name": "winning_alliance"
+    },
+    {
+        "size": 1,
+        "name": "match_number"
+    },
+    {
+        "size": [
+            {
+                "type": "youtube",
+                "key": "3R-DU9YFiR0"
+            }
+        ],
+        "name": "videos"
+    },
+    {
+        "size": {
+            "blue": {
+                "team_keys": [
+                    "frc58",
+                    "frc7314",
+                    "frc1721"
+                ],
+                "score": 138,
+                "surrogate_team_keys": [],
+                "dq_team_keys": []
+            },
+            "red": {
+                "team_keys": [
+                    "frc238",
+                    "frc5687",
+                    "frc3323"
+                ],
+                "score": 296,
+                "surrogate_team_keys": [],
+                "dq_team_keys": []
+            }
+        },
+        "name": "alliances"
+    },
+    {
+        "size": 1518896160,
+        "name": "time"
+    },
+    {
+        "size": 1,
+        "name": "set_number"
+    },
+    {
+        "size": "sf",
+        "name": "comp_level"
+    }
+]
