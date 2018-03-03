@@ -48,6 +48,7 @@ public class SelectingSuggestHBox extends HBox {
 		String startdate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 		
 		int startIndex = bsearch(startdate, 0, ScoutingApp.mStage.getAllEvents().length-1);
+		
 		if(startIndex < 0)
 			startIndex = 0;
 		else if(startIndex >= ScoutingApp.mStage.getAllEvents().length)
@@ -55,8 +56,10 @@ public class SelectingSuggestHBox extends HBox {
 		
 		while(startIndex>=1 && ScoutingApp.mStage.getAllEvents()[startIndex-1].start_date.compareTo(ScoutingApp.mStage.getAllEvents()[startIndex].start_date)==0)
 			startIndex--;
-		
-		suggested = new Event[Math.max(n, ScoutingApp.mStage.getAllEvents().length-1)-startIndex+1];
+//		System.out.println("INDEXKSJKDJKJKDJDJDKJ: " + startIndex);
+//		System.out.println("THE EVENT: "+ ScoutingApp.mStage.getAllEvents()[startIndex].key);
+		suggested = new Event[Math.min(n, (ScoutingApp.mStage.getAllEvents().length-1)-startIndex)+1];
+		//System.out.println("SIZEOFSUGGESTEDBOIIIIIIIII: " + suggested.length);
 		int index = 0;
 		for(int i = startIndex; i < Math.min(n, ScoutingApp.mStage.getAllEvents().length-1); i++) {
 			suggested[index] = ScoutingApp.mStage.getAllEvents()[i];
@@ -84,16 +87,16 @@ public class SelectingSuggestHBox extends HBox {
 	}
 	
 	private int bsearch(String startdate, int first, int last){
-		   if(ScoutingApp.mStage.getAllEvents()[first].start_date.equals(startdate)) {
+		   if(ScoutingApp.mStage.getAllEvents()[first].end_date.equals(startdate)) {
 			   return first;
-		   } else if(ScoutingApp.mStage.getAllEvents()[last].start_date.equals(startdate)) {
+		   } else if(ScoutingApp.mStage.getAllEvents()[last].end_date.equals(startdate)) {
 			   return last;
 		   } else if(last-first <= 1){
 			   return Math.max(last, first);
 		   } else {
-			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) > 0)
+			   if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].end_date) > 0)
 				   return bsearch(startdate,(first+last)/2,last);
-			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].start_date) < 0)
+			   else if(startdate.compareTo(ScoutingApp.mStage.getAllEvents()[(first+last)/2].end_date) < 0)
 				   return bsearch(startdate,first,(first+last)/2);
 			   else
 				   return (first+last)/2;
