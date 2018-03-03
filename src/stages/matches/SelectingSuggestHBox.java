@@ -56,7 +56,7 @@ public class SelectingSuggestHBox extends HBox {
 		while(startIndex>=1 && ScoutingApp.mStage.getAllEvents()[startIndex-1].start_date.compareTo(ScoutingApp.mStage.getAllEvents()[startIndex].start_date)==0)
 			startIndex--;
 		
-		suggested = new Event[Math.min(n, ScoutingApp.mStage.getAllEvents().length-1)-startIndex+1];
+		suggested = new Event[Math.max(n, ScoutingApp.mStage.getAllEvents().length-1)-startIndex+1];
 		int index = 0;
 		for(int i = startIndex; i < Math.min(n, ScoutingApp.mStage.getAllEvents().length-1); i++) {
 			suggested[index] = ScoutingApp.mStage.getAllEvents()[i];

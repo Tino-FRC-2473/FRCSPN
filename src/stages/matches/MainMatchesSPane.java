@@ -87,11 +87,15 @@ class MatchesDisplay2018 extends VBox {
 		match = m;
 		matchName = new Label(parseFromKey(match.key));
 		matchName.setStyle("-fx-font-size:22");
-		blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
+		if (m.score_breakdown != null) {
+			blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
+			redScore = new Label(""+m.score_breakdown.red.totalPoints);
+		} else {
+			blueScore = new Label("???");
+			redScore = new Label("???");
+		}
 		blueScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
-		redScore = new Label(""+m.score_breakdown.red.totalPoints);
 		redScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
-		
 		blueAlliance = new Label[3];
 		redAlliance = new Label[3];
 		for(int i = 0; i < blueAlliance.length; i++) {
@@ -107,12 +111,12 @@ class MatchesDisplay2018 extends VBox {
 		blueRankingPoints[1] = new Label("C");
 		redRankingPoints[0] = new Label("A");
 		redRankingPoints[1] = new Label("C");
-		if(m.score_breakdown.blue.autoRunPoints == 15)
+		if(m.score_breakdown != null && m.score_breakdown.blue.autoRunPoints == 15)
 			blueRankingPoints[0].setVisible(true);
 		else
 			blueRankingPoints[0].setVisible(false);
 		
-		if((m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
+		if(m.score_breakdown != null && (m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot2.equals("Levitate")||m.score_breakdown.blue.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot3.equals("Levitate")||m.score_breakdown.blue.endgameRobot3.equals("Climbing")))
 		{ 
@@ -120,13 +124,13 @@ class MatchesDisplay2018 extends VBox {
 		} else
 			blueRankingPoints[1].setVisible(false);
 		
-		if ((m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
+		if (m.score_breakdown != null && (m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot2.equals("Levitate")||m.score_breakdown.red.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot3.equals("Levitate")||m.score_breakdown.red.endgameRobot3.equals("Climbing"))) { 
 			redRankingPoints[1].setVisible(true); }
 		else
 			redRankingPoints[1].setVisible(false);
-		if(m.score_breakdown.red.autoRunPoints == 15)
+		if(m.score_breakdown != null && m.score_breakdown.red.autoRunPoints == 15)
 			redRankingPoints[0].setVisible(true);
 		else
 			redRankingPoints[0].setVisible(false);
