@@ -43,7 +43,7 @@ public class MatchesStage extends Stage {
 	public void filterMatches() { mainScene.filterMatches(); }
 	
 	public void setContent(Event event) { selectingScene.setContent(event); }
-	public void indicateSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }
+	public void indicateEventSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }
 	public void preview(EventsDisplay d) { selectingScene.preview(d); }
 	public void filterEvents() { selectingScene.filterEvents(); }
 	
@@ -52,6 +52,10 @@ public class MatchesStage extends Stage {
 			event = selectingScene.getSelectedEvent();
 			this.setState(State.LOADING2);
 		}
+	}
+	
+	public MainMatchesSPane getMainMatchesSPane() {
+		return mainScene.getMainMatchesSPane();
 	}
 	
 	public void setState(State toSet) {
@@ -138,6 +142,10 @@ public class MatchesStage extends Stage {
 	
 	public Event[] getAllEvents(){
 		return allEvents;
+	}
+	
+	public Match_PowerUp[] getMatches() {
+		return allMatches;
 	}
 	
 	public enum State {

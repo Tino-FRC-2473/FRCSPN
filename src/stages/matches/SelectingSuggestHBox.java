@@ -35,7 +35,7 @@ public class SelectingSuggestHBox extends HBox {
 		}
 		@Override
 		public void handle(MouseEvent e) {
-			ScoutingApp.mStage.indicateSelected(new EventsDisplay(event));
+			ScoutingApp.mStage.indicateEventSelected(new EventsDisplay(event));
 			ScoutingApp.mStage.setContent(event);
 		}
 		

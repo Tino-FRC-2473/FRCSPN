@@ -257,7 +257,7 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public boolean equals(MatchesDisplay2018 other) {
-		return this.getMatch().equals(other.getMatch());
+		return this.getMatch().key.equals(other.getMatch().key);
 	}
 	
 	public String toString() {
