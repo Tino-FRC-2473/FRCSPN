@@ -104,19 +104,19 @@ class MatchesDisplay2018 extends VBox {
 		for(int i = 0; i < redAlliance.length; i++) {
 			redAlliance[i] = new Label(m.alliances.red.team_keys[i].substring(3));
 			redAlliance[i].setStyle("-fx-font-size:14;"); }
-		
+		boolean quals = matchName.getText().substring(0,5).equals("Quals");
 		blueRankingPoints = new Label[2];
 		redRankingPoints = new Label[2];
 		blueRankingPoints[0] = new Label("A");
 		blueRankingPoints[1] = new Label("C");
 		redRankingPoints[0] = new Label("A");
 		redRankingPoints[1] = new Label("C");
-		if(m.score_breakdown != null && m.score_breakdown.blue.autoRunPoints == 15)
+		if(m.score_breakdown != null && quals && m.score_breakdown.blue.autoRunPoints == 15)
 			blueRankingPoints[0].setVisible(true);
 		else
 			blueRankingPoints[0].setVisible(false);
 		
-		if(m.score_breakdown != null && (m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
+		if(m.score_breakdown != null && quals && (m.score_breakdown.blue.endgameRobot1.equals("Levitate")||m.score_breakdown.blue.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot2.equals("Levitate")||m.score_breakdown.blue.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.blue.endgameRobot3.equals("Levitate")||m.score_breakdown.blue.endgameRobot3.equals("Climbing")))
 		{ 
@@ -124,13 +124,13 @@ class MatchesDisplay2018 extends VBox {
 		} else
 			blueRankingPoints[1].setVisible(false);
 		
-		if (m.score_breakdown != null && (m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
+		if (m.score_breakdown != null && quals && (m.score_breakdown.red.endgameRobot1.equals("Levitate")||m.score_breakdown.red.endgameRobot1.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot2.equals("Levitate")||m.score_breakdown.red.endgameRobot2.equals("Climbing"))
 				&& (m.score_breakdown.red.endgameRobot3.equals("Levitate")||m.score_breakdown.red.endgameRobot3.equals("Climbing"))) { 
 			redRankingPoints[1].setVisible(true); }
 		else
 			redRankingPoints[1].setVisible(false);
-		if(m.score_breakdown != null && m.score_breakdown.red.autoRunPoints == 15)
+		if(m.score_breakdown != null && quals && m.score_breakdown.red.autoRunPoints == 15)
 			redRankingPoints[0].setVisible(true);
 		else
 			redRankingPoints[0].setVisible(false);
@@ -156,17 +156,20 @@ class MatchesDisplay2018 extends VBox {
 		
 		BorderPane blueScorePoint = new BorderPane();
 		blueBox.getChildren().add(blueScorePoint);
-		
+		boolean quals = matchName.getText().substring(0,5).equals("Quals");
 		VBox bluePointBox = new VBox();
-		bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
-		blueScorePoint.setRight(bluePointBox);
-		blueScorePoint.setCenter(blueScore);
+		if (quals) {
+			bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
+			blueScorePoint.setRight(bluePointBox);
+			blueScorePoint.setCenter(blueScore);
+		}
 		for(int i = 0; i < blueAlliance.length; i++) {
 			blueBox.getChildren().add(blueAlliance[i]); 
 			blueAlliance[i].setTranslateX(-5);}
-		for(int i = 0; i < blueRankingPoints.length; i++) 
-			bluePointBox.getChildren().add(blueRankingPoints[i]);
-		
+		if (quals) {
+			for(int i = 0; i < blueRankingPoints.length; i++) 
+				bluePointBox.getChildren().add(blueRankingPoints[i]);
+		}		
 		BorderPane redScorePoint = new BorderPane();
 		VBox redTeams = new VBox();
 		redTeams.setAlignment(Pos.CENTER);
@@ -176,11 +179,15 @@ class MatchesDisplay2018 extends VBox {
 			redAlliance[i].setTranslateX(5); }
 		redScorePoint.setBottom(redTeams);
 		VBox redPointBox = new VBox();
-		redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
-		redScorePoint.setCenter(redScore);
-		redScorePoint.setLeft(redPointBox);
-		for(int i = 0; i < redRankingPoints.length; i++) 
-			redPointBox.getChildren().add(redRankingPoints[i]);
+		if (quals) {
+			redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
+			redScorePoint.setCenter(redScore);
+			redScorePoint.setLeft(redPointBox);
+		}
+		if (quals) {
+			for(int i = 0; i < redRankingPoints.length; i++) 
+				redPointBox.getChildren().add(redRankingPoints[i]);
+		}
 	}
 	
 	public String nameFromKey(String key) {
