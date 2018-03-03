@@ -3,6 +3,7 @@ package stages.matches;
 import general.constants.K;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import models.matches.yr2018.Match_PowerUp;
 
 public class MainScene extends Scene {
@@ -11,6 +12,7 @@ public class MainScene extends Scene {
 	
 	private MainMatchesSPane lMatchesSPane;
 	private MainSearchHBox tSearchBox;
+	private MainSuggestionsHBox tSuggestBox;
 	private MainDisplayBPane cDisplayPane;
 	
 	public MainScene(BorderPane p) {
@@ -38,8 +40,12 @@ public class MainScene extends Scene {
 		lMatchesSPane.addAllMatches();
 		root.setLeft(lMatchesSPane);
 		
+		VBox t = new VBox();
 		tSearchBox = new MainSearchHBox();
-		root.setTop(tSearchBox);
+		tSuggestBox = new MainSuggestionsHBox();
+		tSuggestBox.generateSuggestions();
+		t.getChildren().addAll(tSearchBox, tSuggestBox);
+		root.setTop(t);
 		
 		cDisplayPane = new MainDisplayBPane();
 		root.setCenter(cDisplayPane);
