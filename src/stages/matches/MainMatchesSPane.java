@@ -150,8 +150,8 @@ class MatchesDisplay2018 extends VBox {
 		redBox.setAlignment(Pos.CENTER);
 		blueBox.setPrefWidth(K.MATCHES.LEFT_WIDTH/2-10);
 		redBox.setPrefWidth(K.MATCHES.LEFT_WIDTH/2-10);
-		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
-		redBox.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
+		blueBox.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-background-color: #DDDEFF;");
+		redBox.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-background-color: #FFB9B9;");
 		alliances.getChildren().addAll(blueBox, redBox);
 		
 		BorderPane blueScorePoint = new BorderPane();
