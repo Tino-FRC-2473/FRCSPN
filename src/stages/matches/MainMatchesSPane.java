@@ -87,6 +87,8 @@ class MatchesDisplay2018 extends VBox {
 		match = m;
 		matchName = new Label(parseFromKey(match.key));
 		matchName.setStyle("-fx-font-size:22");
+		
+		
 		blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
 		blueScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
 		redScore = new Label(""+m.score_breakdown.red.totalPoints);
