@@ -4,16 +4,11 @@ import java.util.ArrayList;
 
 import general.ScoutingApp;
 import general.constants.K;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import models.matches.Match;
 import models.matches.yr2018.Match_PowerUp;
-import stages.main.MainStage;
 
 public class MainSuggestionsHBox extends HBox{
 	public boolean doesExist;
@@ -43,6 +38,7 @@ public class MainSuggestionsHBox extends HBox{
 				l.setOnMouseClicked(new onLabelClicked(getMain().getMatches()[i], getMain()));
 				labels.add(l);
 			}
+			this.getChildren().addAll(labels);
 		}
 	}
 
@@ -50,7 +46,7 @@ public class MainSuggestionsHBox extends HBox{
 		return ScoutingApp.mStage;
 	}
 }
-class onLabelClicked implements EventHandler{
+class onLabelClicked implements EventHandler<MouseEvent> {
 	Match_PowerUp m;
 	MatchesStage main;
 	public onLabelClicked(Match_PowerUp m, MatchesStage main) {
@@ -58,7 +54,7 @@ class onLabelClicked implements EventHandler{
 		this.main = main;
 	}
 	@Override
-	public void handle(Event event) {
+	public void handle(MouseEvent event) {
 		for(MatchesDisplay2018 m: main.getMainMatchesSPane().getMatcheDisplays2018()) {
 			if(m.getMatch().equals(this.m)) {
 				main.getMainMatchesSPane().highlight(m);
