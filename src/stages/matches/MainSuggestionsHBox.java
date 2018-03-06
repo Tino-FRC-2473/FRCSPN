@@ -32,8 +32,9 @@ public class MainSuggestionsHBox extends HBox{
 			doesExist = false;
 		}else {
 			doesExist = true;
-			for(int i = Math.max(index-4, 0); i < Math.min(index, getMain().getMatches().length-1); i++) {
+			for(int i = Math.max(index-4, 0); i < index; i++) {
 				Label l = new Label(getMain().getMatches()[i].key);
+				System.out.println("KEY: " + getMain().getMatches()[i].key);
 				l.setStyle("-fx-background-color: #FFD32A;-fx-font-size: 24; -fx-font-weight: bold");
 				l.setOnMouseClicked(new onLabelClicked(getMain().getMatches()[i], getMain()));
 				labels.add(l);
@@ -55,9 +56,9 @@ class onLabelClicked implements EventHandler<MouseEvent> {
 	}
 	@Override
 	public void handle(MouseEvent event) {
-		for(MatchesDisplay2018 m: main.getMainMatchesSPane().getMatcheDisplays2018()) {
-			if(m.getMatch().equals(this.m)) {
-				main.getMainMatchesSPane().highlight(m);
+		for(MatchesDisplay2018 md: main.getMainMatchesSPane().getMatcheDisplays2018()) {
+			if(md.getMatch().key.equals(this.m.key)) {
+				main.getMainMatchesSPane().highlight(md);
 			}
 		}
 	}

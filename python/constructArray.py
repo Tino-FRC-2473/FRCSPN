@@ -3,11 +3,12 @@ import pprint
 import json
 import numpy as np
 import writeMatches
+import re
 
-fullPath = os.getcwd()
+directory = os.getcwd()[:os.getcwd().rfind("\\")]
 
 def selectEventKeys():
-	path = fullPath[:fullPath.rfind("\\")] + "\\data\\"
+	path = directory + "\\data\\"
 
 	eventKeys = os.listdir(path)
 
@@ -81,7 +82,7 @@ def getMatches(eventKeys):
 	arr = []
 
 	for key in eventKeys:
-		path = fullPath[:fullPath.rfind("\\")] + "\\data\\" + key + "\\matches"
+		path = directory + "\\data\\" + key + "\\matches"
 		for fName in os.listdir(path):
 			arr.append(json.load(open(path + "\\" + fName, "r+")))
 
@@ -107,8 +108,8 @@ def getTeamStats(matches):
 	for match in matches:
 		for i, team in enumerate(getTeams(match)):
 			if not team in fullTeamData:
-				fullTeamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "auto": [], "endgame": [], "total": []}
-				teamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "auto": [], "endgame": [], "total": []}
+				fullTeamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "oppScale": [], "auto": [], "endgame": [], "total": []}
+				teamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "oppScale": [], "auto": [], "endgame": [], "total": []}
 			score = getValue(match, "score_breakdown")
 			
 			if not score == None:
@@ -121,9 +122,12 @@ def getTeamStats(matches):
 				fullTeamData[team]["switch"].append(score[side]["teleopSwitchOwnershipSec"])
 				fullTeamData[team]["scale"].append(score[side]["teleopScaleOwnershipSec"])
 				fullTeamData[team]["oppSwitch"].append(score[oppSide]["teleopSwitchOwnershipSec"])
+				fullTeamData[team]["oppScale"].append(score[oppSide]["teleopScaleOwnershipSec"])
 				fullTeamData[team]["auto"].append(score[side]["autoPoints"])
 				fullTeamData[team]["endgame"].append(score[side]["endgamePoints"])
 				fullTeamData[team]["total"].append(score[side]["totalPoints"])
+			else:
+				print("SKIPPED MATCH:", getValue(match, "key"))
 
 	for team, teamDict in fullTeamData.items():
 		for stat, valArr in teamDict.items():
@@ -133,42 +137,88 @@ def getTeamStats(matches):
 			teamData[team][stat].append(np.percentile(valArr, 75))
 			teamData[team][stat].append(np.percentile(valArr, 100))
 
+			#med, iqr possible
+
 	#pprint.pprint(teamData)
 	return teamData
 
-def buildTrainingArr():
+def buildTrainingData():
 	matches = getMatches(selectEventKeys())
 	teamStats = getTeamStats(matches)
 
-	arr = []
+	mArr = []
+	rArr = []
 	for i, match in enumerate(matches):
-		arr.append([])
-		arr[i].append([])
-		arr[i].append([])
-		arr[i][0].append([])
-		arr[i][0].append([])
-		arr[i][0].append([])
-		arr[i][1].append([])
-		arr[i][1].append([])
-		arr[i][1].append([])
+		mArr.append([])
+		mArr[i].append([])
+		mArr[i].append([])
+		mArr[i][0].append([])
+		mArr[i][0].append([])
+		mArr[i][0].append([])
+		mArr[i][1].append([])
+		mArr[i][1].append([])
+		mArr[i][1].append([])
 
-		# arr[i][n][m] (n is for alliances - 0: blue, 1: red) (m is from [0-2], representing the alliance team station # from [1-3])
+		# mArr[i][n][m] (n is for alliances - 0: blue, 1: red) (m is from [0-2], representing the alliance team station # from [1-3])
 		tms = getTeams(match)
 		for j in range(2):
 			for k in range(3):
 				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0, 2]) pairs to ([0, 5])
 				for _, valArr in data.items():
 					for val in valArr:
-						arr[i][j][k].append(val)
+						mArr[i][j][k].append(val)
 
-	npArr = np.array(arr)
-	return npArr
+		if not getValue(match, "score_breakdown") == None:
+			rArr.append([])
+			rArr[len(rArr)-1].append(getValue(match, "score_breakdown")["blue"]["totalPoints"])
+			rArr[len(rArr)-1].append(getValue(match, "score_breakdown")["red"]["totalPoints"])
+
+	return np.array(mArr), np.array(rArr)
+
+def writeFile4D(npArr, path):
+	with open(path, "w+") as file:
+		file.write(str(npArr.shape) + "\n")
+		print(npArr.shape)
+		for i in range(npArr.shape[0]):
+			for j in range(npArr.shape[1]):
+				for m in range(npArr.shape[2]):
+					for n in range(npArr.shape[3]):
+						file.write(str(npArr[i][j][m][n]) + "\n")
+
+def writeFile2D(npArr, path):
+	with open(path, "w+") as file:
+		file.write(str(npArr.shape) + "\n")
+		print(npArr.shape)
+		for i in range(npArr.shape[0]):
+			for j in range(npArr.shape[1]):
+				file.write(str(npArr[i][j]) + "\n")
+
+def getTrailingNumbers(s):
+    m = re.search(r'\d+$', s)
+    return int(m.group()) if m else None
 
 def main():
-	trainingArr = buildTrainingArr()
-	
+	trainingArr, resultsArr = buildTrainingData()
+	'''
 	pprint.pprint(trainingArr)
-	print("shape:", trainingArr.shape)
+	print("training shape:", trainingArr.shape)
+
+	pprint.pprint(resultsArr)
+	print("results shape:", resultsArr.shape)
+	'''
+	#m = re.search(r'\d+$', s)
+	#https://stackoverflow.com/questions/7085512/check-what-number-a-string-ends-with-in-python
+	d = os.listdir(directory + "\\training")
+	arr = []
+	for s in d:
+		s1 = getTrailingNumbers(s[:-len(".txt")])
+		if not s1 == None:
+			arr.append(s1)
+	arr.sort()
+	n = arr[len(arr)-1] + 1
+
+	writeFile4D(trainingArr, directory + "\\training\\data" + str(n) + ".txt")
+	writeFile2D(resultsArr, directory + "\\training\\results" + str(n) + ".txt")
 
 
 main()
