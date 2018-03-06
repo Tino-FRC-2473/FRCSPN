@@ -3,6 +3,7 @@ import pprint
 import json
 import numpy as np
 import writeMatches
+import re
 
 directory = os.getcwd()[:os.getcwd().rfind("\\")]
 
@@ -192,6 +193,10 @@ def writeFile2D(npArr, path):
 			for j in range(npArr.shape[1]):
 				file.write(str(npArr[i][j]) + "\n")
 
+def getTrailingNumbers(s):
+    m = re.search(r'\d+$', s)
+    return int(m.group()) if m else None
+
 def main():
 	trainingArr, resultsArr = buildTrainingData()
 	'''
@@ -203,7 +208,14 @@ def main():
 	'''
 	#m = re.search(r'\d+$', s)
 	#https://stackoverflow.com/questions/7085512/check-what-number-a-string-ends-with-in-python
-	n = int(len(os.listdir(directory + "\\training"))/2)
+	d = os.listdir(directory + "\\training")
+	arr = []
+	for s in d:
+		s1 = getTrailingNumbers(s[:-len(".txt")])
+		if not s1 == None:
+			arr.append(s1)
+	arr.sort()
+	n = arr[len(arr)-1] + 1
 
 	writeFile4D(trainingArr, directory + "\\training\\data" + str(n) + ".txt")
 	writeFile2D(resultsArr, directory + "\\training\\results" + str(n) + ".txt")
