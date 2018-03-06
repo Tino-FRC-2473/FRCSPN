@@ -25,7 +25,7 @@ def selectEventKeys():
 		print("    A: Add All")
 		for i in range(len(eventKeys)):
 			print("    " + str(i+1) + ": Add", eventKeys[i])
-		sel = input("Select an option: ")
+		sel = input("Select an option: ")[0]
 		if sel == 'F':
 			break
 		elif sel == 'W':
@@ -169,6 +169,6 @@ def main():
 	
 	pprint.pprint(trainingArr)
 	print("shape:", trainingArr.shape)
-	
+
 
 main()
