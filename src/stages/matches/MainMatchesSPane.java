@@ -52,19 +52,24 @@ public class MainMatchesSPane extends ScrollPane {
 				content.getChildren().add(m);
 	}
 	
-	public void highlight(MatchesDisplay2018 m) {
+	public Match_PowerUp highlight(MatchesDisplay2018 m) {
 		if (selected != null) selected.highlight(false);
 		for (MatchesDisplay2018 match : matchList) {
 			if (m.equals(match)) {
 				match.highlight(true);
 				selected = match;
-				break;
+				return match.getMatch();
 			}
 		}
+		return null;
 	}
 	
 	public ArrayList<MatchesDisplay2018> getMatcheDisplays2018() {
 		return matchList;
+	}
+	
+	public Match_PowerUp getSelectedMatch() {
+		return selected.getMatch();
 	}
 }
 
