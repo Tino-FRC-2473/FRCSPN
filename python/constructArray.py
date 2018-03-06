@@ -101,15 +101,27 @@ def getTeams(match):
 		arr.append(getValue(match, "alliances")['red']['team_keys'][i])
 	return arr
 
+def oppKey(s):
+	return "opp" + s[0].upper() + s[1:]
+
 def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
 
+	#yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoPoints", "endgamePoints", "totalPoints"]
+	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
+	yourStats = ["totalPoints"]
+	oppStats = []
+
 	for match in matches:
 		for i, team in enumerate(getTeams(match)):
 			if not team in fullTeamData:
-				fullTeamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "oppScale": [], "auto": [], "endgame": [], "total": []}
-				teamData[team] = {"switch": [], "scale": [], "oppSwitch": [], "oppScale": [], "auto": [], "endgame": [], "total": []}
+				fullTeamData[team], teamData[team] = {}, {}
+				for yStat in yourStats:
+					fullTeamData[team][yStat], teamData[team][yStat] = [], []
+				for oStat in oppStats:
+					fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
+
 			score = getValue(match, "score_breakdown")
 			
 			if not score == None:
@@ -119,13 +131,11 @@ def getTeamStats(matches):
 				elif i % 2 == 1:
 					side, oppSide = "red", "blue"
 
-				fullTeamData[team]["switch"].append(score[side]["teleopSwitchOwnershipSec"])
-				fullTeamData[team]["scale"].append(score[side]["teleopScaleOwnershipSec"])
-				fullTeamData[team]["oppSwitch"].append(score[oppSide]["teleopSwitchOwnershipSec"])
-				fullTeamData[team]["oppScale"].append(score[oppSide]["teleopScaleOwnershipSec"])
-				fullTeamData[team]["auto"].append(score[side]["autoPoints"])
-				fullTeamData[team]["endgame"].append(score[side]["endgamePoints"])
-				fullTeamData[team]["total"].append(score[side]["totalPoints"])
+				for yStat in yourStats:
+					fullTeamData[team][yStat].append(score[side][yStat])
+				for oStat in oppStats:
+					fullTeamData[team][oppKey(oStat)].append(score[oppSide][oStat])
+				
 			else:
 				print("SKIPPED MATCH:", getValue(match, "key"))
 
