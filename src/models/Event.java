@@ -14,7 +14,7 @@ public class Event {
 	
 	@Override
 	public String toString() {
-		return name + " " + key + " " + event_code + " " + city + " " + state_prov + " " + country + " " + start_date + " " + end_date + " " + year;
+		return name;
 	}
 
 	public boolean equals(Event other) {

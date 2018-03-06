@@ -1,5 +1,7 @@
 package stages.matches;
 
+import java.util.Arrays;
+
 import general.ScoutingApp;
 import general.constants.K;
 import javafx.application.Platform;
@@ -100,8 +102,13 @@ public class MLoadingScene extends Scene {
 							//requesting: status for each team at each of their events
 							for(Team t : teams) {
 								Event[] events = ScoutingApp.getDatabase().getEventsForTeamInYear(t.getNumber(), 2018);
-								for(Event e : events)
-									ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(t.getNumber(), e.key);
+								try {
+									System.out.println(t.key + "EVENTS: " + Arrays.asList(events));
+									for(Event e : events)
+										ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(t.getNumber(), e.key);
+								} catch(NullPointerException e) {
+									System.out.println("ERROR FOR TEAM " + t.key);
+								}
 							}
 						} else if(completions == 2) {
 							System.out.println("***NEXT: MATCH KEYS***");

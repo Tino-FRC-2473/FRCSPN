@@ -131,11 +131,11 @@ def getTeamStats(matches):
 
 	for team, teamDict in fullTeamData.items():
 		for stat, valArr in teamDict.items():
-			teamData[team][stat].append(np.percentile(valArr, 0))
-			teamData[team][stat].append(np.percentile(valArr, 25))
+			#teamData[team][stat].append(np.percentile(valArr, 0))
+			#teamData[team][stat].append(np.percentile(valArr, 25))
 			teamData[team][stat].append(np.percentile(valArr, 50))
-			teamData[team][stat].append(np.percentile(valArr, 75))
-			teamData[team][stat].append(np.percentile(valArr, 100))
+			#teamData[team][stat].append(np.percentile(valArr, 75))
+			#teamData[team][stat].append(np.percentile(valArr, 100))
 
 			#med, iqr possible
 
@@ -197,6 +197,19 @@ def getTrailingNumbers(s):
     m = re.search(r'\d+$', s)
     return int(m.group()) if m else None
 
+def writeFiles(arr4d, arr2d):
+	d = os.listdir(directory + "\\neuralNetwork")
+	arr = []
+	for s in d:
+		s1 = getTrailingNumbers(s[:-len(".txt")])
+		if not s1 == None:
+			arr.append(s1)
+	arr.sort()
+	n = 0 if len(arr) == 0 else arr[len(arr)-1] + 1
+
+	writeFile4D(arr4d, directory + "\\neuralNetwork\\data" + str(n) + ".txt")
+	writeFile2D(arr2d, directory + "\\neuralNetwork\\results" + str(n) + ".txt")
+
 def main():
 	trainingArr, resultsArr = buildTrainingData()
 	'''
@@ -206,19 +219,6 @@ def main():
 	pprint.pprint(resultsArr)
 	print("results shape:", resultsArr.shape)
 	'''
-	#m = re.search(r'\d+$', s)
-	#https://stackoverflow.com/questions/7085512/check-what-number-a-string-ends-with-in-python
-	d = os.listdir(directory + "\\training")
-	arr = []
-	for s in d:
-		s1 = getTrailingNumbers(s[:-len(".txt")])
-		if not s1 == None:
-			arr.append(s1)
-	arr.sort()
-	n = arr[len(arr)-1] + 1
-
-	writeFile4D(trainingArr, directory + "\\training\\data" + str(n) + ".txt")
-	writeFile2D(resultsArr, directory + "\\training\\results" + str(n) + ".txt")
-
+	writeFiles(trainingArr, resultsArr)
 
 main()
