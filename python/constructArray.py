@@ -169,5 +169,6 @@ def main():
 	
 	pprint.pprint(trainingArr)
 	print("shape:", trainingArr.shape)
+	
 
 main()
