@@ -87,6 +87,7 @@ class MatchesDisplay2018 extends VBox {
 		match = m;
 		matchName = new Label(parseFromKey(match.key));
 		matchName.setStyle("-fx-font-size:22");
+
 		if (m.score_breakdown != null) {
 			blueScore = new Label(""+m.score_breakdown.blue.totalPoints);
 			redScore = new Label(""+m.score_breakdown.red.totalPoints);
@@ -94,8 +95,16 @@ class MatchesDisplay2018 extends VBox {
 			blueScore = new Label("???");
 			redScore = new Label("???");
 		}
-		blueScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
-		redScore.setStyle("-fx-font-size: 24; -fx-font-weight: bold");
+		
+		blueScore.setStyle("-fx-font-size: 30;");
+		redScore.setStyle("-fx-font-size: 30;");
+		
+		if(m.score_breakdown != null)
+			if(m.score_breakdown.blue.totalPoints > m.score_breakdown.red.totalPoints)
+				blueScore.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
+			else if(m.score_breakdown.blue.totalPoints < m.score_breakdown.red.totalPoints)
+				redScore.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
+			
 		blueAlliance = new Label[3];
 		redAlliance = new Label[3];
 		for(int i = 0; i < blueAlliance.length; i++) {
@@ -161,8 +170,8 @@ class MatchesDisplay2018 extends VBox {
 		if (quals) {
 			bluePointBox.setStyle("-fx-border-style: solid; -fx-border-width: 1;");
 			blueScorePoint.setRight(bluePointBox);
-			blueScorePoint.setCenter(blueScore);
 		}
+		blueScorePoint.setCenter(blueScore);
 		for(int i = 0; i < blueAlliance.length; i++) {
 			blueBox.getChildren().add(blueAlliance[i]); 
 			blueAlliance[i].setTranslateX(-5);}
@@ -181,9 +190,9 @@ class MatchesDisplay2018 extends VBox {
 		VBox redPointBox = new VBox();
 		if (quals) {
 			redPointBox.setStyle("-fx-border-style: solid; -fx-border-width:1;");
-			redScorePoint.setCenter(redScore);
 			redScorePoint.setLeft(redPointBox);
 		}
+		redScorePoint.setCenter(redScore);
 		if (quals) {
 			for(int i = 0; i < redRankingPoints.length; i++) 
 				redPointBox.getChildren().add(redRankingPoints[i]);
