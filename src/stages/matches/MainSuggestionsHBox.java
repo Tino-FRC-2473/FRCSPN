@@ -43,6 +43,7 @@ public class MainSuggestionsHBox extends HBox{
 				l.setOnMouseClicked(new onLabelClicked(getMain().getMatches()[i], getMain()));
 				labels.add(l);
 			}
+			this.getChildren().addAll(labels);
 		}
 	}
 

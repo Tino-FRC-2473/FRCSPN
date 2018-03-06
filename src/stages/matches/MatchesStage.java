@@ -137,7 +137,6 @@ public class MatchesStage extends Stage {
 		});
 		
 		allEvents = arr.toArray(new Event[arr.size()]);
-		System.out.println("LENGTH*W$PEHYGHOIWEG:OHIWH:IOGE: " + allEvents.length);
 	}
 	
 	public Event[] getAllEvents(){
