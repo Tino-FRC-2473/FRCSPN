@@ -25,10 +25,10 @@ def selectEventKeys():
 		print("    A: Add All")
 		for i in range(len(eventKeys)):
 			print("    " + str(i+1) + ": Add", eventKeys[i])
-		sel = input("Select an option: ")[0]
-		if sel == 'F':
+		sel = input("Select an option: ")
+		if sel[0] == 'F':
 			break
-		elif sel == 'W':
+		elif sel[0] == 'W':
 			writeMatches.write()
 			allEvents = os.listdir(path)
 			for event in allEvents:
@@ -36,7 +36,7 @@ def selectEventKeys():
 					eventKeys.append(event)
 					break
 			continue
-		elif sel == 'R':
+		elif sel[0] == 'R':
 			if(len(selected) > 0):
 				print("    Options:")
 				print("        0:", "Exit Removing")
@@ -53,7 +53,7 @@ def selectEventKeys():
 			else:
 				print("    Nothing to Remove.")
 			continue
-		elif sel == 'A':
+		elif sel[0] == 'A':
 			while len(eventKeys) > 0:
 				selected.append(eventKeys[0])
 				eventKeys.remove(eventKeys[0])
