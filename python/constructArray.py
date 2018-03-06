@@ -2,6 +2,7 @@ import os
 import pprint
 import json
 import numpy as np
+import writeMatches
 
 fullPath = os.getcwd()
 
@@ -28,7 +29,12 @@ def selectEventKeys():
 		if sel == 'F':
 			break
 		elif sel == 'W':
-			import writeMatches
+			writeMatches.write()
+			allEvents = os.listdir(path)
+			for event in allEvents:
+				if event not in eventKeys and event not in selected:
+					eventKeys.append(event)
+					break
 			continue
 		elif sel == 'R':
 			if(len(selected) > 0):
