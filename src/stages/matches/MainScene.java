@@ -44,6 +44,7 @@ public class MainScene extends Scene {
 		tSearchBox = new MainSearchHBox();
 		tSuggestBox = new MainSuggestionsHBox();
 		tSuggestBox.generateSuggestions();
+		System.out.println("DOESEXIST: " + tSuggestBox.doesExist);
 		t.getChildren().addAll(tSearchBox, tSuggestBox);
 		root.setTop(t);
 		
