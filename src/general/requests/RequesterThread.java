@@ -44,14 +44,12 @@ public class RequesterThread extends Thread {
 	public void run() {
 		while(alive) {
 			try {
-				long startTime = System.currentTimeMillis();
-				
 				if(requests.size() > 0) {
 					ScoutingApp.getDatabase().putIncompleteRequest(requests.get(0));
 					requestAndStore(requests.remove(0));
 				}
 				
-				Thread.sleep(Math.max(0, 20 - (System.currentTimeMillis()-startTime)));
+				Thread.sleep(10);
 			} catch(InterruptedException ie) {
 				ie.printStackTrace();
 			}
