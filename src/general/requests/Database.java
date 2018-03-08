@@ -115,18 +115,12 @@ public class Database {
 	 * @return
 	 */
 	public <E>E generalGet(R req, Class<E> clazz) {
-		R[] arr = database.keySet().toArray(new R[database.keySet().size()]);
-		for(R r : arr) {
+		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
+			R r = itr.next();
 			if(r.equals(req)) {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}
 		}
-//		for(R r : incomplete) {
-//			if(r.equals(req)) {
-//				return null;
-//			}
-//		}
-//		System.out.println("Requested request \"" + req + "\" is not pending.");
 		return null;
 	}
 	

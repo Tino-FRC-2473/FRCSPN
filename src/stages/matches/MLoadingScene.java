@@ -1,6 +1,7 @@
 package stages.matches;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 import general.ScoutingApp;
@@ -97,44 +98,50 @@ public class MLoadingScene extends Scene {
 						}
 					});
 				} else if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING2)) {
-						
-					System.out.println("CHECKING");
+					
 					if(teams == null) {
 						teams = ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key);
 						if(teams != null) {
 							System.out.println("***REQUESTING EVENTS/TEAM***");
-							for(Team t : teams) {
-								ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(t.getNumber(), 2018);
-								teamEvents.put(t, null);
+							for(int i = 0; i < teams.length; i++) {
+								ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teams[i].getNumber(), 2018);
+								teamEvents.put(teams[i], null);
 							}
 						}
 					} else if(!teamEventsCompleted) {
-						for(Team t : teamEvents.keySet())
+						for(final Iterator<Team> itr = teamEvents.keySet().iterator(); itr.hasNext();) {
+							Team t = itr.next();
 							if(teamEvents.get(t) == null)
 								teamEvents.put(t, ScoutingApp.getDatabase().getEventsForTeamInYear(t.getNumber(), 2018));
+						}
 						
 						boolean foundNull = false;
-						for(Event[] val : teamEvents.values())
-							if(val == null) {
+						for(final Iterator<Event[]> itr = teamEvents.values().iterator(); itr.hasNext();) {
+							Event[] events = itr.next();
+							if(events == null) {
 								foundNull = true;
 								break;
 							}
+						}
 						
 						if(!foundNull) {
 							System.out.println("***NEXT: STATUS/TEAM/EVENT***");
 							teamEventsCompleted = true;
-							for(Entry<Team, Event[]> entry : teamEvents.entrySet())
-								for(Event e : entry.getValue())
-									ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(entry.getKey().getNumber(), e.key);
+							for(final Iterator<Entry<Team, Event[]>> itr = teamEvents.entrySet().iterator(); itr.hasNext();) {
+								Entry<Team, Event[]> entry = itr.next();
+								for(int i = 0; i < entry.getValue().length; i++)
+									ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(entry.getKey().getNumber(), entry.getValue()[i].key);
+							}
 							
 						}
 					} else if(!teamEventStatusesCompleted) {
 						boolean foundIncomplete = false;
-						for(Entry<Team, Event[]> entry : teamEvents.entrySet()) {
+						for(final Iterator<Entry<Team, Event[]>> itr = teamEvents.entrySet().iterator(); itr.hasNext();) {
+							Entry<Team, Event[]> entry = itr.next();
 							if(foundIncomplete)
 								break;
-							for(Event e : entry.getValue()) {
-								if(ScoutingApp.getDatabase().isIncomplete(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, entry.getKey().getNumber(), e.key))) {
+							for(int i = 0; i < entry.getValue().length; i++) {
+								if(ScoutingApp.getDatabase().isIncomplete(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, entry.getKey().getNumber(), entry.getValue()[i].key))) {
 									foundIncomplete = true;
 									break;
 								}
@@ -150,13 +157,14 @@ public class MLoadingScene extends Scene {
 						matchKeys = ScoutingApp.getDatabase().getMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
 						if(matchKeys != null) {
 							System.out.println("***NEXT: MATCHES***");
-							for(String mKey : matchKeys)
-								ScoutingApp.getRequesterThread().addRequestMatch(mKey);
+							for(int i = 0; i < matchKeys.length; i++)
+								ScoutingApp.getRequesterThread().addRequestMatch(matchKeys[i]);
 						}
 					} else if(!matchesCompleted) {
 						boolean foundNull = false;
-						for(String mKey : matchKeys) {
-							if(ScoutingApp.getDatabase().get2018Match(mKey) == null) {
+						for(int i = 0; i < matchKeys.length; i++) {
+							if(ScoutingApp.getDatabase().get2018Match(matchKeys[i]) == null) {
+								System.out.println(matchKeys[i] + " not found");
 								foundNull = true;
 								break;
 							}
@@ -168,6 +176,7 @@ public class MLoadingScene extends Scene {
 							ScoutingApp.getRequesterThread().addRequestAwardsAtEvent(ScoutingApp.mStage.getEvent().key);
 						}
 					} else if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null) {
+						System.out.println("LUL");
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
