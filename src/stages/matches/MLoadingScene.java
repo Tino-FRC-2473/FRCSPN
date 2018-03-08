@@ -1,9 +1,11 @@
 package stages.matches;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import general.ScoutingApp;
 import general.constants.K;
+import general.requests.R;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -64,15 +66,22 @@ public class MLoadingScene extends Scene {
 	
 	private class MLoadingThread extends Thread {
 		private boolean alive;
-		private int completions;
 		
 		public MLoadingThread() {
 			alive = true;
-			completions = 0;
 		}
 
 		public void run() {
 			Team[] teams = null;
+			
+			HashMap<Team, Event[]> teamEvents = new HashMap<Team, Event[]>();
+			boolean teamEventsCompleted = false;
+			
+			boolean teamEventStatusesCompleted = false;
+			
+			String[] matchKeys = null;
+			
+			boolean matchesCompleted = false;
 			
 			while(alive) {
 				rotate();
@@ -81,6 +90,7 @@ public class MLoadingScene extends Scene {
 				
 				if(ScoutingApp.getDatabase().getNumberIncompleteRequests() == 0) {
 					if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING1)) {
+						
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
@@ -88,48 +98,79 @@ public class MLoadingScene extends Scene {
 								end();
 							}
 						});
+						
 					} else if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING2)) {
-						if(completions == 0) {
-							System.out.println("***NEXT: EVENTS/TEAM***");
-							//done: request teams at event
-							//requesting: events for each team
+						
+						System.out.println("CHECKING");
+						if(teams == null) {
 							teams = ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key);
-							for(Team t : teams)
-								ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(t.getNumber(), 2018);
-						} else if(completions == 1) {
-							System.out.println("***NEXT: STATUS/TEAM/EVENT***");
-							//done: events for each team
-							//requesting: status for each team at each of their events
-							for(Team t : teams) {
-								Event[] events = ScoutingApp.getDatabase().getEventsForTeamInYear(t.getNumber(), 2018);
-								try {
-									System.out.println(t.key + "EVENTS: " + Arrays.asList(events));
-									for(Event e : events)
-										ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(t.getNumber(), e.key);
-								} catch(NullPointerException e) {
-									System.out.println("ERROR FOR TEAM " + t.key);
+							if(teams != null) {
+								System.out.println("***REQUESTING EVENTS/TEAM***");
+								for(Team t : teams) {
+									ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(t.getNumber(), 2018);
+									teamEvents.put(t, null);
 								}
 							}
-						} else if(completions == 2) {
-							System.out.println("***NEXT: MATCH KEYS***");
-							//done: status for each team for each of their events
-							//requesting: match keys for the event
-							ScoutingApp.getRequesterThread().addRequestMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
-						} else if(completions == 3) {
-							System.out.println("***NEXT: MATCHES***");
-							//done: match keys for this event
-							//requesting: all matches for the event
-							String[] matchKeys = ScoutingApp.getDatabase().getMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
-							for(String mKey : matchKeys)
-								ScoutingApp.getRequesterThread().addRequestMatch(mKey);
-						} else if(completions == 4) {
-							System.out.println("***NEXT: AWARDS***");
-							//done: all matches for the event
-							//requesting: awards for the event
-							ScoutingApp.getRequesterThread().addRequestAwardsAtEvent(ScoutingApp.mStage.getEvent().key);
-						} else {
-							System.out.println("***DONE***");
-							//done: awards for the event
+						} else if(!teamEventsCompleted) {
+							for(Team t : teamEvents.keySet())
+								if(teamEvents.get(t) == null)
+									teamEvents.put(t, ScoutingApp.getDatabase().getEventsForTeamInYear(t.getNumber(), 2018));
+							
+							boolean foundNull = false;
+							for(Event[] val : teamEvents.values())
+								if(val == null) {
+									foundNull = true;
+									break;
+								}
+							
+							if(!foundNull) {
+								System.out.println("***NEXT: STATUS/TEAM/EVENT***");
+								teamEventsCompleted = true;
+								for(Entry<Team, Event[]> entry : teamEvents.entrySet())
+									for(Event e : entry.getValue())
+										ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(entry.getKey().getNumber(), e.key);
+								
+							}
+						} else if(!teamEventStatusesCompleted) {
+							boolean foundIncomplete = false;
+							for(Entry<Team, Event[]> entry : teamEvents.entrySet()) {
+								if(foundIncomplete)
+									break;
+								for(Event e : entry.getValue()) {
+									if(ScoutingApp.getDatabase().isIncomplete(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, entry.getKey().getNumber(), e.key))) {
+										foundIncomplete = true;
+										break;
+									}
+								}
+							}
+							
+							if(!foundIncomplete) {
+								System.out.println("***NEXT: MATCH KEYS***");
+								teamEventStatusesCompleted = true;
+								ScoutingApp.getRequesterThread().addRequestMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
+							}
+						} else if(matchKeys == null) {
+							matchKeys = ScoutingApp.getDatabase().getMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
+							if(matchKeys != null) {
+								System.out.println("***NEXT: MATCHES***");
+								for(String mKey : matchKeys)
+									ScoutingApp.getRequesterThread().addRequestMatch(mKey);
+							}
+						} else if(!matchesCompleted) {
+							boolean foundNull = false;
+							for(String mKey : matchKeys) {
+								if(ScoutingApp.getDatabase().get2018Match(mKey) == null) {
+									foundNull = true;
+									break;
+								}
+							}
+							
+							if(!foundNull) {
+								System.out.println("***NEXT: AWARDS***");
+								matchesCompleted = true;
+								ScoutingApp.getRequesterThread().addRequestAwardsAtEvent(ScoutingApp.mStage.getEvent().key);
+							}
+						} else if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null) {
 							Platform.runLater(new Runnable() {
 								@Override
 								public void run() {
@@ -138,7 +179,6 @@ public class MLoadingScene extends Scene {
 								}
 							});
 						}
-						completions++;
 					}
 				}
 			}

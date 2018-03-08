@@ -55,6 +55,16 @@ public class Database {
 	 */
 	public int getNumberIncompleteRequests() { return incomplete.size(); }
 	
+	public boolean isIncomplete(R req) {
+		for(R r : incomplete) {
+			if(r.equals(req)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * Removes a request that failed from the incomplete request list.
 	 * @param req Such a request.
@@ -69,7 +79,7 @@ public class Database {
 				break;
 			}
 		}
-		if(!found) System.out.println("incomplete request \"" + req + "\" not found");
+		if(!found) System.out.println("failed incomplete request \"" + req + "\" not found");
 	}
 	
 	/**
@@ -106,12 +116,12 @@ public class Database {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}
 		}
-		for(R r : incomplete) {
-			if(r.equals(req)) {
-				return null;
-			}
-		}
-		System.out.println("Requested request \"" + req + "\" is not pending.");
+//		for(R r : incomplete) {
+//			if(r.equals(req)) {
+//				return null;
+//			}
+//		}
+//		System.out.println("Requested request \"" + req + "\" is not pending.");
 		return null;
 	}
 	
