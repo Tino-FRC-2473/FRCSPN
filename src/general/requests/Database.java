@@ -2,14 +2,18 @@ package general.requests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.Gson;
 
-import models.*;
+import models.Award;
+import models.Event;
+import models.StatusTBA;
+import models.Team;
 import models.event_status.EventStatus;
-import models.matches.yr2017.*;
-import models.matches.yr2018.*;
+import models.matches.yr2017.Match_Steamworks;
+import models.matches.yr2018.Match_PowerUp;
 
 /**
  * A place for Requests and their responses to be stored. Parses each response
@@ -111,17 +115,12 @@ public class Database {
 	 * @return
 	 */
 	public <E>E generalGet(R req, Class<E> clazz) {
-		for(R r : database.keySet()) {
+		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
+			R r = itr.next();
 			if(r.equals(req)) {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}
 		}
-//		for(R r : incomplete) {
-//			if(r.equals(req)) {
-//				return null;
-//			}
-//		}
-//		System.out.println("Requested request \"" + req + "\" is not pending.");
 		return null;
 	}
 	
