@@ -51,4 +51,12 @@ public class MainScene extends Scene {
 		cDisplayPane = new MainDisplayBPane();
 		root.setCenter(cDisplayPane);
 	}
+	
+	public void setContent(Match_PowerUp m) {
+		cDisplayPane.setContent(m);
+	}
+	
+	public void preview(MatchesDisplay2018 d) {
+		cDisplayPane.setContent(d.getMatch());
+	}
 }

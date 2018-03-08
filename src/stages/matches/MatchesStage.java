@@ -45,6 +45,7 @@ public class MatchesStage extends Stage {
 	public void setContent(Event event) { selectingScene.setContent(event); }
 	public void indicateEventSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }
 	public void preview(EventsDisplay d) { selectingScene.preview(d); }
+	public void preview(MatchesDisplay2018 d) { mainScene.preview(d); }
 	public void filterEvents() { selectingScene.filterEvents(); }
 	
 	public void selectEvent() {
