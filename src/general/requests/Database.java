@@ -111,7 +111,8 @@ public class Database {
 	 * @return
 	 */
 	public <E>E generalGet(R req, Class<E> clazz) {
-		for(R r : database.keySet()) {
+		R[] arr = database.keySet().toArray(new R[database.keySet().size()]);
+		for(R r : arr) {
 			if(r.equals(req)) {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}

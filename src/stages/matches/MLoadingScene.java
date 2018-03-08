@@ -97,8 +97,7 @@ public class MLoadingScene extends Scene {
 						}
 					});
 				} else if(ScoutingApp.mStage.getState().equals(MatchesStage.State.LOADING2)) {
-						
-					System.out.println("CHECKING");
+					
 					if(teams == null) {
 						teams = ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key);
 						if(teams != null) {
