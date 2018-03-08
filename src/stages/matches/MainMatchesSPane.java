@@ -2,6 +2,7 @@ package stages.matches;
 
 import java.util.ArrayList;
 
+import general.ScoutingApp;
 import general.constants.K;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -58,6 +59,7 @@ public class MainMatchesSPane extends ScrollPane {
 			if (m.equals(match)) {
 				match.highlight(true);
 				selected = match;
+				ScoutingApp.mStage.preview(selected);
 				return match.getMatch();
 			}
 		}

@@ -23,6 +23,9 @@ public class MainDisplayBPane extends BorderPane {
 		this.setRight(v);
 	}
 	
+	public void setContent(Match_PowerUp m) {
+		this.setCenter(new MainPreviewBox(m));
+	}
 
 
 }
