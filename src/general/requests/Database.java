@@ -121,12 +121,6 @@ public class Database {
 				return gson.fromJson(database.get(r).toString(), clazz);
 			}
 		}
-//		for(R r : incomplete) {
-//			if(r.equals(req)) {
-//				return null;
-//			}
-//		}
-//		System.out.println("Requested request \"" + req + "\" is not pending.");
 		return null;
 	}
 	

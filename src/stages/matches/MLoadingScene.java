@@ -164,6 +164,7 @@ public class MLoadingScene extends Scene {
 						boolean foundNull = false;
 						for(int i = 0; i < matchKeys.length; i++) {
 							if(ScoutingApp.getDatabase().get2018Match(matchKeys[i]) == null) {
+								System.out.println(matchKeys[i] + " not found");
 								foundNull = true;
 								break;
 							}
@@ -175,6 +176,7 @@ public class MLoadingScene extends Scene {
 							ScoutingApp.getRequesterThread().addRequestAwardsAtEvent(ScoutingApp.mStage.getEvent().key);
 						}
 					} else if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null) {
+						System.out.println("LUL");
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
