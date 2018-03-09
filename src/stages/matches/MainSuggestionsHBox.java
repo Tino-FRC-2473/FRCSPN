@@ -25,25 +25,23 @@ public class MainSuggestionsHBox extends HBox{
 	
 	public void generateSuggestions() {
 		int index = 0;
-		for(Match_PowerUp m:getMain().getMatches()) {
-			if(m.score_breakdown != null) {
+		for(Match_PowerUp m:getMain().getMatches())
+			if(m.score_breakdown != null)
 				index++;
-			}
-		}
+		
 		if(index>=getMain().getMatches().length||index==0) {
 			labels = null;
 			doesExist = false;
-		}else {
+		} else {
 			doesExist = true;
 			Label title = new Label("Suggestions: ");
 			title.setStyle("-fx-background-color: transparent;-fx-font-size: 24; -fx-font-weight: bold");
 			labels.add(title);
-			for(int i = Math.max(index-4, 0); i < index; i++) {
+			for(int i = Math.max(index-6, 0); i < index; i++) {
 				Label l = new Label("Quals " + getMain().getMatches()[i].key.substring(getMain().getMatches()[i].key.length()-2));
-				//System.out.println("KEY: " + getMain().getMatches()[i].key);
 				l.setStyle("-fx-background-color: #FFD32A;-fx-font-size: 24; -fx-font-weight: bold; -fx-border-color: black");
 				l.setPadding(K.getInsets());
-				l.setOnMouseClicked(new onLabelClicked(getMain().getMatches()[i], getMain()));
+				l.setOnMouseClicked(new onLabelClicked(getMain().getMatches()[i]));
 				labels.add(l);
 			}
 			this.getChildren().addAll(labels);
@@ -54,18 +52,19 @@ public class MainSuggestionsHBox extends HBox{
 		return ScoutingApp.mStage;
 	}
 }
+
 class onLabelClicked implements EventHandler<MouseEvent> {
-	Match_PowerUp m;
-	MatchesStage main;
-	public onLabelClicked(Match_PowerUp m, MatchesStage main) {
+	private Match_PowerUp m;
+
+	public onLabelClicked(Match_PowerUp m) {
 		this.m = m;
-		this.main = main;
 	}
+	
 	@Override
 	public void handle(MouseEvent event) {
-		for(MatchesDisplay2018 md: main.getMainMatchesSPane().getMatcheDisplays2018()) {
+		for(MatchesDisplay2018 md : ScoutingApp.mStage.getMainMatchesSPane().getMatcheDisplays2018()) {
 			if(md.getMatch().key.equals(this.m.key)) {
-				main.getMainMatchesSPane().highlight(md);
+				ScoutingApp.mStage.getMainMatchesSPane().highlight(md);
 			}
 		}
 	}
