@@ -3,8 +3,8 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 
-inputFile = open("allMedians_moreInfo_data.txt")
-dim = [2008,42]
+inputFile = open("allMedians_data.txt")
+dim = [2008,48]
 inpRaw = []
 c = 0
 for line in inputFile:
@@ -27,7 +27,7 @@ def weight_variable(shape):
 
 inp = constructArray(inpRaw,len(dim),dim)
 
-targetsFile = open("allMedians_moreInfo_results.txt")
+targetsFile = open("allMedians_results.txt")
 dim = [2008,2]
 outRaw = []
 c = 0
@@ -41,14 +41,15 @@ sess = tf.InteractiveSession()
 
 IndivHid = 3
 CombHid = 6
-insizenum=42
-numStats = 7
+insizenum=48
+numStats = 8
 numHidden = 10
 numSubOutputs = 5
 
 MINI_BATCH_SIZE = 10
 EPOCHS = 50
 LEARNING_RATE = 5e-2
+DROPOUT = 0.9
 
 inputs = tf.placeholder(dtype = tf.float32, shape = [None,insizenum])
 targetValues = tf.placeholder(dtype=tf.float32, shape = [None,2])
@@ -82,10 +83,14 @@ for i in range(numStats):
 WEIGHT_SOH = weight_variable([numSubOutputs*numStats,numHidden])
 hidden = tf.nn.relu(tf.matmul(subOutputs,WEIGHT_SOH))
 
-WEIGHT_HTO = weight_variable([numHidden,2])
-out = tf.nn.relu(tf.matmul(hidden,WEIGHT_HTO))
+keep_prob = tf.placeholder(tf.float32)
+hiddenDropped = tf.nn.dropout(hidden,keep_prob)
 
-loss = tf.reduce_mean(tf.squared_difference(out, targetValues))
+WEIGHT_HTO = weight_variable([numHidden,2])
+out = tf.nn.relu(tf.matmul(hiddenDropped,WEIGHT_HTO))
+
+WPEN = tf.squared_difference(WEIGHT_SOH,tf.zeros(shape=([numSubOutputs*numStats,numHidden])))
+loss = tf.reduce_mean(tf.squared_difference(out, targetValues))+tf.reduce_mean(WPEN)
 thisLearningRate = tf.placeholder(dtype = tf.float32)
 train_step = tf.train.AdamOptimizer(thisLearningRate).minimize(loss)
 correct_prediction = tf.equal(tf.argmax(targetValues,1), tf.argmax(out,1))
@@ -97,12 +102,10 @@ accuracyArr = []
 for i in range(1,EPOCHS+1):
 	for j in range(int(len(inp)/MINI_BATCH_SIZE)-1):
 		xdata = inp[j*MINI_BATCH_SIZE:(j+1)*MINI_BATCH_SIZE]
-		
 		ydata = targets[j*MINI_BATCH_SIZE:(j+1)*MINI_BATCH_SIZE]
-		train_step.run(feed_dict={inputs: xdata, targetValues: ydata, thisLearningRate: LEARNING_RATE})
-	a = accuracy.eval(feed_dict={inputs: inp, targetValues: targets})
+		train_step.run(feed_dict={inputs: xdata, targetValues: ydata, thisLearningRate: LEARNING_RATE, keep_prob: DROPOUT})
+	a = accuracy.eval(feed_dict={inputs: inp, targetValues: targets, keep_prob:1.0})
 	print("Epoch ", i," Accuracy: ",a)
-	print(LEARNING_RATE)
 	if i>1:
 		if a<accuracyArr[len(accuracyArr)-1]:
 			LEARNING_RATE*=0.9
@@ -123,4 +126,4 @@ plt.plot(xPlot, accuracyArr, 'b-', label='Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
-plt.show()
+#plt.show()
