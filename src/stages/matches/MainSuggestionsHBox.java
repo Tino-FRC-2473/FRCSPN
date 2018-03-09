@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import models.matches.yr2018.Match_PowerUp;
 
-public class MainSuggestionsHBox extends HBox{
+public class MainSuggestionsHBox extends HBox {
 	public boolean doesExist;
 	private ArrayList<Label> labels;
 	

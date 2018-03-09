@@ -24,5 +24,7 @@ public class MainDisplayBPane extends BorderPane {
 		this.setCenter(new MainPreviewBox(m));
 	}
 
-
+	public void swapDisplayMatchPreview() {
+		
+	}
 }

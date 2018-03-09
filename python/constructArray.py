@@ -14,7 +14,7 @@ def selectEventKeys():
 
 	selected = []
 	sel = -2
-	while len(eventKeys) > 0:
+	while True:
 		print("")
 		if len(selected) > 0:
 			print("Selected Events:")
@@ -58,7 +58,7 @@ def selectEventKeys():
 			while len(eventKeys) > 0:
 				selected.append(eventKeys[0])
 				eventKeys.remove(eventKeys[0])
-			break
+			continue
 		else:
 			try:
 				sel = int(sel)
@@ -174,7 +174,7 @@ def buildTrainingData():
 		tms = getTeams(match)
 		for j in range(2):
 			for k in range(3):
-				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0, 2]) pairs to ([0, 5])
+				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0-2]) pairs to ([0-5])
 				for _, valArr in data.items():
 					for val in valArr:
 						mArr[i][j][k].append(val)

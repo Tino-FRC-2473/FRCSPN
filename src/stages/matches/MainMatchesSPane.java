@@ -267,7 +267,6 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public String parseFromKey(String key) {
-		System.out.println("Parsing " + key);
 		int i = key.indexOf("_")+1;
 		if(key.indexOf("qm", i) != -1) 
 			return "Quals " + key.substring(i+2);
