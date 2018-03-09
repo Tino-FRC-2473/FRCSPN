@@ -108,10 +108,11 @@ def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
 
-	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoPoints", "endgamePoints", "totalPoints"]
-	oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
+	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoScaleOwnershipSec",\
+		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 	#yourStats = ["totalPoints"]
-	#oppStats = []
+	oppStats = []
 
 	for match in matches:
 		for i, team in enumerate(getTeams(match)):
