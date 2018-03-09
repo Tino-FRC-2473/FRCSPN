@@ -19,6 +19,10 @@ public class MainMatchesSPane extends ScrollPane {
 	private ArrayList<MatchesDisplay2018> matchList;
 	private MatchesDisplay2018 selected;
 	
+	public MatchesDisplay2018 getSelected() {
+		return selected;
+	}
+
 	public MainMatchesSPane(Match_PowerUp[] arr) {
 		selected = null;
 		this.setMinWidth(K.MATCHES.LEFT_WIDTH);
@@ -47,9 +51,14 @@ public class MainMatchesSPane extends ScrollPane {
 	}
 	
 	public void filter(String s) {
+		boolean prev = false;
 		content.getChildren().clear();
 		for(MatchesDisplay2018 m : matchList)
 			if(m.contains(s))
+				if(!prev) {
+					prev = true;
+					ScoutingApp.mStage
+				}
 				content.getChildren().add(m);
 	}
 	

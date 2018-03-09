@@ -1,7 +1,10 @@
 package stages.matches;
 
+import general.ScoutingApp;
 import general.constants.K;
+//import javafx.event.Event;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -9,7 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import models.matches.Alliances;
+import models.matches.SingleAlliance;
 import models.matches.yr2018.Match_PowerUp;
 
 public class MainPreviewBox extends VBox {
@@ -20,13 +24,29 @@ public class MainPreviewBox extends VBox {
 	public Color levitate = Color.LIMEGREEN;
 	public Color boost = Color.BLUE;
 	public Match_PowerUp match;
+	
+	private Scene teamP;
+	private Scene matchP;
+	
 
 	public MainPreviewBox(Match_PowerUp m) {
 		match = m;
 		display();
 	}
+	
+	private void clearDisplay() {
+		while(!this.getChildren().isEmpty()) {
+			this.getChildren().remove(0);
+		}
+	}
+	
+	public void previewTeam(SingleAlliance s) {
+		clearDisplay();
+		
+	}
 
 	public void display() {
+		clearDisplay();
 		HBox nameScoreTeamBox = new HBox();
 		VBox blueTeams = new VBox();
 		VBox redTeams = new VBox();
