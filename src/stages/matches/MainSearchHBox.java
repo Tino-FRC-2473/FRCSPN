@@ -30,7 +30,6 @@ public class MainSearchHBox extends HBox {
 		    public void handle(KeyEvent e) {
 		        if(e.getCode() == KeyCode.ENTER) {
 		        	ScoutingApp.mStage.filterMatches();
-		        	
 		        }
 		    }
 		});
