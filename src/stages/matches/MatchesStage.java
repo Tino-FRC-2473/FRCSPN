@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Event;
+import models.matches.SingleAlliance;
 import models.matches.yr2018.Match_PowerUp;
 
 public class MatchesStage extends Stage {
@@ -24,6 +25,10 @@ public class MatchesStage extends Stage {
 	private Event[] allEvents;
 	private Event event;
 	private Match_PowerUp[] allMatches;
+	
+	public void previewTeam(SingleAlliance s) {
+		mainScene.previewTeam(s);
+	}
 	
 	public MatchesStage() {
 		this.setResizable(false);
