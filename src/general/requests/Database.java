@@ -1,9 +1,9 @@
 package general.requests;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.Gson;
 
@@ -29,7 +29,7 @@ public class Database {
 	 * Default constructor.
 	 */
 	public Database() {
-		database = new HashMap<R, StringBuffer>();
+		database = new ConcurrentHashMap<R, StringBuffer>();
 		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
