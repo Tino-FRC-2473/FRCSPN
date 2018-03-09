@@ -1,6 +1,5 @@
 package stages.matches;
 
-import general.ScoutingApp;
 import general.constants.K;
 //import javafx.event.Event;
 import javafx.geometry.Pos;
@@ -12,7 +11,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import models.matches.Alliances;
 import models.matches.SingleAlliance;
 import models.matches.yr2018.Match_PowerUp;
 
