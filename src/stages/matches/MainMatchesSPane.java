@@ -53,13 +53,15 @@ public class MainMatchesSPane extends ScrollPane {
 	public void filter(String s) {
 		boolean prev = false;
 		content.getChildren().clear();
-		for(MatchesDisplay2018 m : matchList)
-			if(m.contains(s))
+		for(MatchesDisplay2018 m : matchList) {
+			if(m.contains(s)) {
 				if(!prev) {
 					prev = true;
-					ScoutingApp.mStage
+					
 				}
 				content.getChildren().add(m);
+			}
+		}
 	}
 	
 	public Match_PowerUp highlight(MatchesDisplay2018 m) {
