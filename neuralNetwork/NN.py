@@ -44,10 +44,11 @@ CombHid = 6
 insizenum=42
 numStats = 7
 numHidden = 10
+numSubOutputs = 5
 
-MINI_BATCH_SIZE = 5
-EPOCHS = 20
-LEARNING_RATE = 5e-3
+MINI_BATCH_SIZE = 10
+EPOCHS = 50
+LEARNING_RATE = 5e-2
 
 inputs = tf.placeholder(dtype = tf.float32, shape = [None,insizenum])
 targetValues = tf.placeholder(dtype=tf.float32, shape = [None,2])
@@ -68,7 +69,7 @@ for i in range(numStats):
 	bi = tf.nn.relu(tf.matmul(SiB,WEIGHT_Bi))
 	ci = tf.nn.relu(tf.matmul(Si,WEIGHT_Ci))
 	Hi = tf.concat([ri,ci,bi],1)
-	WEIGHT_HOi = weight_variable([IndivHid*2+CombHid,2])
+	WEIGHT_HOi = weight_variable([IndivHid*2+CombHid,numSubOutputs])
 	subOutputsIndivs.append(tf.nn.relu(tf.matmul(Hi,WEIGHT_HOi)))
 
 subOutputs = []
@@ -78,14 +79,15 @@ for i in range(numStats):
 	else:
 		subOutputs = tf.concat([subOutputs,subOutputsIndivs[i]],1)
 
-WEIGHT_SOH = weight_variable([2*numStats,numHidden])
+WEIGHT_SOH = weight_variable([numSubOutputs*numStats,numHidden])
 hidden = tf.nn.relu(tf.matmul(subOutputs,WEIGHT_SOH))
 
 WEIGHT_HTO = weight_variable([numHidden,2])
 out = tf.nn.relu(tf.matmul(hidden,WEIGHT_HTO))
 
 loss = tf.reduce_mean(tf.squared_difference(out, targetValues))
-train_step = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
+thisLearningRate = tf.placeholder(dtype = tf.float32)
+train_step = tf.train.AdamOptimizer(thisLearningRate).minimize(loss)
 correct_prediction = tf.equal(tf.argmax(targetValues,1), tf.argmax(out,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
@@ -95,10 +97,15 @@ accuracyArr = []
 for i in range(1,EPOCHS+1):
 	for j in range(int(len(inp)/MINI_BATCH_SIZE)-1):
 		xdata = inp[j*MINI_BATCH_SIZE:(j+1)*MINI_BATCH_SIZE]
+		
 		ydata = targets[j*MINI_BATCH_SIZE:(j+1)*MINI_BATCH_SIZE]
-		train_step.run(feed_dict={inputs: xdata, targetValues: ydata})
+		train_step.run(feed_dict={inputs: xdata, targetValues: ydata, thisLearningRate: LEARNING_RATE})
 	a = accuracy.eval(feed_dict={inputs: inp, targetValues: targets})
 	print("Epoch ", i," Accuracy: ",a)
+	print(LEARNING_RATE)
+	if i>1:
+		if a<accuracyArr[len(accuracyArr)-1]:
+			LEARNING_RATE*=0.9
 	accuracyArr.append(a)
 
 maxAcc = 0.0
