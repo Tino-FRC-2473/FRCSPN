@@ -175,7 +175,7 @@ def buildTrainingData():
 		for j in range(2):
 			for k in range(3):
 				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0-2]) pairs to ([0-5])
-				for _, valArr in data.items():
+				for _, valArr in sorted(data.items()):
 					for val in valArr:
 						mArr[i][j][k].append(val)
 
