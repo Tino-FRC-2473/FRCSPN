@@ -141,7 +141,7 @@ def getTeamStats(matches):
 				print("SKIPPED MATCH:", getValue(match, "key"))
 
 	for team, teamDict in fullTeamData.items():
-		for stat, valArr in teamDict.items():
+		for stat, valArr in sorted(teamDict.items()):
 			#teamData[team][stat].append(np.percentile(valArr, 0))
 			#teamData[team][stat].append(np.percentile(valArr, 25))
 			teamData[team][stat].append(np.percentile(valArr, 50))

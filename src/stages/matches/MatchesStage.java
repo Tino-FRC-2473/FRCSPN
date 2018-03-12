@@ -60,7 +60,7 @@ public class MatchesStage extends Stage {
 		}
 	}
 	
-	public MainMatchesSPane getMainMatchesSPane() {
+	public MainSideSPane getMainMatchesSPane() {
 		return mainScene.getMainMatchesSPane();
 	}
 	

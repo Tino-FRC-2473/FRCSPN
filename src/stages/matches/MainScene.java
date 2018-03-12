@@ -11,10 +11,10 @@ public class MainScene extends Scene {
 	private BorderPane root;
 	private Match_PowerUp[] matches;
 
-	private MainMatchesSPane lMatchesSPane;
+	private MainSideSPane lMatchesSPane;
 	private MainSearchHBox tSearchBox;
 	private MainSuggestionsHBox tSuggestBox;
-	private MainDisplayBPane cDisplayPane;
+	private MainDisplayPane cDisplayPane;
 
 	public MainScene(BorderPane p) {
 		super(p, K.MATCHES.WIDTH, K.MATCHES.HEIGHT);
@@ -34,14 +34,14 @@ public class MainScene extends Scene {
 		return matches;
 	}
 
-	public MainMatchesSPane getMainMatchesSPane() {
+	public MainSideSPane getMainMatchesSPane() {
 		return lMatchesSPane;
 	}
 
 	public void initialize(Match_PowerUp[] arr) {
 		matches = arr.clone();
 
-		lMatchesSPane = new MainMatchesSPane(matches);
+		lMatchesSPane = new MainSideSPane(matches);
 		lMatchesSPane.addAllMatches();
 		root.setLeft(lMatchesSPane);
 
@@ -53,15 +53,15 @@ public class MainScene extends Scene {
 		t.getChildren().addAll(tSearchBox, tSuggestBox);
 		root.setTop(t);
 
-		cDisplayPane = new MainDisplayBPane();
+		cDisplayPane = new MainDisplayPane();
 		root.setCenter(cDisplayPane);
 	}
 
 	public void setContent(Match_PowerUp m) {
-		cDisplayPane.setContent(m);
+		cDisplayPane.viewMatch(m);
 	}
 
 	public void preview(MatchesDisplay2018 d) {
-		cDisplayPane.setContent(d.getMatch());
+		cDisplayPane.viewMatch(d.getMatch());
 	}
 }

@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.matches.yr2018.Match_PowerUp;
 
-public class MainMatchesSPane extends ScrollPane {
+public class MainSideSPane extends ScrollPane {
 	private VBox content;
 	private ArrayList<MatchesDisplay2018> matchList;
 	private MatchesDisplay2018 selected;
@@ -23,7 +23,7 @@ public class MainMatchesSPane extends ScrollPane {
 		return selected;
 	}
 
-	public MainMatchesSPane(Match_PowerUp[] arr) {
+	public MainSideSPane(Match_PowerUp[] arr) {
 		selected = null;
 		this.setMinWidth(K.MATCHES.LEFT_WIDTH);
 		this.setFitToWidth(true);
@@ -65,13 +65,13 @@ public class MainMatchesSPane extends ScrollPane {
 	}
 	
 	public Match_PowerUp highlight(MatchesDisplay2018 m) {
-		if (selected != null) selected.highlight(false);
-		for (MatchesDisplay2018 match : matchList) {
-			if (m.equals(match)) {
-				match.highlight(true);
-				selected = match;
+		if(selected != null) selected.highlight(false);
+		for(MatchesDisplay2018 md : matchList) {
+			if(m.equals(md)) {
+				md.highlight(true);
+				selected = md;
 				ScoutingApp.mStage.preview(selected);
-				return match.getMatch();
+				return md.getMatch();
 			}
 		}
 		return null;
