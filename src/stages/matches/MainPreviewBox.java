@@ -1,0 +1,191 @@
+package stages.matches;
+
+import general.constants.K;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import models.matches.yr2018.Match_PowerUp;
+
+public class MainPreviewBox extends VBox {
+
+	public int height = 50;
+	public int scaleOf = 2;
+	public Color force = Color.FIREBRICK;
+	public Color levitate = Color.LIMEGREEN;
+	public Color boost = Color.BLUE;
+	public Match_PowerUp match;
+
+	public MainPreviewBox(Match_PowerUp m) {
+		match = m;
+		display();
+	}
+
+	public void display() {
+		HBox nameScoreTeamBox = new HBox();
+		VBox blueTeams = new VBox();
+		VBox redTeams = new VBox();
+		for (int i = 0; i < match.alliances.blue.team_keys.length; i++) {
+			Label l = new Label(match.alliances.blue.team_keys[i].substring(3));
+			l.setStyle("-fx-font-size: 14;");
+			blueTeams.getChildren().add(l);
+		}
+		for (int i = 0; i < match.alliances.red.team_keys.length; i++) {
+			Label l = new Label(match.alliances.red.team_keys[i].substring(3));
+			l.setStyle("-fx-font-size: 14;");
+			redTeams.getChildren().add(l);
+		}
+		VBox nameScore = new VBox();
+		Label name = new Label(parseFromKey(match.key));
+		name.setStyle("-fx-font-size: 24;");
+		Label score = new Label(match.score_breakdown.blue.totalPoints + " - " + match.score_breakdown.red.totalPoints);
+		score.setStyle("-fx-font-size: 24;");
+		nameScore.getChildren().addAll(name,score);
+		nameScoreTeamBox.getChildren().addAll(blueTeams,nameScore,redTeams);
+	
+		StackPane scale = new StackPane();
+		Rectangle scaleRect = new Rectangle(150*scaleOf,height);
+		scaleRect.setStrokeWidth(3);
+		scaleRect.setStroke(Color.BLACK);
+		scaleRect.setFill(Color.WHITE);
+		HBox blueScale = new HBox();
+		if (match.score_breakdown.blue.autoScaleOwnershipSec != 0) {
+			Rectangle blueAutoScale = new Rectangle(match.score_breakdown.blue.autoScaleOwnershipSec*scaleOf,height);
+			blueScale.getChildren().add(blueAutoScale);
+			blueAutoScale.setStroke(Color.BLUE);
+			blueAutoScale.setStrokeWidth(3);
+			blueAutoScale.setFill(Color.WHITE);
+		}
+		if (match.score_breakdown.blue.teleopScaleOwnershipSec != 0) {
+			Rectangle blueTeleopScale = new Rectangle(match.score_breakdown.blue.teleopScaleOwnershipSec*scaleOf,height);
+			blueScale.getChildren().add(blueTeleopScale);
+			blueTeleopScale.setFill(Color.BLUE);
+			blueTeleopScale.setStroke(Color.BLUE);
+		}
+		HBox redScale = new HBox();
+		if (match.score_breakdown.red.teleopScaleOwnershipSec != 0) {
+			Rectangle redTeleopScale = new Rectangle(match.score_breakdown.red.teleopScaleOwnershipSec*scaleOf,height);
+			redScale.getChildren().add(redTeleopScale);
+			redTeleopScale.setFill(Color.RED);
+			redTeleopScale.setStroke(Color.RED);
+		}
+		if (match.score_breakdown.red.autoScaleOwnershipSec != 0) {
+			Rectangle redAutoScale = new Rectangle(match.score_breakdown.red.autoScaleOwnershipSec*scaleOf,height);
+			redScale.getChildren().add(redAutoScale);
+			redAutoScale.setStroke(Color.RED);
+			redAutoScale.setStrokeWidth(3);
+			redAutoScale.setFill(Color.RED);
+		}		
+		scale.getChildren().addAll(scaleRect,blueScale,redScale);
+		StackPane.setAlignment(blueScale, Pos.CENTER_LEFT);
+		StackPane.setAlignment(redScale,Pos.CENTER_RIGHT);
+		
+		StackPane switchPane = new StackPane();
+		Rectangle switchRect = new Rectangle(150*scaleOf,height);
+		HBox blueSwitch = new HBox();
+		switchRect.setStrokeWidth(3);
+		switchRect.setStroke(Color.BLACK);
+		switchRect.setFill(Color.WHITE);
+		if (match.score_breakdown.blue.autoSwitchOwnershipSec != 0) {
+			Rectangle blueAutoSwitch = new Rectangle(match.score_breakdown.blue.autoSwitchOwnershipSec*scaleOf,height);
+			blueSwitch.getChildren().add(blueAutoSwitch);
+			blueAutoSwitch.setStroke(Color.BLUE);
+			blueAutoSwitch.setStrokeWidth(3);
+			blueAutoSwitch.setFill(Color.WHITE);
+		}
+		if (match.score_breakdown.blue.teleopSwitchOwnershipSec != 0) {
+			Rectangle blueTeleopSwitch = new Rectangle(match.score_breakdown.blue.teleopSwitchOwnershipSec*scaleOf,height);
+			blueSwitch.getChildren().add(blueTeleopSwitch);
+			blueTeleopSwitch.setFill(Color.BLUE);
+			blueTeleopSwitch.setStroke(Color.BLUE);
+		}
+		HBox redSwitch = new HBox();
+		if (match.score_breakdown.red.teleopSwitchOwnershipSec != 0) {
+			Rectangle redTeleopSwitch = new Rectangle(match.score_breakdown.red.teleopSwitchOwnershipSec*scaleOf,height);
+			redSwitch.getChildren().add(redTeleopSwitch);
+			redTeleopSwitch.setFill(Color.RED);
+			redTeleopSwitch.setStroke(Color.RED);
+		}
+		if (match.score_breakdown.red.autoSwitchOwnershipSec != 0) {
+			Rectangle redAutoSwitch = new Rectangle(match.score_breakdown.red.autoSwitchOwnershipSec*scaleOf,height);
+			redSwitch.getChildren().add(redAutoSwitch);
+			redAutoSwitch.setStroke(Color.RED);
+			redAutoSwitch.setStrokeWidth(3);
+			redAutoSwitch.setFill(Color.RED);
+		}	
+		switchPane.getChildren().addAll(switchRect,blueSwitch,redSwitch);
+		scale.setMaxSize(150*scaleOf, height);
+//		switchPane.setMaxSize(150*scaleOf, height);
+		switchPane.autosize();
+		StackPane.setAlignment(blueSwitch, Pos.CENTER_LEFT);
+		StackPane.setAlignment(redSwitch,Pos.CENTER_RIGHT);
+		StackPane.setAlignment(switchRect, Pos.CENTER);
+		
+		VBox blueForce = new VBox();
+		blueForce.getChildren().addAll(new Label("F"), createPowerup(match.score_breakdown.blue.vaultForcePlayed,force));
+		VBox blueLevitate = new VBox();
+		blueLevitate.getChildren().addAll(new Label("L"), createPowerup(match.score_breakdown.blue.vaultLevitatePlayed,levitate));
+		VBox blueBoost = new VBox();
+		blueBoost.getChildren().addAll(new Label("B"), createPowerup(match.score_breakdown.blue.vaultBoostPlayed,boost));
+		
+		VBox redForce = new VBox();
+		redForce.getChildren().addAll(new Label("F"),createPowerup(match.score_breakdown.red.vaultForcePlayed,force));
+		VBox redLevitate = new VBox();
+		redLevitate.getChildren().addAll(new Label("L"),createPowerup(match.score_breakdown.red.vaultLevitatePlayed,levitate));
+		VBox redBoost = new VBox();
+		redBoost.getChildren().addAll(new Label("B"),createPowerup(match.score_breakdown.red.vaultBoostPlayed,boost));
+		
+		HBox boosts = new HBox(50);
+		Region r = new Region();
+		boosts.getChildren().addAll(blueForce,blueLevitate,blueBoost,r,redBoost,redLevitate,redForce);
+		
+		getChildren().addAll(nameScoreTeamBox, scale, switchPane, boosts);
+		setPadding(K.getInsets());
+		setAlignment(Pos.CENTER);
+		
+	}
+	
+	public VBox createPowerup(int l, Color c) {
+		VBox box = new VBox();
+		box.setStyle("-fx-border-width: 1; -fx-border-color: black;");
+		for (int i = 0; i < 2; i++) {
+			Rectangle level = new Rectangle(50,14);
+			Rectangle space = new Rectangle(50,4);
+			level.setStrokeWidth(0);
+			space.setStrokeWidth(0);
+			level.setFill(Color.WHITE);
+			space.setFill(Color.LIGHTGRAY);
+			box.getChildren().addAll(level,space);
+		}
+		Rectangle level = new Rectangle(50,14);
+		level.setStrokeWidth(0);
+		level.setFill(Color.WHITE);
+		box.getChildren().add(level);
+		
+		switch(l) {			
+		case 0: break;
+		case 1: ((Rectangle) box.getChildren().get(4)).setFill(c); break;
+		case 2: ((Rectangle) box.getChildren().get(2)).setFill(c); break;
+		case 3: ((Rectangle) box.getChildren().get(0)).setFill(c); break;
+		}
+		return box;
+	}
+	
+	public String parseFromKey(String key) {
+		String s = "";
+		if (key.indexOf("qm") != -1) 
+			s = "Quals " + key.substring(key.indexOf("qm")+2);
+		else if (key.indexOf("qf") != -1) 
+			s = "Quarters " + key.substring(key.indexOf("qf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
+		else if (key.indexOf("sf") != -1)
+			s = "Semis " + key.substring(key.indexOf("sf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
+		else if (key.indexOf("f") != -1)
+			s = "Finals " + key.substring(key.indexOf("f")+1, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
+		return s;
+	}
+}
