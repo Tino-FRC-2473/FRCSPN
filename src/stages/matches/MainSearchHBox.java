@@ -29,7 +29,7 @@ public class MainSearchHBox extends HBox {
 		    @Override
 		    public void handle(KeyEvent e) {
 		        if(e.getCode() == KeyCode.ENTER) {
-		        	ScoutingApp.mStage.filterMatches();
+		        	ScoutingApp.mStage.matchesStageFilter();
 		        }
 		    }
 		});

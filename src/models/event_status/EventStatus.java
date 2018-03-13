@@ -20,7 +20,7 @@ public class EventStatus {
 		private final SimpleIntegerProperty rank;
 		private final SimpleIntegerProperty team;
 		private final SimpleDoubleProperty rankingScore;
-		private final SimpleIntegerProperty parkClimbPoints;
+		private final SimpleIntegerProperty parkClimb;
 		private final SimpleIntegerProperty auto;
 		private final SimpleIntegerProperty ownership;
 		private final SimpleIntegerProperty vault;
@@ -29,27 +29,27 @@ public class EventStatus {
 		private final SimpleIntegerProperty played;
 	    
     	private StandingsRow2018() {
-	        this.rank = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[0].name));
-	        this.team = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[1].name));
-	        this.rankingScore = new SimpleDoubleProperty(Double.parseDouble(qual.sort_order_info[2].name));
-	        this.parkClimbPoints = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[3].name));
-			this.auto = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[4].name));
-			this.ownership = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[5].name));
-			this.vault = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[6].name));
-			this.recordWLT = new SimpleStringProperty(qual.sort_order_info[7].name);
-			this.dq = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[8].name));
-			this.played = new SimpleIntegerProperty(Integer.parseInt(qual.sort_order_info[9].name));
+	        this.rank = new SimpleIntegerProperty((int)qual.ranking.rank);
+	        this.team = new SimpleIntegerProperty(Integer.parseInt(qual.ranking.team_key.substring(3)));
+	        this.rankingScore = new SimpleDoubleProperty(qual.ranking.sort_orders[0]);
+	        this.parkClimb = new SimpleIntegerProperty((int)qual.ranking.sort_orders[1]);
+			this.auto = new SimpleIntegerProperty((int)qual.ranking.sort_orders[2]);
+			this.ownership = new SimpleIntegerProperty((int)qual.ranking.sort_orders[3]);
+			this.vault = new SimpleIntegerProperty((int)qual.ranking.sort_orders[4]);
+			this.recordWLT = new SimpleStringProperty(qual.ranking.record.toString());
+			this.dq = new SimpleIntegerProperty((int)qual.ranking.sort_orders[5]);
+			this.played = new SimpleIntegerProperty(qual.ranking.matches_played);
     	}
 			
-		public SimpleIntegerProperty getRank() { return rank; }
-		public SimpleIntegerProperty getTeam() { return team; }
-		public SimpleDoubleProperty getRankingScore() { return rankingScore; }
-		public SimpleIntegerProperty getParkClimbPoints() { return parkClimbPoints; }
-		public SimpleIntegerProperty getAuto() { return auto; }
-		public SimpleIntegerProperty getOwnership() { return ownership; }
-		public SimpleIntegerProperty getVault() { return vault; }
-		public SimpleStringProperty getRecordWLT() { return recordWLT; }
-		public SimpleIntegerProperty getDq() { return dq; }
-		public SimpleIntegerProperty getPlayed() { return played; }
+		public int getRank() { return rank.get(); }
+		public int getTeam() { return team.get(); }
+		public double getRankingScore() { return rankingScore.get(); }
+		public int getParkClimb() { return parkClimb.get(); }
+		public int getAuto() { return auto.get(); }
+		public int getOwnership() { return ownership.get(); }
+		public int getVault() { return vault.get(); }
+		public String getRecordWLT() { return recordWLT.get(); }
+		public int getDq() { return dq.get(); }
+		public int getPlayed() { return played.get(); }
 	}
 }

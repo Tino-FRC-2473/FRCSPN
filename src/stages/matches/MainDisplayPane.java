@@ -14,6 +14,8 @@ public class MainDisplayPane extends BorderPane {
 		previewBox = new MainMatchDetailsBox();
 		standingsBox = new MainStandingsBox();
 		//awe;goih;owaeg = new ScrollPane();
+		
+		this.viewStandings();
 	}
 
 	public void previewTeam(SingleAlliance s) {

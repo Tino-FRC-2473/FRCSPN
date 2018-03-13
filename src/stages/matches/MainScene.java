@@ -1,5 +1,7 @@
 package stages.matches;
 
+import java.io.File;
+
 import general.constants.K;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -20,13 +22,20 @@ public class MainScene extends Scene {
 		super(p, K.MATCHES.WIDTH, K.MATCHES.HEIGHT);
 		root = p;
 		root.setStyle("-fx-background-color: #F0F0F0");
+		
+		File f = new File("filecss.css");
+		this.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 	}
 
 	public void previewTeam(SingleAlliance s) {
 		cDisplayPane.previewTeam(s);
 	}
 
-	public void filterMatches() {
+	public void filter() {
+		String text = tSearchBox.getText();
+		if(text.length() == 0)
+			cDisplayPane.viewStandings();
+		
 		lMatchesSPane.filter(tSearchBox.getText());
 	}
 
@@ -55,10 +64,6 @@ public class MainScene extends Scene {
 
 		cDisplayPane = new MainDisplayPane();
 		root.setCenter(cDisplayPane);
-	}
-
-	public void setContent(Match_PowerUp m) {
-		cDisplayPane.viewMatch(m);
 	}
 
 	public void preview(MatchesDisplay2018 d) {

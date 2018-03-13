@@ -82,7 +82,7 @@ public class ClickableButton extends ImageView {
 			ScoutingApp.mStage.filterEvents();
 			break;
 		case MM_SEARCH_BTN:
-			ScoutingApp.mStage.filterMatches();
+			ScoutingApp.mStage.matchesStageFilter();
 			break;
 		case MS_SELECT_BTN:
 			ScoutingApp.mStage.selectEvent();
