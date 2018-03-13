@@ -150,12 +150,8 @@ def getTeamStats(matches):
 
 			#med, iqr possible
 
-	#pprint.pprint(teamData)
+	pprint.pprint(teamData)
 	return teamData
-
-def matchKeyWithoutSetNumber(match):
-	mKey = getValue(match, "key")
-	return mKey[:mKey.find("m", mKey.index("_"))]
 
 def buildTrainingData():
 	matches = getMatches(selectEventKeys())
@@ -163,35 +159,19 @@ def buildTrainingData():
 
 	mArr = []
 	rArr = []
-	for i in range(len(matches)):
+	for i, match in enumerate(matches):
 		mArr.append([])
-		mArr[len(mArr)-1].append([])
-		mArr[len(mArr)-1].append([])
-		mArr[len(mArr)-1][0].append([])
-		mArr[len(mArr)-1][0].append([])
-		mArr[len(mArr)-1][0].append([])
-		mArr[len(mArr)-1][1].append([])
-		mArr[len(mArr)-1][1].append([])
-		mArr[len(mArr)-1][1].append([])
-
-		matchArr = []
-		matchArr.append(matches[i])
-		if not getValue(matches[i], "comp_level") == "qm":
-			mKey = matchKeyWithoutSetNumber(matches[i])
-			print(mKey)
-			for j in range(i+1, len(matches)):
-				if not mKey == matchKeyWithoutSetNumber(matches[j]):
-					break
-				else:
-					matchArr.append(matches[j])
-					i += 1
-
-
-
-
+		mArr[i].append([])
+		mArr[i].append([])
+		mArr[i][0].append([])
+		mArr[i][0].append([])
+		mArr[i][0].append([])
+		mArr[i][1].append([])
+		mArr[i][1].append([])
+		mArr[i][1].append([])
 
 		# mArr[i][n][m] (n is for alliances - 0: blue, 1: red) (m is from [0-2], representing the alliance team station # from [1-3])
-		tms = getTeams(matchArr[0])
+		tms = getTeams(match)
 		for j in range(2):
 			for k in range(3):
 				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0-2]) pairs to ([0-5])
