@@ -120,9 +120,11 @@ public class MainPreviewBox extends VBox {
 		}	
 		switchPane.getChildren().addAll(switchRect,blueSwitch,redSwitch);
 		scale.setMaxSize(150*scaleOf, height);
-		switchPane.setMaxSize(150*scaleOf, height);
+//		switchPane.setMaxSize(150*scaleOf, height);
+		switchPane.autosize();
 		StackPane.setAlignment(blueSwitch, Pos.CENTER_LEFT);
 		StackPane.setAlignment(redSwitch,Pos.CENTER_RIGHT);
+		StackPane.setAlignment(switchRect, Pos.CENTER);
 		
 		VBox blueForce = new VBox();
 		blueForce.getChildren().addAll(new Label("F"), createPowerup(match.score_breakdown.blue.vaultForcePlayed,force));

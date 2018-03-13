@@ -16,11 +16,7 @@ public class MainDisplayBPane extends BorderPane {
 		super();
 		tStandingsSPane = new ScrollPane();
 		this.setTop(tStandingsSPane);
-		HBox h = new HBox();
-		VBox v = new VBox();
 		
-		this.setLeft(h);
-		this.setRight(v);
 	}
 	
 	public void setContent(Match_PowerUp m) {
