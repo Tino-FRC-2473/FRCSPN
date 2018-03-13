@@ -14,12 +14,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.matches.yr2018.Match_PowerUp;
 
-public class MainMatchesSPane extends ScrollPane {
+public class MainSideSPane extends ScrollPane {
 	private VBox content;
 	private ArrayList<MatchesDisplay2018> matchList;
 	private MatchesDisplay2018 selected;
 	
-	public MainMatchesSPane(Match_PowerUp[] arr) {
+	public MatchesDisplay2018 getSelected() {
+		return selected;
+	}
+
+	public MainSideSPane(Match_PowerUp[] arr) {
 		selected = null;
 		this.setMinWidth(K.MATCHES.LEFT_WIDTH);
 		this.setFitToWidth(true);
@@ -47,20 +51,27 @@ public class MainMatchesSPane extends ScrollPane {
 	}
 	
 	public void filter(String s) {
+		boolean prev = false;
 		content.getChildren().clear();
-		for(MatchesDisplay2018 m : matchList)
-			if(m.contains(s))
+		for(MatchesDisplay2018 m : matchList) {
+			if(m.contains(s)) {
+				if(!prev) {
+					prev = true;
+					
+				}
 				content.getChildren().add(m);
+			}
+		}
 	}
 	
 	public Match_PowerUp highlight(MatchesDisplay2018 m) {
-		if (selected != null) selected.highlight(false);
-		for (MatchesDisplay2018 match : matchList) {
-			if (m.equals(match)) {
-				match.highlight(true);
-				selected = match;
+		if(selected != null) selected.highlight(false);
+		for(MatchesDisplay2018 md : matchList) {
+			if(m.equals(md)) {
+				md.highlight(true);
+				selected = md;
 				ScoutingApp.mStage.preview(selected);
-				return match.getMatch();
+				return md.getMatch();
 			}
 		}
 		return null;
@@ -256,16 +267,16 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public String parseFromKey(String key) {
-		String s = "";
-		if (key.indexOf("qm") != -1) 
-			s = "Quals " + key.substring(key.indexOf("qm")+2);
-		else if (key.indexOf("qf") != -1) 
-			s = "Quarters " + key.substring(key.indexOf("qf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		else if (key.indexOf("sf") != -1)
-			s = "Semis " + key.substring(key.indexOf("sf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		else if (key.indexOf("f") != -1)
-			s = "Finals " + key.substring(key.indexOf("f")+1, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		return s;
+		int i = key.indexOf("_")+1;
+		if(key.indexOf("qm", i) != -1) 
+			return "Quals " + key.substring(i+2);
+		else if (key.indexOf("qf", i) != -1)
+			return "Quarters " + key.charAt(i+2) + " Match " + key.charAt(i+4);
+		else if (key.indexOf("sf", i) != -1)
+			return "Semis " + key.charAt(i+2) + " Match " + key.charAt(i+4);
+		else if (key.indexOf("f", i) != -1)
+			return "Finals " + key.charAt(i+1) + " Match " + key.charAt(i+3);
+		return null;
 	}
 	
 	public void highlight(boolean h) {

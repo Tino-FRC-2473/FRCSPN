@@ -164,7 +164,6 @@ public class MLoadingScene extends Scene {
 						boolean foundNull = false;
 						for(int i = 0; i < matchKeys.length; i++) {
 							if(ScoutingApp.getDatabase().get2018Match(matchKeys[i]) == null) {
-								System.out.println(matchKeys[i] + " not found");
 								foundNull = true;
 								break;
 							}
