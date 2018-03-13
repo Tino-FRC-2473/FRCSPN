@@ -108,7 +108,7 @@ def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
 
-	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoScaleOwnershipSec",\
+	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
 		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
 	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 	#yourStats = ["totalPoints"]
@@ -150,7 +150,7 @@ def getTeamStats(matches):
 
 			#med, iqr possible
 
-	#pprint.pprint(teamData)
+	pprint.pprint(teamData)
 	return teamData
 
 def buildTrainingData():
@@ -189,7 +189,6 @@ def buildTrainingData():
 def writeFile4D(npArr, path):
 	with open(path, "w+") as file:
 		file.write(str(npArr.shape) + "\n")
-		print(npArr.shape)
 		for i in range(npArr.shape[0]):
 			for j in range(npArr.shape[1]):
 				for m in range(npArr.shape[2]):
@@ -199,7 +198,6 @@ def writeFile4D(npArr, path):
 def writeFile2D(npArr, path):
 	with open(path, "w+") as file:
 		file.write(str(npArr.shape) + "\n")
-		print(npArr.shape)
 		for i in range(npArr.shape[0]):
 			for j in range(npArr.shape[1]):
 				file.write(str(npArr[i][j]) + "\n")
@@ -223,13 +221,13 @@ def writeFiles(arr4d, arr2d):
 
 def main():
 	trainingArr, resultsArr = buildTrainingData()
-	'''
-	pprint.pprint(trainingArr)
+	
+	#pprint.pprint(trainingArr)
 	print("training shape:", trainingArr.shape)
 
-	pprint.pprint(resultsArr)
+	#pprint.pprint(resultsArr)
 	print("results shape:", resultsArr.shape)
-	'''
+	
 	writeFiles(trainingArr, resultsArr)
 
 main()
