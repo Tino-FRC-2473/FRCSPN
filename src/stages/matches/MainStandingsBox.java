@@ -15,7 +15,7 @@ public class MainStandingsBox extends TableView<EventStatus.StandingsRow2018> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public MainStandingsBox() {
 		for(Team t : ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key)) {
-			data.add(ScoutingApp.getDatabase().getStatusForTeamAtEvent(t.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018());
+//			data.add(ScoutingApp.getDatabase().getStatusForTeamAtEvent(t.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018());
 		}
 		
 		this.setEditable(true);
