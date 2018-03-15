@@ -104,13 +104,14 @@ def getTeams(match):
 
 def oppKey(s):
 	return "opp" + s[0].upper() + s[1:]
-'''
+
 def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
 
-	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
-		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+	yourStats = ["totalPoints"]
+#	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
+#		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
 	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 	#yourStats = ["totalPoints"]
 	oppStats = []
@@ -153,7 +154,7 @@ def getTeamStats(matches):
 
 	pprint.pprint(teamData)
 	return teamData
-'''
+
 
 def getAndMergeTeamMatches(matches):
 	matchesDict = {}
@@ -199,7 +200,8 @@ def getAndMergeTeamMatches(matches):
 	
 
 	return matchesDict
-getAndMergeTeamMatches(getMatches(selectEventKeys()))
+
+#getAndMergeTeamMatches(getMatches(selectEventKeys()))
 
 def buildTrainingData():
 	matches = getMatches(selectEventKeys())
@@ -270,4 +272,4 @@ def main():
 	
 	writeFiles(trainingArr, resultsArr)
 
-#main()
+main()
