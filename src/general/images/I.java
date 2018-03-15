@@ -61,6 +61,9 @@ public class I {
 		case MS_SELECT_BTN:
 			img = new Image(BASE + "matches" + "/select.png", 0, K.MATCHES.SEARCH_BTN_SIZE, true, true);
 			break;
+		case FORCE:
+			img = new Image(BASE + "matches" + "/force.png");
+			break;
 		default:
 			System.out.println("Image of type " + i + " not found.");
 			return;
@@ -91,6 +94,8 @@ public class I {
 		MS_SEARCH_BTN, MS_SELECT_BTN,
 		MM_SEARCH_BTN,
 		
-		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN
+		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN,
+		
+		FORCE
 	}
 }

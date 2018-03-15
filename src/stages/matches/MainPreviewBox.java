@@ -1,8 +1,12 @@
 package stages.matches;
 
 import general.constants.K;
+import general.images.I;
+import general.images.I.Type;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -128,6 +132,8 @@ public class MainPreviewBox extends VBox {
 		switchPane.autosize();
 		
 		VBox blueForce = new VBox();
+		blueForce.setAlignment(Pos.CENTER);
+		blueForce.setSpacing(5);
 		blueForce.getChildren().addAll(new Label("F"), createPowerup(match.score_breakdown.blue.vaultForcePlayed,force));
 		VBox blueLevitate = new VBox();
 		blueLevitate.getChildren().addAll(new Label("L"), createPowerup(match.score_breakdown.blue.vaultLevitatePlayed,levitate));
