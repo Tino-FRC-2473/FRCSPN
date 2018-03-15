@@ -237,8 +237,8 @@ for i in range(1,EPOCHS+1):
 	print("Epoch ", i,"WL%: ",a," Acc (1-PE)%: ",a2,"ValidAcc: ",valAcc,"PEErr: ",l2,"SQErr: ",l)
 	if i%10==0 and i>0:
 		if abs(a2-accuracyArr[len(accuracyArr)-10]<0.002):
-			LEARNING_RATE*=0.95
-			print(LEARNING_RATE)
+			#LEARNING_RATE*=0.95
+			print("meme")
 
 	accuracyArr.append(a2)
 	lossArr.append(l2)
