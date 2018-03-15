@@ -6,6 +6,7 @@ import writeMatches
 import re
 
 directory = os.getcwd()[:os.getcwd().rfind("\\")]
+print(set([1, 2]) == set([2, 1]))
 
 def selectEventKeys():
 	path = directory + "\\data\\"
@@ -103,7 +104,7 @@ def getTeams(match):
 
 def oppKey(s):
 	return "opp" + s[0].upper() + s[1:]
-
+'''
 def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
@@ -152,6 +153,53 @@ def getTeamStats(matches):
 
 	pprint.pprint(teamData)
 	return teamData
+'''
+
+def getAndMergeTeamMatches(matches):
+	matchesDict = {}
+
+	for match in matches:
+		teams = getTeams(match)
+		for team in teams:
+			if not team in matchesDict:
+				matchesDict[team] = {}
+				matchesDict[team]["matches"] = []
+			matchesDict[team]["matches"].append({"teams": teams, "score": getValue(match, "score_breakdown")})
+
+	for tDict in matchesDict.values():
+		tDict["toMerge"] = []
+		length = len(tDict["matches"])
+		for i in range(length-1):
+			for j in range(i+1, length):
+				if set(tDict["matches"][i]["teams"]) == set(tDict["matches"][j]["teams"]):
+					found = False
+					for arr in tDict["toMerge"]:
+						if i in arr or j in arr:
+							found = True
+							if i in arr and j not in arr:
+								arr.append(j)
+								break
+							elif j in arr and i not in arr:
+								arr.append(i)
+								break
+					if not found:
+						tDict["toMerge"].append([i, j])
+
+	for tDict in matchesDict.values():
+		for merge in tDict["toMerge"]:
+			replace, allReplace = {"blue": {}, "red": {}}, {"blue": {}, "red": {}}
+			#for i in merge:
+	print(matchesDict["frc5687"]["matches"][0]["score"]["blue"].keys())
+
+
+
+#	for team, tDict in matchesDict.items():
+#		print(team, len(tDict["matches"]), tDict["toMerge"])
+	#pprint.pprint(matchesDict)
+	
+
+	return matchesDict
+getAndMergeTeamMatches(getMatches(selectEventKeys()))
 
 def buildTrainingData():
 	matches = getMatches(selectEventKeys())
@@ -160,15 +208,7 @@ def buildTrainingData():
 	mArr = []
 	rArr = []
 	for i, match in enumerate(matches):
-		mArr.append([])
-		mArr[i].append([])
-		mArr[i].append([])
-		mArr[i][0].append([])
-		mArr[i][0].append([])
-		mArr[i][0].append([])
-		mArr[i][1].append([])
-		mArr[i][1].append([])
-		mArr[i][1].append([])
+		mArr.append([[[], [], []], [[], [], []]])
 
 		# mArr[i][n][m] (n is for alliances - 0: blue, 1: red) (m is from [0-2], representing the alliance team station # from [1-3])
 		tms = getTeams(match)
@@ -222,12 +262,12 @@ def writeFiles(arr4d, arr2d):
 def main():
 	trainingArr, resultsArr = buildTrainingData()
 	
-	#pprint.pprint(trainingArr)
+#	pprint.pprint(trainingArr)
 	print("training shape:", trainingArr.shape)
 
-	#pprint.pprint(resultsArr)
+#	pprint.pprint(resultsArr)
 	print("results shape:", resultsArr.shape)
 	
 	writeFiles(trainingArr, resultsArr)
 
-main()
+#main()
