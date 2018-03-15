@@ -5,12 +5,14 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
-inputFile = open("more_data.txt")
-dim = [3350,54]
+inputFile = open("fixed_data.txt")
+dim = [2008,54]
 inpRaw = []
 c = 0
 for line in inputFile:
 	inpRaw.append(float(line.strip()))
+
+
 
 def constructArray(rawInput, numDimensions, dimensionsArray):
 	if(numDimensions==1):
@@ -27,8 +29,8 @@ def weight_variable(shape):
 
 inp = constructArray(inpRaw,len(dim),dim)
 
-targetsFile = open("more_results.txt")
-dim = [3350,2]
+targetsFile = open("fixed_results.txt")
+dim = [2008,2]
 outRaw = []
 c = 0
 for line in targetsFile:
@@ -37,12 +39,11 @@ for line in targetsFile:
 targets = constructArray(outRaw,len(dim),dim)
 
 
-
 sess = tf.InteractiveSession()
 
 IndivHid = 3
 CombHid = 6
-insizenum=54
+insizenum = 54
 numStats = 8
 numHidden = 25
 numHidden1 = 15
@@ -51,7 +52,7 @@ numSubOutputs = 5
 
 MINI_BATCH_SIZE = 5
 EPOCHS = 300
-LEARNING_RATE = 8e-3
+LEARNING_RATE = 6e-3
 DROPOUT = 0.9
 
 inputs = tf.placeholder(dtype = tf.float32, shape = [None,insizenum])
@@ -134,25 +135,23 @@ for i in range(1,EPOCHS+1):
 		numOut1 = arrOut[k][1]
 		numPred1 = arrPred[k][1]
 		if numOut != 0:
-			summ += (abs(numOut-numPred)/numOut)
+			summ += (1-abs(numOut-numPred)/numOut)
 		else:
 			counter-=1
 		if numOut1 != 0:
-			summ += (abs(numOut1-numPred1)/numOut1)
+			summ += (1-abs(numOut1-numPred1)/numOut1)
 		else:
 			counter-=1
 
-	newAcc = 1-(summ/(2*len(arrOut)+counter))
+	newAcc = summ/(2*len(arrOut)+counter)
 
 	#print(correct_prediction.eval(feed_dict={inputs:inp, targetValues:targets}))
 	#print(step1.eval(feed_dict={inputs:inp, targetValues:targets}))
 	a = newAcc #accuracy.eval(feed_dict={inputs: inp, targetValues: targets})
 	print("Epoch ", i," Accuracy: ",newAcc)
-	if i>1:
-		if LEARNING_RATE != 3e-3 and newAcc>=0.52:
-			LEARNING_RATE = 3e-3
-		elif LEARNING_RATE != 6e-3 and newAcc >= 0.45:
-			LEARNING_RATE = 6e-3
+	'''if i>1:
+		if a<accuracyArr[len(accuracyArr)-1]:
+			LEARNING_RATE*=0.9'''
 	accuracyArr.append(a)
 
 maxAcc = 0.0
