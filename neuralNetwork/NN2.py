@@ -1,7 +1,10 @@
 import numpy as np
 import tensorflow as tf
+<<<<<<< HEAD
 import matplotlib
 matplotlib.use('TkAgg')
+=======
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 import matplotlib.pyplot as plt
 import math
 
@@ -67,8 +70,12 @@ normalizedInp = np.zeros((len(summedInp),len(summedInp[1])))
 for i in range(len(summedInp)):
 	for j in range(len(summedInp[0])):
 		normalizedInp[i][j]=(summedInp[i][j]-means[j])/stdDev[j]
+<<<<<<< HEAD
 normValInp = normalizedInp[2800:]
 normalizedInp = normalizedInp[:2800]
+=======
+
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 
 targetsFile = open("more_results.txt")
 dim = [numData,2]
@@ -78,8 +85,11 @@ for line in targetsFile:
 	outRaw.append(float(line.strip()))
 
 targets = constructArray(outRaw,len(dim),dim)
+<<<<<<< HEAD
 targVal = targets[2800:]
 targets = targets[:2800]
+=======
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 
 i = 0
 while i < len(targets):
@@ -92,12 +102,21 @@ sess = tf.InteractiveSession()
 
 insizenum=18
 numHidden = 15
+<<<<<<< HEAD
 numHidden1 = 8
 
 
 MINI_BATCH_SIZE = 5
 EPOCHS = 300
 LEARNING_RATE = 5e-3
+=======
+numHidden1 = 5
+
+
+MINI_BATCH_SIZE = 10
+EPOCHS = 50
+LEARNING_RATE = 5e-2
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 DROPOUT = 1.0
 keep_prob = tf.placeholder(tf.float32)
 
@@ -160,9 +179,13 @@ divA = 1/targetsA
 divB = 1/targetsB
 pea = tf.matmul(tf.transpose(omtA),divA)
 peb = tf.matmul(tf.transpose(omtB),divB)
+<<<<<<< HEAD
 totalOutputCount = tf.cast((tf.shape(omtA)[0]*2),dtype=tf.float32)
 accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount
 accuracy3 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount
+=======
+accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/6700
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 
 MissError = tf.reduce_mean(tf.squared_difference(out, targetValues))
 loss = MissError+wc*(tf.reduce_mean(WPENiH)+tf.reduce_mean(WPENHH))
@@ -179,7 +202,10 @@ sess.run(tf.global_variables_initializer())
 
 accuracyArr = []
 lossArr = []
+<<<<<<< HEAD
 valAccArr=[]
+=======
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 
 for i in range(len(targets)):
 	for j in range(len(targets[0])):
@@ -215,7 +241,11 @@ for i in range(1,EPOCHS+1):
 	print(onesnzeros.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0}))
 	print("scoresqd")
 	print(scoresqD.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0}))
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 	w = WPSD.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
 	print(w)
 	print("WeightProduct")
@@ -228,6 +258,7 @@ for i in range(1,EPOCHS+1):
 		print(" ")'''
 	a = accuracy.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
 	a2 = accuracy2.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
+<<<<<<< HEAD
 	valAcc = accuracy2.eval(feed_dict={inputs: normValInp, targetValues: targVal, keep_prob: 1.0})
 	l2 = loss2.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
 	l = loss.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
@@ -244,12 +275,27 @@ for i in range(1,EPOCHS+1):
 	lossArr.append(l2)
 	valAccArr.append(valAcc)
 
+=======
+	l2 = loss2.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
+	l = loss.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
+	print("Epoch ", i,"WL%: ",a," PE%: ",a2,"PEErr: ",l2,"SQErr: ",l)
+	if i>1:
+		if a2>=accuracyArr[len(accuracyArr)-1]:
+			LEARNING_RATE*=0.90
+			print(LEARNING_RATE)
+	accuracyArr.append(a2)
+	lossArr.append(l2)
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 
 
 maxAcc = 0.0
 for i in accuracyArr:
 	if(i>maxAcc):
 		maxAcc=i
+<<<<<<< HEAD
+=======
+
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
 print("Maximum Accuracy %g"%maxAcc)
 
 
@@ -257,8 +303,15 @@ xPlot = []
 for i in range(1,EPOCHS+1):xPlot.append(i)
 
 plt.plot(xPlot, accuracyArr, 'b-', label='Accuracy')
+<<<<<<< HEAD
 plt.plot(xPlot, valAccArr, 'g-', label='ValAccuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 plt.show()
+=======
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
+>>>>>>> 873f178b450c36dcd9f0286c7675d503b2e41a6b
