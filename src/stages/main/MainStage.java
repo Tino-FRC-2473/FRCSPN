@@ -13,7 +13,7 @@ public class MainStage extends Stage {
 
 	public MainStage() {
 		this.setResizable(false);
-		this.setTitle("FRCSPN v" + K.VERSION);
+		this.setTitle("FRCSPN " + K.VERSION);
 
 		buttons[0][0] = new ClickableButton(I.Type.TEAM_EVENTS_BTN, I.Type.TEAM_EVENTS_BTN_CLICKED, "Lists events for teams this year.");
 		buttons[1][0] = new ClickableButton(I.Type.MATCHES_BTN, I.Type.MATCHES_BTN_CLICKED, "Look up matches for an event.");

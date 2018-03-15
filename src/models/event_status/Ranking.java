@@ -6,6 +6,6 @@ public class Ranking {
 	public double quals_average;
 	public int rank;
 	public WLTRecord record;
-	public String[] sort_orders;
+	public double[] sort_orders;
 	public String team_key;
 }
