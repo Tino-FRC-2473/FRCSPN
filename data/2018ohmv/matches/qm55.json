@@ -1,159 +1,124 @@
-[
-    {
-        "size": "2018ohmv_qm55",
-        "name": "key"
-    },
-    {
-        "size": "2018ohmv",
-        "name": "event_key"
-    },
-    {
-        "size": 1,
-        "name": "set_number"
-    },
-    {
-        "size": {
-            "blue": {
-                "vaultLevitatePlayed": 3,
-                "rp": 3,
-                "foulPoints": 30,
-                "autoSwitchAtZero": true,
-                "teleopScaleOwnershipSec": 0,
-                "vaultForceTotal": 2,
-                "autoRunPoints": 15,
-                "autoPoints": 35,
-                "teleopSwitchForceSec": 10,
-                "teleopSwitchBoostSec": 0,
-                "vaultBoostTotal": 3,
-                "autoRobot1": "AutoRun",
-                "endgameRobot1": "Levitate",
-                "autoScaleOwnershipSec": 0,
-                "foulCount": 0,
-                "totalPoints": 276,
-                "vaultBoostPlayed": 2,
-                "teleopScaleBoostSec": 0,
-                "autoQuestRankingPoint": true,
-                "teleopOwnershipPoints": 136,
-                "teleopPoints": 211,
-                "techFoulCount": 1,
-                "faceTheBossRankingPoint": false,
-                "tba_gameData": "RLR",
-                "adjustPoints": 0,
-                "vaultPoints": 40,
-                "autoSwitchOwnershipSec": 10,
-                "teleopScaleForceSec": 0,
-                "vaultForcePlayed": 1,
-                "autoRobot3": "AutoRun",
-                "autoOwnershipPoints": 20,
-                "vaultLevitateTotal": 3,
-                "endgamePoints": 35,
-                "endgameRobot2": "Parking",
-                "endgameRobot3": "None",
-                "autoRobot2": "AutoRun",
-                "teleopSwitchOwnershipSec": 136
-            },
-            "red": {
-                "vaultLevitatePlayed": 0,
-                "rp": 1,
-                "foulPoints": 25,
-                "autoSwitchAtZero": true,
-                "teleopScaleOwnershipSec": 122,
-                "vaultForceTotal": 0,
-                "autoRunPoints": 15,
-                "autoPoints": 33,
-                "teleopSwitchForceSec": 0,
-                "teleopSwitchBoostSec": 0,
-                "vaultBoostTotal": 2,
-                "autoRobot1": "AutoRun",
-                "endgameRobot1": "None",
-                "autoScaleOwnershipSec": 0,
-                "foulCount": 1,
-                "totalPoints": 268,
-                "vaultBoostPlayed": 2,
-                "teleopScaleBoostSec": 3,
-                "autoQuestRankingPoint": true,
-                "teleopOwnershipPoints": 170,
-                "teleopPoints": 210,
-                "techFoulCount": 1,
-                "faceTheBossRankingPoint": false,
-                "tba_gameData": "RLR",
-                "adjustPoints": 0,
-                "vaultPoints": 10,
-                "autoSwitchOwnershipSec": 9,
-                "teleopScaleForceSec": 0,
-                "vaultForcePlayed": 0,
-                "autoRobot3": "AutoRun",
-                "autoOwnershipPoints": 18,
-                "vaultLevitateTotal": 0,
-                "endgamePoints": 30,
-                "endgameRobot2": "Climbing",
-                "endgameRobot3": "None",
-                "autoRobot2": "AutoRun",
-                "teleopSwitchOwnershipSec": 45
-            }
+{
+    "set_number": 1,
+    "time": 1520025480,
+    "actual_time": 1520029047,
+    "comp_level": "qm",
+    "post_result_time": 1520029221,
+    "videos": [
+        {
+            "type": "youtube",
+            "key": "oC7XBaMHZCU"
         },
-        "name": "score_breakdown"
-    },
-    {
-        "size": 1520025480,
-        "name": "time"
-    },
-    {
-        "size": "qm",
-        "name": "comp_level"
-    },
-    {
-        "size": 55,
-        "name": "match_number"
-    },
-    {
-        "size": 1520029221,
-        "name": "post_result_time"
-    },
-    {
-        "size": 1520029106,
-        "name": "predicted_time"
-    },
-    {
-        "size": {
-            "blue": {
-                "dq_team_keys": [],
-                "surrogate_team_keys": [],
-                "team_keys": [
-                    "frc677",
-                    "frc5740",
-                    "frc5811"
-                ],
-                "score": 276
-            },
-            "red": {
-                "dq_team_keys": [],
-                "surrogate_team_keys": [],
-                "team_keys": [
-                    "frc3844",
-                    "frc379",
-                    "frc4085"
-                ],
-                "score": 268
-            }
+        {
+            "type": "youtube",
+            "key": "2kYk0_xr-3E"
+        }
+    ],
+    "score_breakdown": {
+        "red": {
+            "teleopSwitchForceSec": 0,
+            "autoRobot1": "AutoRun",
+            "teleopScaleOwnershipSec": 122,
+            "vaultForcePlayed": 0,
+            "vaultLevitateTotal": 0,
+            "tba_gameData": "RLR",
+            "endgameRobot3": "None",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 30,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 0,
+            "autoOwnershipPoints": 18,
+            "foulCount": 1,
+            "vaultPoints": 10,
+            "teleopScaleBoostSec": 3,
+            "totalPoints": 268,
+            "vaultBoostPlayed": 2,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": true,
+            "endgameRobot1": "None",
+            "autoRunPoints": 15,
+            "autoPoints": 33,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 25,
+            "teleopPoints": 210,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 45,
+            "techFoulCount": 1,
+            "teleopOwnershipPoints": 170,
+            "teleopSwitchBoostSec": 0,
+            "rp": 1,
+            "autoSwitchOwnershipSec": 9,
+            "autoRobot3": "AutoRun",
+            "vaultBoostTotal": 2,
+            "endgameRobot2": "Climbing",
+            "autoSwitchAtZero": true,
+            "vaultForceTotal": 0
         },
-        "name": "alliances"
+        "blue": {
+            "teleopSwitchForceSec": 10,
+            "autoRobot1": "AutoRun",
+            "teleopScaleOwnershipSec": 0,
+            "vaultForcePlayed": 1,
+            "vaultLevitateTotal": 3,
+            "tba_gameData": "RLR",
+            "endgameRobot3": "None",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 35,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 3,
+            "autoOwnershipPoints": 20,
+            "foulCount": 0,
+            "vaultPoints": 40,
+            "teleopScaleBoostSec": 0,
+            "totalPoints": 276,
+            "vaultBoostPlayed": 2,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": true,
+            "endgameRobot1": "Levitate",
+            "autoRunPoints": 15,
+            "autoPoints": 35,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 30,
+            "teleopPoints": 211,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 136,
+            "techFoulCount": 1,
+            "teleopOwnershipPoints": 136,
+            "teleopSwitchBoostSec": 0,
+            "rp": 3,
+            "autoSwitchOwnershipSec": 10,
+            "autoRobot3": "AutoRun",
+            "vaultBoostTotal": 3,
+            "endgameRobot2": "Parking",
+            "autoSwitchAtZero": true,
+            "vaultForceTotal": 2
+        }
     },
-    {
-        "size": 1520029047,
-        "name": "actual_time"
+    "key": "2018ohmv_qm55",
+    "predicted_time": 1520029106,
+    "match_number": 55,
+    "winning_alliance": "blue",
+    "alliances": {
+        "red": {
+            "team_keys": [
+                "frc3844",
+                "frc379",
+                "frc4085"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 268
+        },
+        "blue": {
+            "team_keys": [
+                "frc677",
+                "frc5740",
+                "frc5811"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 276
+        }
     },
-    {
-        "size": [
-            {
-                "key": "2kYk0_xr-3E",
-                "type": "youtube"
-            }
-        ],
-        "name": "videos"
-    },
-    {
-        "size": "blue",
-        "name": "winning_alliance"
-    }
-]
+    "event_key": "2018ohmv"
+}

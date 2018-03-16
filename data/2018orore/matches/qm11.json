@@ -1,159 +1,120 @@
-[
-    {
-        "name": "post_result_time",
-        "size": 1520028383
-    },
-    {
-        "name": "event_key",
-        "size": "2018orore"
-    },
-    {
-        "name": "alliances",
-        "size": {
-            "blue": {
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 329,
-                "team_keys": [
-                    "frc2898",
-                    "frc4692",
-                    "frc4662"
-                ]
-            },
-            "red": {
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 33,
-                "team_keys": [
-                    "frc4051",
-                    "frc7204",
-                    "frc7032"
-                ]
-            }
+{
+    "set_number": 1,
+    "time": 1520022600,
+    "actual_time": 1520028199,
+    "comp_level": "qm",
+    "post_result_time": 1520028383,
+    "videos": [
+        {
+            "type": "youtube",
+            "key": "BKbQKBvyTQ0"
+        }
+    ],
+    "score_breakdown": {
+        "red": {
+            "teleopSwitchForceSec": 0,
+            "autoRobot1": "AutoRun",
+            "teleopScaleOwnershipSec": 3,
+            "vaultForcePlayed": 0,
+            "vaultLevitateTotal": 2,
+            "tba_gameData": "RLR",
+            "endgameRobot3": "Parking",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 10,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 0,
+            "autoOwnershipPoints": 0,
+            "foulCount": 6,
+            "vaultPoints": 10,
+            "teleopScaleBoostSec": 0,
+            "totalPoints": 33,
+            "vaultBoostPlayed": 0,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": false,
+            "endgameRobot1": "None",
+            "autoRunPoints": 10,
+            "autoPoints": 10,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 0,
+            "teleopPoints": 23,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 0,
+            "techFoulCount": 2,
+            "teleopOwnershipPoints": 3,
+            "teleopSwitchBoostSec": 0,
+            "rp": 0,
+            "autoSwitchOwnershipSec": 0,
+            "autoRobot3": "None",
+            "vaultBoostTotal": 0,
+            "endgameRobot2": "Parking",
+            "autoSwitchAtZero": false,
+            "vaultForceTotal": 0
+        },
+        "blue": {
+            "teleopSwitchForceSec": 0,
+            "autoRobot1": "None",
+            "teleopScaleOwnershipSec": 84,
+            "vaultForcePlayed": 0,
+            "vaultLevitateTotal": 3,
+            "tba_gameData": "RLR",
+            "endgameRobot3": "Parking",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 35,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 3,
+            "autoOwnershipPoints": 0,
+            "foulCount": 0,
+            "vaultPoints": 15,
+            "teleopScaleBoostSec": 0,
+            "totalPoints": 329,
+            "vaultBoostPlayed": 0,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": false,
+            "endgameRobot1": "None",
+            "autoRunPoints": 10,
+            "autoPoints": 10,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 80,
+            "teleopPoints": 239,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 105,
+            "techFoulCount": 0,
+            "teleopOwnershipPoints": 189,
+            "teleopSwitchBoostSec": 0,
+            "rp": 2,
+            "autoSwitchOwnershipSec": 0,
+            "autoRobot3": "AutoRun",
+            "vaultBoostTotal": 0,
+            "endgameRobot2": "Levitate",
+            "autoSwitchAtZero": false,
+            "vaultForceTotal": 0
         }
     },
-    {
-        "name": "winning_alliance",
-        "size": "blue"
-    },
-    {
-        "name": "match_number",
-        "size": 11
-    },
-    {
-        "name": "set_number",
-        "size": 1
-    },
-    {
-        "name": "comp_level",
-        "size": "qm"
-    },
-    {
-        "name": "predicted_time",
-        "size": 1520028242
-    },
-    {
-        "name": "key",
-        "size": "2018orore_qm11"
-    },
-    {
-        "name": "score_breakdown",
-        "size": {
-            "blue": {
-                "teleopSwitchForceSec": 0,
-                "foulPoints": 80,
-                "adjustPoints": 0,
-                "tba_gameData": "RLR",
-                "autoOwnershipPoints": 0,
-                "faceTheBossRankingPoint": false,
-                "teleopSwitchBoostSec": 0,
-                "vaultBoostTotal": 0,
-                "teleopScaleForceSec": 0,
-                "totalPoints": 329,
-                "autoQuestRankingPoint": false,
-                "teleopScaleOwnershipSec": 84,
-                "teleopPoints": 239,
-                "endgameRobot3": "Parking",
-                "vaultPoints": 15,
-                "vaultLevitatePlayed": 3,
-                "vaultBoostPlayed": 0,
-                "endgameRobot1": "None",
-                "autoRobot2": "AutoRun",
-                "autoRunPoints": 10,
-                "rp": 2,
-                "autoPoints": 10,
-                "autoRobot3": "AutoRun",
-                "techFoulCount": 0,
-                "autoScaleOwnershipSec": 0,
-                "vaultForceTotal": 0,
-                "vaultForcePlayed": 0,
-                "autoSwitchOwnershipSec": 0,
-                "teleopOwnershipPoints": 189,
-                "endgameRobot2": "Levitate",
-                "teleopSwitchOwnershipSec": 105,
-                "teleopScaleBoostSec": 0,
-                "autoRobot1": "None",
-                "foulCount": 0,
-                "vaultLevitateTotal": 3,
-                "autoSwitchAtZero": false,
-                "endgamePoints": 35
-            },
-            "red": {
-                "teleopSwitchForceSec": 0,
-                "foulPoints": 0,
-                "adjustPoints": 0,
-                "tba_gameData": "RLR",
-                "autoOwnershipPoints": 0,
-                "faceTheBossRankingPoint": false,
-                "teleopSwitchBoostSec": 0,
-                "vaultBoostTotal": 0,
-                "teleopScaleForceSec": 0,
-                "totalPoints": 33,
-                "autoQuestRankingPoint": false,
-                "teleopScaleOwnershipSec": 3,
-                "teleopPoints": 23,
-                "endgameRobot3": "Parking",
-                "vaultPoints": 10,
-                "vaultLevitatePlayed": 0,
-                "vaultBoostPlayed": 0,
-                "endgameRobot1": "None",
-                "autoRobot2": "AutoRun",
-                "autoRunPoints": 10,
-                "rp": 0,
-                "autoPoints": 10,
-                "autoRobot3": "None",
-                "techFoulCount": 2,
-                "autoScaleOwnershipSec": 0,
-                "vaultForceTotal": 0,
-                "vaultForcePlayed": 0,
-                "autoSwitchOwnershipSec": 0,
-                "teleopOwnershipPoints": 3,
-                "endgameRobot2": "Parking",
-                "teleopSwitchOwnershipSec": 0,
-                "teleopScaleBoostSec": 0,
-                "autoRobot1": "AutoRun",
-                "foulCount": 6,
-                "vaultLevitateTotal": 2,
-                "autoSwitchAtZero": false,
-                "endgamePoints": 10
-            }
+    "key": "2018orore_qm11",
+    "predicted_time": 1520028242,
+    "match_number": 11,
+    "winning_alliance": "blue",
+    "alliances": {
+        "red": {
+            "team_keys": [
+                "frc4051",
+                "frc7204",
+                "frc7032"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 33
+        },
+        "blue": {
+            "team_keys": [
+                "frc2898",
+                "frc4692",
+                "frc4662"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 329
         }
     },
-    {
-        "name": "actual_time",
-        "size": 1520028199
-    },
-    {
-        "name": "videos",
-        "size": [
-            {
-                "key": "BKbQKBvyTQ0",
-                "type": "youtube"
-            }
-        ]
-    },
-    {
-        "name": "time",
-        "size": 1520022600
-    }
-]
+    "event_key": "2018orore"
+}

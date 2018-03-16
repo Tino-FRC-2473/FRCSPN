@@ -25,8 +25,7 @@ def write():
 		    os.makedirs(path + "\\matches")
 
 		for match in matches:
-			with open(path + "/matches/" + match['key'][match['key'].index('_')+1:] + ".json", "w+") as file:
-				file.write(json.dumps([{'name': k, 'size': v} for k,v in match.items()], indent=4) + "\n")
+			json.dump(match, open(path + "/matches/" + match['key'][match['key'].index('_')+1:] + ".json", "w+"), indent=4)
 		print("Files written.")
 	else:
-		print("Event Key", event, "returned code", code)
+		print("Event Key", event, "returned error code", code)

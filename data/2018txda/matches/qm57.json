@@ -1,159 +1,124 @@
-[
-    {
-        "name": "post_result_time",
-        "size": 1520102141
-    },
-    {
-        "name": "event_key",
-        "size": "2018txda"
-    },
-    {
-        "name": "alliances",
-        "size": {
-            "blue": {
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 123,
-                "team_keys": [
-                    "frc2805",
-                    "frc5212",
-                    "frc3370"
-                ]
-            },
-            "red": {
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 310,
-                "team_keys": [
-                    "frc5639",
-                    "frc2333",
-                    "frc6671"
-                ]
-            }
+{
+    "set_number": 1,
+    "time": 1520116620,
+    "actual_time": 1520101935,
+    "comp_level": "qm",
+    "post_result_time": 1520102141,
+    "videos": [
+        {
+            "type": "youtube",
+            "key": "ZspAJIpOO1k"
+        },
+        {
+            "type": "youtube",
+            "key": "DyB1Z5ykwGc"
+        }
+    ],
+    "score_breakdown": {
+        "red": {
+            "teleopSwitchForceSec": 0,
+            "autoRobot1": "AutoRun",
+            "teleopScaleOwnershipSec": 106,
+            "vaultForcePlayed": 0,
+            "vaultLevitateTotal": 0,
+            "tba_gameData": "RRR",
+            "endgameRobot3": "Parking",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 10,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 0,
+            "autoOwnershipPoints": 2,
+            "foulCount": 0,
+            "vaultPoints": 15,
+            "teleopScaleBoostSec": 8,
+            "totalPoints": 310,
+            "vaultBoostPlayed": 3,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": true,
+            "endgameRobot1": "Parking",
+            "autoRunPoints": 15,
+            "autoPoints": 17,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 10,
+            "teleopPoints": 283,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 136,
+            "techFoulCount": 0,
+            "teleopOwnershipPoints": 258,
+            "teleopSwitchBoostSec": 8,
+            "rp": 3,
+            "autoSwitchOwnershipSec": 1,
+            "autoRobot3": "AutoRun",
+            "vaultBoostTotal": 3,
+            "endgameRobot2": "None",
+            "autoSwitchAtZero": true,
+            "vaultForceTotal": 0
+        },
+        "blue": {
+            "teleopSwitchForceSec": 0,
+            "autoRobot1": "AutoRun",
+            "teleopScaleOwnershipSec": 0,
+            "vaultForcePlayed": 0,
+            "vaultLevitateTotal": 3,
+            "tba_gameData": "RRR",
+            "endgameRobot3": "Levitate",
+            "teleopScaleForceSec": 0,
+            "endgamePoints": 35,
+            "autoRobot2": "AutoRun",
+            "vaultLevitatePlayed": 3,
+            "autoOwnershipPoints": 0,
+            "foulCount": 2,
+            "vaultPoints": 30,
+            "teleopScaleBoostSec": 0,
+            "totalPoints": 123,
+            "vaultBoostPlayed": 0,
+            "adjustPoints": 0,
+            "autoQuestRankingPoint": false,
+            "endgameRobot1": "None",
+            "autoRunPoints": 10,
+            "autoPoints": 10,
+            "autoScaleOwnershipSec": 0,
+            "foulPoints": 0,
+            "teleopPoints": 113,
+            "faceTheBossRankingPoint": false,
+            "teleopSwitchOwnershipSec": 48,
+            "techFoulCount": 0,
+            "teleopOwnershipPoints": 48,
+            "teleopSwitchBoostSec": 0,
+            "rp": 0,
+            "autoSwitchOwnershipSec": 0,
+            "autoRobot3": "None",
+            "vaultBoostTotal": 0,
+            "endgameRobot2": "Parking",
+            "autoSwitchAtZero": false,
+            "vaultForceTotal": 3
         }
     },
-    {
-        "name": "winning_alliance",
-        "size": "red"
-    },
-    {
-        "name": "match_number",
-        "size": 57
-    },
-    {
-        "name": "set_number",
-        "size": 1
-    },
-    {
-        "name": "comp_level",
-        "size": "qm"
-    },
-    {
-        "name": "predicted_time",
-        "size": 1520256541
-    },
-    {
-        "name": "key",
-        "size": "2018txda_qm57"
-    },
-    {
-        "name": "score_breakdown",
-        "size": {
-            "blue": {
-                "teleopSwitchForceSec": 0,
-                "foulPoints": 0,
-                "adjustPoints": 0,
-                "tba_gameData": "RRR",
-                "autoOwnershipPoints": 0,
-                "faceTheBossRankingPoint": false,
-                "teleopSwitchBoostSec": 0,
-                "vaultBoostTotal": 0,
-                "teleopScaleForceSec": 0,
-                "totalPoints": 123,
-                "autoQuestRankingPoint": false,
-                "teleopScaleOwnershipSec": 0,
-                "teleopPoints": 113,
-                "endgameRobot3": "Levitate",
-                "vaultPoints": 30,
-                "vaultLevitatePlayed": 3,
-                "vaultBoostPlayed": 0,
-                "endgameRobot1": "None",
-                "autoRobot2": "AutoRun",
-                "autoRunPoints": 10,
-                "rp": 0,
-                "autoPoints": 10,
-                "autoRobot3": "None",
-                "techFoulCount": 0,
-                "autoScaleOwnershipSec": 0,
-                "vaultForceTotal": 3,
-                "vaultForcePlayed": 0,
-                "autoSwitchOwnershipSec": 0,
-                "teleopOwnershipPoints": 48,
-                "endgameRobot2": "Parking",
-                "teleopSwitchOwnershipSec": 48,
-                "teleopScaleBoostSec": 0,
-                "autoRobot1": "AutoRun",
-                "foulCount": 2,
-                "vaultLevitateTotal": 3,
-                "autoSwitchAtZero": false,
-                "endgamePoints": 35
-            },
-            "red": {
-                "teleopSwitchForceSec": 0,
-                "foulPoints": 10,
-                "adjustPoints": 0,
-                "tba_gameData": "RRR",
-                "autoOwnershipPoints": 2,
-                "faceTheBossRankingPoint": false,
-                "teleopSwitchBoostSec": 8,
-                "vaultBoostTotal": 3,
-                "teleopScaleForceSec": 0,
-                "totalPoints": 310,
-                "autoQuestRankingPoint": true,
-                "teleopScaleOwnershipSec": 106,
-                "teleopPoints": 283,
-                "endgameRobot3": "Parking",
-                "vaultPoints": 15,
-                "vaultLevitatePlayed": 0,
-                "vaultBoostPlayed": 3,
-                "endgameRobot1": "Parking",
-                "autoRobot2": "AutoRun",
-                "autoRunPoints": 15,
-                "rp": 3,
-                "autoPoints": 17,
-                "autoRobot3": "AutoRun",
-                "techFoulCount": 0,
-                "autoScaleOwnershipSec": 0,
-                "vaultForceTotal": 0,
-                "vaultForcePlayed": 0,
-                "autoSwitchOwnershipSec": 1,
-                "teleopOwnershipPoints": 258,
-                "endgameRobot2": "None",
-                "teleopSwitchOwnershipSec": 136,
-                "teleopScaleBoostSec": 8,
-                "autoRobot1": "AutoRun",
-                "foulCount": 0,
-                "vaultLevitateTotal": 0,
-                "autoSwitchAtZero": true,
-                "endgamePoints": 10
-            }
+    "key": "2018txda_qm57",
+    "predicted_time": 1520256541,
+    "match_number": 57,
+    "winning_alliance": "red",
+    "alliances": {
+        "red": {
+            "team_keys": [
+                "frc5639",
+                "frc2333",
+                "frc6671"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 310
+        },
+        "blue": {
+            "team_keys": [
+                "frc2805",
+                "frc5212",
+                "frc3370"
+            ],
+            "dq_team_keys": [],
+            "surrogate_team_keys": [],
+            "score": 123
         }
     },
-    {
-        "name": "actual_time",
-        "size": 1520101935
-    },
-    {
-        "name": "videos",
-        "size": [
-            {
-                "key": "DyB1Z5ykwGc",
-                "type": "youtube"
-            }
-        ]
-    },
-    {
-        "name": "time",
-        "size": 1520116620
-    }
-]
+    "event_key": "2018txda"
+}

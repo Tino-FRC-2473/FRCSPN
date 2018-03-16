@@ -1,159 +1,120 @@
-[
-    {
-        "size": 1520019993,
-        "name": "post_result_time"
-    },
-    {
-        "size": {
-            "blue": {
-                "foulCount": 0,
-                "vaultBoostTotal": 3,
-                "faceTheBossRankingPoint": false,
-                "endgameRobot2": "Levitate",
-                "teleopScaleForceSec": 0,
-                "autoRobot2": "AutoRun",
-                "teleopSwitchBoostSec": 10,
-                "techFoulCount": 1,
-                "teleopSwitchOwnershipSec": 123,
-                "autoScaleOwnershipSec": 0,
-                "autoRobot1": "AutoRun",
-                "autoSwitchOwnershipSec": 0,
-                "vaultLevitateTotal": 3,
-                "vaultBoostPlayed": 3,
-                "endgameRobot3": "Parking",
-                "autoPoints": 15,
-                "adjustPoints": 0,
-                "teleopScaleOwnershipSec": 96,
-                "totalPoints": 349,
-                "vaultForcePlayed": 0,
-                "endgameRobot1": "Climbing",
-                "endgamePoints": 65,
-                "autoRunPoints": 15,
-                "vaultForceTotal": 0,
-                "autoSwitchAtZero": false,
-                "autoOwnershipPoints": 0,
-                "foulPoints": 0,
-                "rp": 2,
-                "teleopOwnershipPoints": 239,
-                "teleopSwitchForceSec": 0,
-                "tba_gameData": "RLR",
-                "teleopScaleBoostSec": 10,
-                "autoRobot3": "AutoRun",
-                "vaultPoints": 30,
-                "vaultLevitatePlayed": 3,
-                "autoQuestRankingPoint": false,
-                "teleopPoints": 334
-            },
-            "red": {
-                "foulCount": 0,
-                "vaultBoostTotal": 1,
-                "faceTheBossRankingPoint": false,
-                "endgameRobot2": "Parking",
-                "teleopScaleForceSec": 10,
-                "autoRobot2": "AutoRun",
-                "teleopSwitchBoostSec": 0,
-                "techFoulCount": 0,
-                "teleopSwitchOwnershipSec": 51,
-                "autoScaleOwnershipSec": 0,
-                "autoRobot1": "AutoRun",
-                "autoSwitchOwnershipSec": 0,
-                "vaultLevitateTotal": 3,
-                "vaultBoostPlayed": 1,
-                "endgameRobot3": "Parking",
-                "autoPoints": 15,
-                "adjustPoints": 0,
-                "teleopScaleOwnershipSec": 11,
-                "totalPoints": 177,
-                "vaultForcePlayed": 3,
-                "endgameRobot1": "Levitate",
-                "endgamePoints": 40,
-                "autoRunPoints": 15,
-                "vaultForceTotal": 3,
-                "autoSwitchAtZero": false,
-                "autoOwnershipPoints": 0,
-                "foulPoints": 25,
-                "rp": 0,
-                "teleopOwnershipPoints": 62,
-                "teleopSwitchForceSec": 10,
-                "tba_gameData": "RLR",
-                "teleopScaleBoostSec": 0,
-                "autoRobot3": "AutoRun",
-                "vaultPoints": 35,
-                "vaultLevitatePlayed": 3,
-                "autoQuestRankingPoint": false,
-                "teleopPoints": 137
-            }
+{
+    "score_breakdown": {
+        "blue": {
+            "teleopScaleBoostSec": 10,
+            "teleopScaleOwnershipSec": 96,
+            "autoOwnershipPoints": 0,
+            "rp": 2,
+            "vaultForcePlayed": 0,
+            "autoPoints": 15,
+            "autoRobot1": "AutoRun",
+            "endgameRobot1": "Climbing",
+            "vaultForceTotal": 0,
+            "teleopPoints": 334,
+            "teleopSwitchOwnershipSec": 123,
+            "autoSwitchOwnershipSec": 0,
+            "autoQuestRankingPoint": false,
+            "techFoulCount": 1,
+            "endgameRobot2": "Levitate",
+            "endgameRobot3": "Parking",
+            "foulCount": 0,
+            "vaultBoostTotal": 3,
+            "autoScaleOwnershipSec": 0,
+            "teleopSwitchBoostSec": 10,
+            "tba_gameData": "RLR",
+            "autoRunPoints": 15,
+            "autoRobot3": "AutoRun",
+            "totalPoints": 349,
+            "teleopSwitchForceSec": 0,
+            "autoRobot2": "AutoRun",
+            "teleopOwnershipPoints": 239,
+            "adjustPoints": 0,
+            "foulPoints": 0,
+            "vaultLevitatePlayed": 3,
+            "endgamePoints": 65,
+            "vaultBoostPlayed": 3,
+            "vaultLevitateTotal": 3,
+            "autoSwitchAtZero": false,
+            "vaultPoints": 30,
+            "faceTheBossRankingPoint": false,
+            "teleopScaleForceSec": 0
         },
-        "name": "score_breakdown"
+        "red": {
+            "teleopScaleBoostSec": 0,
+            "teleopScaleOwnershipSec": 11,
+            "autoOwnershipPoints": 0,
+            "rp": 0,
+            "vaultForcePlayed": 3,
+            "autoPoints": 15,
+            "autoRobot1": "AutoRun",
+            "endgameRobot1": "Levitate",
+            "vaultForceTotal": 3,
+            "teleopPoints": 137,
+            "teleopSwitchOwnershipSec": 51,
+            "autoSwitchOwnershipSec": 0,
+            "autoQuestRankingPoint": false,
+            "techFoulCount": 0,
+            "endgameRobot2": "Parking",
+            "endgameRobot3": "Parking",
+            "foulCount": 0,
+            "vaultBoostTotal": 1,
+            "autoScaleOwnershipSec": 0,
+            "teleopSwitchBoostSec": 0,
+            "tba_gameData": "RLR",
+            "autoRunPoints": 15,
+            "autoRobot3": "AutoRun",
+            "totalPoints": 177,
+            "teleopSwitchForceSec": 10,
+            "autoRobot2": "AutoRun",
+            "teleopOwnershipPoints": 62,
+            "adjustPoints": 0,
+            "foulPoints": 25,
+            "vaultLevitatePlayed": 3,
+            "endgamePoints": 40,
+            "vaultBoostPlayed": 1,
+            "vaultLevitateTotal": 3,
+            "autoSwitchAtZero": false,
+            "vaultPoints": 35,
+            "faceTheBossRankingPoint": false,
+            "teleopScaleForceSec": 10
+        }
     },
-    {
-        "size": 1520030520,
-        "name": "predicted_time"
-    },
-    {
-        "size": "blue",
-        "name": "winning_alliance"
-    },
-    {
-        "size": "qm",
-        "name": "comp_level"
-    },
-    {
-        "size": {
-            "blue": {
-                "team_keys": [
-                    "frc5561",
-                    "frc5282",
-                    "frc5260"
-                ],
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 349
-            },
-            "red": {
-                "team_keys": [
-                    "frc5215",
-                    "frc7211",
-                    "frc6610"
-                ],
-                "surrogate_team_keys": [],
-                "dq_team_keys": [],
-                "score": 177
-            }
+    "winning_alliance": "blue",
+    "set_number": 1,
+    "match_number": 52,
+    "videos": [
+        {
+            "type": "youtube",
+            "key": "yXe3B-iOKrM"
+        }
+    ],
+    "time": 1520031420,
+    "event_key": "2018miket",
+    "actual_time": 1520019776,
+    "post_result_time": 1520019993,
+    "key": "2018miket_qm52",
+    "alliances": {
+        "blue": {
+            "dq_team_keys": [],
+            "team_keys": [
+                "frc5561",
+                "frc5282",
+                "frc5260"
+            ],
+            "score": 349,
+            "surrogate_team_keys": []
         },
-        "name": "alliances"
+        "red": {
+            "dq_team_keys": [],
+            "team_keys": [
+                "frc5215",
+                "frc7211",
+                "frc6610"
+            ],
+            "score": 177,
+            "surrogate_team_keys": []
+        }
     },
-    {
-        "size": 1520031420,
-        "name": "time"
-    },
-    {
-        "size": "2018miket",
-        "name": "event_key"
-    },
-    {
-        "size": [
-            {
-                "key": "yXe3B-iOKrM",
-                "type": "youtube"
-            }
-        ],
-        "name": "videos"
-    },
-    {
-        "size": "2018miket_qm52",
-        "name": "key"
-    },
-    {
-        "size": 1,
-        "name": "set_number"
-    },
-    {
-        "size": 1520019776,
-        "name": "actual_time"
-    },
-    {
-        "size": 52,
-        "name": "match_number"
-    }
-]
+    "predicted_time": 1520030520,
+    "comp_level": "qm"
+}

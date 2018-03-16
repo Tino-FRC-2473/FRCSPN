@@ -6,7 +6,6 @@ import writeMatches
 import re
 
 directory = os.getcwd()[:os.getcwd().rfind("\\")]
-print(set([1, 2]) == set([2, 1]))
 
 def selectEventKeys():
 	path = directory + "\\data\\"
@@ -28,6 +27,7 @@ def selectEventKeys():
 		for i in range(len(eventKeys)):
 			print("    " + str(i+1) + ": Add", eventKeys[i])
 		sel = input("Select an option: ")
+		
 		if sel[0] == 'F':
 			break
 		elif sel[0] == 'W':
@@ -82,24 +82,39 @@ def selectEventKeys():
 def getMatches(eventKeys):
 	arr = []
 
-	for key in eventKeys:
-		path = directory + "\\data\\" + key + "\\matches"
+	for i in range(len(eventKeys)):
+#		print("Loading event", i+1, "of", len(eventKeys))
+		path = directory + "\\data\\" + eventKeys[i] + "\\matches"
 		for fName in os.listdir(path):
 			arr.append(json.load(open(path + "\\" + fName, "r+")))
 
 	return arr
 
-def getValue(match, key):
-	for thing in match:
-		if thing["name"] == key:
-			return thing["size"]
+def getFilteredMatches(eventKeys):
+	matches = getMatches(eventKeys)
+	for i in range(len(matches)):
+#		print("Filtering match", i+1, "of", len(matches))
+		match = matches[i]
+		for stat in list(match["score_breakdown"]["blue"].keys()):
+			try:
+				float(match["score_breakdown"]["blue"][stat])
+			except ValueError:
+				if stat[:-1] == "endgameRobot":
+					match["score_breakdown"]["blue"][stat] = (1 if match["score_breakdown"]["blue"][stat] == "Climbing" else 0)
+					match["score_breakdown"]["red"][stat] = (1 if match["score_breakdown"]["red"][stat] == "Climbing" else 0)
+				else:
+					del match["score_breakdown"]["blue"][stat]
+					del match["score_breakdown"]["red"][stat]
+
+	return matches
+
 
 # in order: B1, R1, B2, R2, B3, R3
 def getTeams(match):
 	arr = []
 	for i in range(3):
-		arr.append(getValue(match, "alliances")['blue']['team_keys'][i])
-		arr.append(getValue(match, "alliances")['red']['team_keys'][i])
+		arr.append(match["alliances"]['blue']['team_keys'][i])
+		arr.append(match["alliances"]['red']['team_keys'][i])
 	return arr
 
 def oppKey(s):
@@ -109,9 +124,8 @@ def getTeamStats(matches):
 	fullTeamData = {}
 	teamData = {}
 
-	yourStats = ["totalPoints"]
-#	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
-#		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
+		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
 	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 	#yourStats = ["totalPoints"]
 	oppStats = []
@@ -125,7 +139,7 @@ def getTeamStats(matches):
 				for oStat in oppStats:
 					fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
 
-			score = getValue(match, "score_breakdown")
+			score = match["score_breakdown"]
 			
 			if not score == None:
 				side, oppSide = "", ""
@@ -140,7 +154,7 @@ def getTeamStats(matches):
 					fullTeamData[team][oppKey(oStat)].append(score[oppSide][oStat])
 				
 			else:
-				print("SKIPPED MATCH:", getValue(match, "key"))
+				print("SKIPPED MATCH:", match["key"])
 
 	for team, teamDict in fullTeamData.items():
 		for stat, valArr in sorted(teamDict.items()):
@@ -152,11 +166,13 @@ def getTeamStats(matches):
 
 			#med, iqr possible
 
-	pprint.pprint(teamData)
+#	pprint.pprint(teamData)
 	return teamData
 
 
-def getAndMergeTeamMatches(matches):
+def getTeamMatchesDict():
+	matches = getFilteredMatches(selectEventKeys())
+
 	matchesDict = {}
 
 	for match in matches:
@@ -165,7 +181,7 @@ def getAndMergeTeamMatches(matches):
 			if not team in matchesDict:
 				matchesDict[team] = {}
 				matchesDict[team]["matches"] = []
-			matchesDict[team]["matches"].append({"teams": teams, "score": getValue(match, "score_breakdown")})
+			matchesDict[team]["matches"].append({"teams": teams, "score": match["score_breakdown"]})
 
 	for tDict in matchesDict.values():
 		tDict["toMerge"] = []
@@ -189,19 +205,38 @@ def getAndMergeTeamMatches(matches):
 	for tDict in matchesDict.values():
 		for merge in tDict["toMerge"]:
 			replace, allReplace = {"blue": {}, "red": {}}, {"blue": {}, "red": {}}
-			#for i in merge:
-	print(matchesDict["frc5687"]["matches"][0]["score"]["blue"].keys())
+			for stat in tDict["matches"][0]["score"]["blue"].keys():
+				allReplace["blue"][stat], allReplace["red"][stat] = [], []
 
+			for i in merge:
+				for stat in tDict["matches"][i]["score"]["blue"].keys():
+					allReplace["blue"][stat].append(tDict["matches"][i]["score"]["blue"][stat])
+					allReplace["red"][stat].append(tDict["matches"][i]["score"]["red"][stat])
+			for stat in allReplace["blue"].keys():
+				replace["blue"][stat], replace["red"][stat] = np.mean(allReplace["blue"][stat]), np.mean(allReplace["red"][stat])
 
+			first = True
+			for i in merge:
+				if first:
+					first = False
+					tDict["matches"][i]["score"] = replace
+				else:
+					tDict["matches"][i]["score"] = -1
 
-#	for team, tDict in matchesDict.items():
-#		print(team, len(tDict["matches"]), tDict["toMerge"])
-	#pprint.pprint(matchesDict)
-	
+		i = 0
+		while i < len(tDict["matches"]):
+			if tDict["matches"][i]["score"] == -1:
+				del tDict["matches"][i]
+			else:
+				i+=1
+
+		del tDict["toMerge"]
+		for match in tDict["matches"]:
+			del match["teams"]
 
 	return matchesDict
 
-#getAndMergeTeamMatches(getMatches(selectEventKeys()))
+getTeamMatchesDict()
 
 def buildTrainingData():
 	matches = getMatches(selectEventKeys())
@@ -221,10 +256,10 @@ def buildTrainingData():
 					for val in valArr:
 						mArr[i][j][k].append(val)
 
-		if not getValue(match, "score_breakdown") == None:
+		if not match["score_breakdown"] == None:
 			rArr.append([])
-			rArr[len(rArr)-1].append(getValue(match, "score_breakdown")["blue"]["totalPoints"])
-			rArr[len(rArr)-1].append(getValue(match, "score_breakdown")["red"]["totalPoints"])
+			rArr[len(rArr)-1].append(match["score_breakdown"]["blue"]["totalPoints"])
+			rArr[len(rArr)-1].append(match["score_breakdown"]["red"]["totalPoints"])
 
 	return np.array(mArr), np.array(rArr)
 
@@ -272,4 +307,4 @@ def main():
 	
 	writeFiles(trainingArr, resultsArr)
 
-main()
+#main()
