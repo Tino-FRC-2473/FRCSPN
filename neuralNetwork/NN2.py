@@ -201,7 +201,7 @@ for i in range(1,EPOCHS+1):
 			print("LR dropped to ",LEARNING_RATE)
 	print("Epoch ", i,"WL%: ",a," Acc (1-PE)%: ",a2,"ValidAcc: ",valAcc,"PEErr: ",l2,"SQErr: ",l)
 	if i%2==0 and i>10:
-		if a2-accuracyArr[len(accuracyArr)-10]<0):
+		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
 
 	accuracyArr.append(a2)
