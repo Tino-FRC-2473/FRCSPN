@@ -199,6 +199,11 @@ for i in range(1,EPOCHS+1):
 		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
 			print("LR dropped to ",LEARNING_RATE)
+	print("Epoch ", i,"WL%: ",a," Acc (1-PE)%: ",a2,"ValidAcc: ",valAcc,"PEErr: ",l2,"SQErr: ",l)
+	if i%2==0 and i>10:
+		if a2-accuracyArr[len(accuracyArr)-10]<0):
+			LEARNING_RATE*=0.95
+
 	accuracyArr.append(a2)
 	lossArr.append(l2)
 	valAccArr.append(valAcc)
@@ -206,12 +211,12 @@ for i in range(1,EPOCHS+1):
 print("Final Learning Rate ", LEARNING_RATE)
 
 
-saver.save(sess,"./good1")
-'''saver.save(sess, "./FRCSPNetTemp")
+
+saver.save(sess, "./FRCSPNetTemp")
 saver.restore(sess, "./FRCSPNetLast")
 saver.save(sess, "./FRCSPNetTwoAgo")
 saver.restore(sess, "./FRCSPNetTemp")
-saver.save(sess, "./FRCSPNetLast")'''
+saver.save(sess, "./FRCSPNetLast")
 
 maxAcc = 0.0
 for i in accuracyArr:
