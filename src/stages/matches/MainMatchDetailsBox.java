@@ -251,8 +251,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			
 			Label autoLabel = new Label("Auto");
 			autoLabel.setStyle("-fx-font-size:20");
-			char c = 255;
-			grid.add(new Label(c+""), 1, gridRow++);
+			grid.add(autoLabel, 1, gridRow++);
 			grid.add(blueRun, 0, gridRow); grid.add(autoRun, 1, gridRow); grid.add(redRun, 2, gridRow++); 
 			grid.add(blueOwnPoints, 0, gridRow); grid.add(autoOwnPoints, 1, gridRow); grid.add(redOwnPoints, 2, gridRow++);
 			grid.add(blueAutoTotal, 0, gridRow); grid.add(autoTotal, 1, gridRow); grid.add(redAutoTotal, 2, gridRow++);
@@ -291,7 +290,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			redTeleop.setStyle("-fx-font-size:14; -fx-font-weight: bold");
 			Label teleopLabel = new Label("Teleop");
 			teleopLabel.setStyle("-fx-font-size:20;");
-			gridRow++;
+			
 			grid.add(teleopLabel, 1, gridRow++);
 			grid.add(blueTeleopOwn, 0, gridRow); grid.add(teleopOwnPoints, 1, gridRow); grid.add(redTeleopOwn, 2, gridRow++);
 			grid.add(blueVault, 0, gridRow); grid.add(vaultTotalPoints, 1, gridRow); grid.add(redVault, 2, gridRow++);
@@ -319,8 +318,6 @@ public class MainMatchDetailsBox extends ScrollPane {
 			blueAdjust.setStyle("-fx-font-size:14");
 			Label redAdjust = new Label(m.score_breakdown.red.adjustPoints+"");
 			redAdjust.setStyle("-fx-font-size:14");
-			
-			grid.add(new Label(c+""), 1, gridRow++);
 			grid.add(blueFouls, 0, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,2,gridRow++);
 			grid.add(blueFoulPoints, 0, gridRow); grid.add(foulPoints, 1, gridRow); grid.add(redFoulPoints, 2, gridRow++);
 			grid.add(blueAdjust, 0, gridRow); grid.add(adjust, 1, gridRow); grid.add(redAdjust, 2, gridRow++);
