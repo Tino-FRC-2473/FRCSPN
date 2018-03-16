@@ -7,8 +7,9 @@ import math
 
 USE_LAST_NET = True
 USE_NEW = False
+SAVE_THIS = False
 USE_TWO_AGO = (not USE_LAST_NET) and (not USE_NEW)
-NUM_TEST = 2850
+NUM_TEST = 2800
 GRAPH = False
 
 inputFile = open("more_data.txt")
@@ -104,8 +105,8 @@ numHidden1 = 7
 
 
 MINI_BATCH_SIZE = 5
-EPOCHS = 30
-LEARNING_RATE = 0.8e-3
+EPOCHS = 100
+LEARNING_RATE = 9e-3
 DROPOUT = 1.0
 keep_prob = tf.placeholder(tf.float32)
 
@@ -145,15 +146,23 @@ WPENiH = tf.reduce_mean(tf.squared_difference(WEIGHT_iH,tf.zeros(shape=tf.shape(
 WPENHH = tf.reduce_mean(tf.squared_difference(WEIGHT_HH,tf.zeros(shape=tf.shape(WEIGHT_HH))))
 
 
-targetsA = targetValues[:,:0]
+targetsA = targetValues[:,:1]
 targetsB = targetValues[:,1:]
 
-omtA = abs(outA-targetsA)
+'''omtA = abs(outA-targetsA)
 omtB = abs(outB-targetsB)
 divA = 1/targetsA
 divB = 1/targetsB
 pea = tf.matmul(tf.transpose(omtA),divA)
 peb = tf.matmul(tf.transpose(omtB),divB)
+totalOutputCount = tf.cast((tf.shape(omtA)[0]*2),dtype=tf.float32)
+accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount'''
+
+
+omtA = abs(outA-targetsA)
+omtB = abs(outB-targetsB)
+pea = omtA/targetsA
+peb = omtB/targetsB
 totalOutputCount = tf.cast((tf.shape(omtA)[0]*2),dtype=tf.float32)
 accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount
 
@@ -199,7 +208,6 @@ for i in range(1,EPOCHS+1):
 		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
 			print("LR dropped to ",LEARNING_RATE)
-	print("Epoch ", i,"WL%: ",a," Acc (1-PE)%: ",a2,"ValidAcc: ",valAcc,"PEErr: ",l2,"SQErr: ",l)
 	if i%2==0 and i>10:
 		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
@@ -210,13 +218,41 @@ for i in range(1,EPOCHS+1):
 
 print("Final Learning Rate ", LEARNING_RATE)
 
+'''
+valOutputs = sess.run(out,feed_dict={inputs: normValInp, targetValues: targVal, keep_prob: 1.0})
+
+c=0
+num=0
+outE = out.eval(feed_dict={inputs: normalizedInp, targetValues: targets, keep_prob: 1.0})
+p2 = abs(outE[:,1]-targets[:,1])
+print(p2)
+divT = 1/np.transpose(targets[:,1])
+print(divT)
+s = np.matmul(divT,p2)
+print(s)
+for i in range(len(targets)):
+	t = targets[i]
+	o = outE[i]
+	p1 = abs((t[0]-o[0])/t[0])
+	p2 = abs((t[1]-o[1])/t[1])
+	pa = (p1+p2)/2
+	if(pa>0):
+		print(t)
+		print(o)
+		print(pa)
+		print("")
+		c += (p1+p2)
+		num +=1
+print(num)
+print(c)'''
 
 
-saver.save(sess, "./FRCSPNetTemp")
-saver.restore(sess, "./FRCSPNetLast")
-saver.save(sess, "./FRCSPNetTwoAgo")
-saver.restore(sess, "./FRCSPNetTemp")
-saver.save(sess, "./FRCSPNetLast")
+if(SAVE_THIS):
+	saver.save(sess, "./FRCSPNetTemp")
+	saver.restore(sess, "./FRCSPNetLast")
+	saver.save(sess, "./FRCSPNetTwoAgo")
+	saver.restore(sess, "./FRCSPNetTemp")
+	saver.save(sess, "./FRCSPNetLast")
 
 maxAcc = 0.0
 for i in accuracyArr:
