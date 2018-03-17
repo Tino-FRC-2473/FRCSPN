@@ -1,6 +1,7 @@
 package stages.matches;
 
 import general.constants.K;
+import general.images.I;
 import javafx.geometry.HPos;
 //import javafx.event.Event;
 import javafx.geometry.Pos;
@@ -8,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -200,19 +204,32 @@ public class MainMatchDetailsBox extends ScrollPane {
 			switchBox.setAlignment(Pos.CENTER);
 			
 			// creating graphics representing powerups used
+			ImageView bb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			ImageView bl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			ImageView bf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
+			ImageView rb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			ImageView rl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			ImageView rf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
+			
 			VBox blueForce = new VBox();
-			blueForce.getChildren().addAll(new Label("F"), createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
+			blueForce.setAlignment(Pos.CENTER);
+			blueForce.getChildren().addAll(new Label("F"), bf, createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
 			VBox blueLevitate = new VBox();
-			blueLevitate.getChildren().addAll(new Label("L"), createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
+			blueLevitate.setAlignment(Pos.CENTER);
+			blueLevitate.getChildren().addAll(new Label("L"), bl, createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
 			VBox blueBoost = new VBox();
-			blueBoost.getChildren().addAll(new Label("B"), createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
+			blueBoost.setAlignment(Pos.CENTER);
+			blueBoost.getChildren().addAll(new Label("B"), bb, createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
 			
 			VBox redForce = new VBox();
-			redForce.getChildren().addAll(new Label("F"),createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
+			redForce.setAlignment(Pos.CENTER);
+			redForce.getChildren().addAll(new Label("F"), rf, createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
 			VBox redLevitate = new VBox();
-			redLevitate.getChildren().addAll(new Label("L"),createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
+			redLevitate.setAlignment(Pos.CENTER);
+			redLevitate.getChildren().addAll(new Label("L"), rl, createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
 			VBox redBoost = new VBox();
-			redBoost.getChildren().addAll(new Label("B"),createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
+			redBoost.setAlignment(Pos.CENTER);
+			redBoost.getChildren().addAll(new Label("B"), rb, createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
 			
 			HBox blueBoosts = new HBox(50);
 			blueBoosts.getChildren().addAll(blueForce, blueLevitate, blueBoost);
@@ -318,7 +335,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			blueAdjust.setStyle("-fx-font-size:14");
 			Label redAdjust = new Label(m.score_breakdown.red.adjustPoints+"");
 			redAdjust.setStyle("-fx-font-size:14");
-			grid.add(blueFouls, 0, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,2,gridRow++);
+			grid.add(blueFouls, 2, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,0,gridRow++);
 			grid.add(blueFoulPoints, 0, gridRow); grid.add(foulPoints, 1, gridRow); grid.add(redFoulPoints, 2, gridRow++);
 			grid.add(blueAdjust, 0, gridRow); grid.add(adjust, 1, gridRow); grid.add(redAdjust, 2, gridRow++);
 			
@@ -341,24 +358,30 @@ public class MainMatchDetailsBox extends ScrollPane {
 		VBox box = new VBox();
 		box.setStyle("-fx-border-width: 1; -fx-border-color: black;");
 		for (int i = 0; i < 2; i++) {
-			Rectangle level = new Rectangle(50,14);
+			Label level = new Label();
+			level.resize(50,14);
 			Rectangle space = new Rectangle(50,4);
-			level.setStrokeWidth(0);
 			space.setStrokeWidth(0);
-			level.setFill(Color.WHITE);
 			space.setFill(Color.LIGHTGRAY);
 			box.getChildren().addAll(level,space);
 		}
-		Rectangle level = new Rectangle(50,14);
-		level.setStrokeWidth(0);
-		level.setFill(Color.WHITE);
+		Label level = new Label();
+		level.resize(50,14);
 		box.getChildren().add(level);
+
+		((Label) box.getChildren().get(4)).setText("Level 1");
+		((Label) box.getChildren().get(2)).setText("Level 2");
+		((Label) box.getChildren().get(0)).setText("Level 3");
 		
-		switch(l) {			
-		case 0: break;
-		case 1: ((Rectangle) box.getChildren().get(4)).setFill(c); break;
-		case 2: ((Rectangle) box.getChildren().get(2)).setFill(c); break;
-		case 3: ((Rectangle) box.getChildren().get(0)).setFill(c); break;
+		if (l >= 1) {
+			((Label) box.getChildren().get(4)).setStyle("-fx-background-color: " + c.toString() + ";");
+			
+		}
+		if (l >= 2) {
+			 ((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c.toString() + ";");
+		}
+		if (l >= 3) {
+			((Label) box.getChildren().get(0)).setStyle("-fx-background-color: " + c.toString() + ";");
 		}
 		return box;
 	}

@@ -64,6 +64,12 @@ public class I {
 		case FORCE:
 			img = new Image(BASE + "matches" + "/force.png");
 			break;
+		case BOOST:
+			img = new Image(BASE + "matches" + "/boost.png");
+			break;
+		case LEVITATE:
+			img = new Image(BASE + "matches" + "/levitate.png");
+			break;
 		default:
 			System.out.println("Image of type " + i + " not found.");
 			return;
@@ -96,6 +102,6 @@ public class I {
 		
 		TE_TEAM_LIST_BTN, TE_BACK_BTN, TE_ADD_BTN,
 		
-		FORCE
+		FORCE, BOOST, LEVITATE
 	}
 }
