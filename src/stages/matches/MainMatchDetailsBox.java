@@ -119,10 +119,10 @@ public class MainMatchDetailsBox extends ScrollPane {
 			scaleBox.setAlignment(Pos.CENTER);
 			scaleBox.getChildren().addAll(scaleLabel,scale);
 			HBox scaleTime = new HBox();
-			Label blueScaleTime = new Label(m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopOwnershipPoints+"");
+			Label blueScaleTime = new Label((m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopScaleOwnershipSec)+"");
 			blueScaleTime.setTextFill(Color.DARKBLUE);
 			blueScaleTime.setStyle("-fx-font-size: 15");
-			Label redScaleTime = new Label(m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec+"");
+			Label redScaleTime = new Label((m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec)+"");
 			redScaleTime.setTextFill(Color.DARKRED);
 			redScaleTime.setStyle("-fx-font-size:15");
 			scaleTime.getChildren().addAll(blueScaleTime,scaleBox,redScaleTime);
@@ -225,11 +225,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			// creating info box for auto
 			GridPane grid = new GridPane();
 //			auto.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: gray");
-			Label blueRun = new Label(m.score_breakdown.blue.autoRobot1 + " • " + m.score_breakdown.blue.autoRobot2 +
-				" • " + m.score_breakdown.blue.autoRobot3);
+			Label blueRun = new Label(m.score_breakdown.blue.autoRobot1 + " ï¿½ " + m.score_breakdown.blue.autoRobot2 +
+				" ï¿½ " + m.score_breakdown.blue.autoRobot3);
 			blueRun.setStyle("-fx-font-size:14");
-			Label redRun = new Label(m.score_breakdown.red.autoRobot1 + " • " + m.score_breakdown.red.autoRobot2 +
-					" • " + m.score_breakdown.red.autoRobot3);
+			Label redRun = new Label(m.score_breakdown.red.autoRobot1 + " ï¿½ " + m.score_breakdown.red.autoRobot2 +
+					" ï¿½ " + m.score_breakdown.red.autoRobot3);
 				redRun.setStyle("-fx-font-size:14");
 			Label autoRun = new Label("Auto Run");
 			autoRun.setStyle("-fx-font-size:14");
@@ -270,11 +270,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			redVault.setStyle("-fx-font-size:14");
 			Label endGame = new Label("Endgame");
 			endGame.setStyle("-fx-font-size:14");
-			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + " • " + m.score_breakdown.blue.endgameRobot2 +
-					" • " + m.score_breakdown.blue.endgameRobot3);
+			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + " ï¿½ " + m.score_breakdown.blue.endgameRobot2 +
+					" ï¿½ " + m.score_breakdown.blue.endgameRobot3);
 			blueEndgame.setStyle("-fx-font-size: 14");
-			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + " • " + m.score_breakdown.red.endgameRobot2 +
-					" • " + m.score_breakdown.red.endgameRobot3);
+			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + " ï¿½ " + m.score_breakdown.red.endgameRobot2 +
+					" ï¿½ " + m.score_breakdown.red.endgameRobot3);
 			redEndgame.setStyle("-fx-font-size: 14");
 			Label endgamePoints = new Label("Endgame Points");
 			endgamePoints.setStyle("-fx-font-size:14");
@@ -302,9 +302,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 			
 			Label fouls = new Label("Fouls/Techs Committed");
 			fouls.setStyle("-fx-font-size:14");
-			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + " • " + m.score_breakdown.blue.techFoulCount);
+			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + " ï¿½ " + m.score_breakdown.blue.techFoulCount);
 			blueFouls.setStyle("-fx-font-size:14");
-			Label redFouls = new Label(m.score_breakdown.red.foulCount + " • " + m.score_breakdown.red.techFoulCount);
+			Label redFouls = new Label(m.score_breakdown.red.foulCount + " ï¿½ " + m.score_breakdown.red.techFoulCount);
 			redFouls.setStyle("-fx-font-size: 14");
 			Label foulPoints = new Label("Foul Points");
 			foulPoints.setStyle("-fx-font-size:14");
