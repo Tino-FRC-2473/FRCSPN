@@ -28,9 +28,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 	public int height = 50;
 	public int scaleScale = 4;
 	public int switchScale = 2;
-	public Color force = Color.FIREBRICK;
-	public Color levitate = Color.LIMEGREEN;
-	public Color boost = Color.BLUE;
+	public String force = "FIREBRICK";
+	public String levitate = "LIMEGREEN";
+	public String boost = "BLUE";
 	public VBox content;
 	private Scene teamP;
 	private Scene matchP;
@@ -354,7 +354,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 		}
 	}
 	
-	public VBox createPowerup(int l, Color c) {
+	public VBox createPowerup(int l, String c) {
 		VBox box = new VBox();
 		box.setStyle("-fx-border-width: 1; -fx-border-color: black;");
 		for (int i = 0; i < 2; i++) {
@@ -369,19 +369,22 @@ public class MainMatchDetailsBox extends ScrollPane {
 		level.resize(50,14);
 		box.getChildren().add(level);
 
-		((Label) box.getChildren().get(4)).setText("Level 1");
-		((Label) box.getChildren().get(2)).setText("Level 2");
-		((Label) box.getChildren().get(0)).setText("Level 3");
+		((Label) box.getChildren().get(4)).setText(" Level 1 ");
+		((Label) box.getChildren().get(2)).setText(" Level 2 ");
+		((Label) box.getChildren().get(0)).setText(" Level 3 ");
+		box.setAlignment(Pos.CENTER);
 		
 		if (l >= 1) {
-			((Label) box.getChildren().get(4)).setStyle("-fx-background-color: " + c.toString() + ";");
-			
+			((Label) box.getChildren().get(4)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(4)).setTextFill(Color.WHITE);			
 		}
 		if (l >= 2) {
-			 ((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c.toString() + ";");
+			 ((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(2)).setTextFill(Color.WHITE);
 		}
 		if (l >= 3) {
-			((Label) box.getChildren().get(0)).setStyle("-fx-background-color: " + c.toString() + ";");
+			((Label) box.getChildren().get(0)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(0)).setTextFill(Color.WHITE);
 		}
 		return box;
 	}
