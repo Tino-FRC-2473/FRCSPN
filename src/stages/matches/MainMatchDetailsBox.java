@@ -3,6 +3,7 @@ package stages.matches;
 import general.constants.K;
 import general.images.I;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 //import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -205,31 +207,49 @@ public class MainMatchDetailsBox extends ScrollPane {
 			
 			// creating graphics representing powerups used
 			ImageView bb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			bb.setStyle("-fx-spacing: 20;");
 			ImageView bl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			bl.setStyle("-fx-spacing: 20;");
 			ImageView bf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
+			bf.setStyle("-fx-spacing: 20;");
 			ImageView rb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			rb.setStyle("-fx-spacing: 20;");
 			ImageView rl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			rl.setStyle("-fx-spacing: 20;");
 			ImageView rf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
-			
+			rf.setStyle("-fx-spacing: 20;");
+
 			VBox blueForce = new VBox();
 			blueForce.setAlignment(Pos.CENTER);
-			blueForce.getChildren().addAll(new Label("F"), bf, createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
+			BorderPane p = new BorderPane(bf);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueForce.getChildren().addAll(new Label("F"), p, createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
 			VBox blueLevitate = new VBox();
 			blueLevitate.setAlignment(Pos.CENTER);
-			blueLevitate.getChildren().addAll(new Label("L"), bl, createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
+			p = new BorderPane(bl);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueLevitate.getChildren().addAll(new Label("L"), p, createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
 			VBox blueBoost = new VBox();
 			blueBoost.setAlignment(Pos.CENTER);
-			blueBoost.getChildren().addAll(new Label("B"), bb, createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
+			p = new BorderPane(bb);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueBoost.getChildren().addAll(new Label("B"), p, createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
 			
 			VBox redForce = new VBox();
 			redForce.setAlignment(Pos.CENTER);
-			redForce.getChildren().addAll(new Label("F"), rf, createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
+			p = new BorderPane(rf);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redForce.getChildren().addAll(new Label("F"), p, createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
 			VBox redLevitate = new VBox();
 			redLevitate.setAlignment(Pos.CENTER);
-			redLevitate.getChildren().addAll(new Label("L"), rl, createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
+			p = new BorderPane(rl);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redLevitate.getChildren().addAll(new Label("L"), p, createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
 			VBox redBoost = new VBox();
 			redBoost.setAlignment(Pos.CENTER);
-			redBoost.getChildren().addAll(new Label("B"), rb, createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
+			p = new BorderPane(rb);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redBoost.getChildren().addAll(new Label("B"), p, createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
 			
 			HBox blueBoosts = new HBox(50);
 			blueBoosts.getChildren().addAll(blueForce, blueLevitate, blueBoost);
