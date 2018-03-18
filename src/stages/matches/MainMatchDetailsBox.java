@@ -379,7 +379,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			((Label) box.getChildren().get(4)).setTextFill(Color.WHITE);			
 		}
 		if (l >= 2) {
-			 ((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c + ";");
 			((Label) box.getChildren().get(2)).setTextFill(Color.WHITE);
 		}
 		if (l >= 3) {
