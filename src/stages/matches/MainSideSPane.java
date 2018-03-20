@@ -98,7 +98,7 @@ class MatchesDisplay2018 extends VBox {
 	private Match_PowerUp match;
 	
 	public MatchesDisplay2018(Match_PowerUp m) {
-		this.setStyle("-fx-background-color: #FFD32A;");
+		this.setStyle("-fx-background-color: #FFD32A; -fx-border-style: solid; -fx-border-width: 2;");
 		color = "#FFD32A";
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-15);
 		this.setAlignment(Pos.TOP_CENTER);
