@@ -23,12 +23,8 @@ public class MainDisplayPane extends BorderPane {
 	}
 
 	public void viewMatch(Match_PowerUp m) {
-		if(m.score_breakdown != null) {
-			this.setCenter(previewBox);
-			previewBox.display(m);
-		} else {
-			
-		}
+		this.setCenter(previewBox);
+		previewBox.display(m);
 	}
 	
 	public void viewStandings() {

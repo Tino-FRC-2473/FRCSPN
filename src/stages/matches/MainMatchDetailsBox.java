@@ -1,16 +1,22 @@
 package stages.matches;
 
 import general.constants.K;
+import general.images.I;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 //import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,9 +30,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 	public int height = 50;
 	public int scaleScale = 4;
 	public int switchScale = 2;
-	public Color force = Color.FIREBRICK;
-	public Color levitate = Color.LIMEGREEN;
-	public Color boost = Color.BLUE;
+	public String force = "FIREBRICK";
+	public String levitate = "LIMEGREEN";
+	public String boost = "BLUE";
 	public VBox content;
 	private Scene teamP;
 	private Scene matchP;
@@ -119,10 +125,10 @@ public class MainMatchDetailsBox extends ScrollPane {
 			scaleBox.setAlignment(Pos.CENTER);
 			scaleBox.getChildren().addAll(scaleLabel,scale);
 			HBox scaleTime = new HBox();
-			Label blueScaleTime = new Label(m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopOwnershipPoints+"");
+			Label blueScaleTime = new Label((m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopScaleOwnershipSec)+"");
 			blueScaleTime.setTextFill(Color.DARKBLUE);
 			blueScaleTime.setStyle("-fx-font-size: 15");
-			Label redScaleTime = new Label(m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec+"");
+			Label redScaleTime = new Label((m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec)+"");
 			redScaleTime.setTextFill(Color.DARKRED);
 			redScaleTime.setStyle("-fx-font-size:15");
 			scaleTime.getChildren().addAll(blueScaleTime,scaleBox,redScaleTime);
@@ -200,19 +206,50 @@ public class MainMatchDetailsBox extends ScrollPane {
 			switchBox.setAlignment(Pos.CENTER);
 			
 			// creating graphics representing powerups used
+			ImageView bb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			bb.setStyle("-fx-spacing: 20;");
+			ImageView bl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			bl.setStyle("-fx-spacing: 20;");
+			ImageView bf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
+			bf.setStyle("-fx-spacing: 20;");
+			ImageView rb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
+			rb.setStyle("-fx-spacing: 20;");
+			ImageView rl = new ImageView(I.getInstance().getImg(I.Type.LEVITATE));
+			rl.setStyle("-fx-spacing: 20;");
+			ImageView rf = new ImageView(I.getInstance().getImg(I.Type.FORCE));
+			rf.setStyle("-fx-spacing: 20;");
+
 			VBox blueForce = new VBox();
-			blueForce.getChildren().addAll(new Label("F"), createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
+			blueForce.setAlignment(Pos.CENTER);
+			BorderPane p = new BorderPane(bf);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueForce.getChildren().addAll(new Label("F"), p, createPowerup(m.score_breakdown.blue.vaultForcePlayed,force));
 			VBox blueLevitate = new VBox();
-			blueLevitate.getChildren().addAll(new Label("L"), createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
+			blueLevitate.setAlignment(Pos.CENTER);
+			p = new BorderPane(bl);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueLevitate.getChildren().addAll(new Label("L"), p, createPowerup(m.score_breakdown.blue.vaultLevitatePlayed,levitate));
 			VBox blueBoost = new VBox();
-			blueBoost.getChildren().addAll(new Label("B"), createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
+			blueBoost.setAlignment(Pos.CENTER);
+			p = new BorderPane(bb);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			blueBoost.getChildren().addAll(new Label("B"), p, createPowerup(m.score_breakdown.blue.vaultBoostPlayed,boost));
 			
 			VBox redForce = new VBox();
-			redForce.getChildren().addAll(new Label("F"),createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
+			redForce.setAlignment(Pos.CENTER);
+			p = new BorderPane(rf);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redForce.getChildren().addAll(new Label("F"), p, createPowerup(m.score_breakdown.red.vaultForcePlayed,force));
 			VBox redLevitate = new VBox();
-			redLevitate.getChildren().addAll(new Label("L"),createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
+			redLevitate.setAlignment(Pos.CENTER);
+			p = new BorderPane(rl);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redLevitate.getChildren().addAll(new Label("L"), p, createPowerup(m.score_breakdown.red.vaultLevitatePlayed,levitate));
 			VBox redBoost = new VBox();
-			redBoost.getChildren().addAll(new Label("B"),createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
+			redBoost.setAlignment(Pos.CENTER);
+			p = new BorderPane(rb);
+			p.setPadding(new Insets(10, 0, 10, 0));
+			redBoost.getChildren().addAll(new Label("B"), p, createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
 			
 			HBox blueBoosts = new HBox(50);
 			blueBoosts.getChildren().addAll(blueForce, blueLevitate, blueBoost);
@@ -225,11 +262,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			// creating info box for auto
 			GridPane grid = new GridPane();
 //			auto.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: gray");
-			Label blueRun = new Label(m.score_breakdown.blue.autoRobot1 + " • " + m.score_breakdown.blue.autoRobot2 +
-				" • " + m.score_breakdown.blue.autoRobot3);
+			Label blueRun = new Label(m.score_breakdown.blue.autoRobot1 + " Â• " + m.score_breakdown.blue.autoRobot2 +
+					" Â• " + m.score_breakdown.blue.autoRobot3);
 			blueRun.setStyle("-fx-font-size:14");
-			Label redRun = new Label(m.score_breakdown.red.autoRobot1 + " • " + m.score_breakdown.red.autoRobot2 +
-					" • " + m.score_breakdown.red.autoRobot3);
+			Label redRun = new Label(m.score_breakdown.red.autoRobot1 + " Â• " + m.score_breakdown.red.autoRobot2 +
+					" Â• " + m.score_breakdown.red.autoRobot3);
 				redRun.setStyle("-fx-font-size:14");
 			Label autoRun = new Label("Auto Run");
 			autoRun.setStyle("-fx-font-size:14");
@@ -270,11 +307,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			redVault.setStyle("-fx-font-size:14");
 			Label endGame = new Label("Endgame");
 			endGame.setStyle("-fx-font-size:14");
-			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + " • " + m.score_breakdown.blue.endgameRobot2 +
-					" • " + m.score_breakdown.blue.endgameRobot3);
+			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + " Â• " + m.score_breakdown.blue.endgameRobot2 +
+					" Â• " + m.score_breakdown.blue.endgameRobot3);
 			blueEndgame.setStyle("-fx-font-size: 14");
-			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + " • " + m.score_breakdown.red.endgameRobot2 +
-					" • " + m.score_breakdown.red.endgameRobot3);
+			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + " Â• " + m.score_breakdown.red.endgameRobot2 +
+					" Â• " + m.score_breakdown.red.endgameRobot3);
 			redEndgame.setStyle("-fx-font-size: 14");
 			Label endgamePoints = new Label("Endgame Points");
 			endgamePoints.setStyle("-fx-font-size:14");
@@ -302,9 +339,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 			
 			Label fouls = new Label("Fouls/Techs Committed");
 			fouls.setStyle("-fx-font-size:14");
-			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + " • " + m.score_breakdown.blue.techFoulCount);
+			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + " Â• " + m.score_breakdown.blue.techFoulCount);
 			blueFouls.setStyle("-fx-font-size:14");
-			Label redFouls = new Label(m.score_breakdown.red.foulCount + " • " + m.score_breakdown.red.techFoulCount);
+			Label redFouls = new Label(m.score_breakdown.red.foulCount + " Â• " + m.score_breakdown.red.techFoulCount);
 			redFouls.setStyle("-fx-font-size: 14");
 			Label foulPoints = new Label("Foul Points");
 			foulPoints.setStyle("-fx-font-size:14");
@@ -318,7 +355,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			blueAdjust.setStyle("-fx-font-size:14");
 			Label redAdjust = new Label(m.score_breakdown.red.adjustPoints+"");
 			redAdjust.setStyle("-fx-font-size:14");
-			grid.add(blueFouls, 0, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,2,gridRow++);
+			grid.add(blueFouls, 2, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,0,gridRow++);
 			grid.add(blueFoulPoints, 0, gridRow); grid.add(foulPoints, 1, gridRow); grid.add(redFoulPoints, 2, gridRow++);
 			grid.add(blueAdjust, 0, gridRow); grid.add(adjust, 1, gridRow); grid.add(redAdjust, 2, gridRow++);
 			
@@ -337,28 +374,37 @@ public class MainMatchDetailsBox extends ScrollPane {
 		}
 	}
 	
-	public VBox createPowerup(int l, Color c) {
+	public VBox createPowerup(int l, String c) {
 		VBox box = new VBox();
 		box.setStyle("-fx-border-width: 1; -fx-border-color: black;");
 		for (int i = 0; i < 2; i++) {
-			Rectangle level = new Rectangle(50,14);
+			Label level = new Label();
+			level.resize(50,14);
 			Rectangle space = new Rectangle(50,4);
-			level.setStrokeWidth(0);
 			space.setStrokeWidth(0);
-			level.setFill(Color.WHITE);
 			space.setFill(Color.LIGHTGRAY);
 			box.getChildren().addAll(level,space);
 		}
-		Rectangle level = new Rectangle(50,14);
-		level.setStrokeWidth(0);
-		level.setFill(Color.WHITE);
+		Label level = new Label();
+		level.resize(50,14);
 		box.getChildren().add(level);
+
+		((Label) box.getChildren().get(4)).setText(" Level 1 ");
+		((Label) box.getChildren().get(2)).setText(" Level 2 ");
+		((Label) box.getChildren().get(0)).setText(" Level 3 ");
+		box.setAlignment(Pos.CENTER);
 		
-		switch(l) {			
-		case 0: break;
-		case 1: ((Rectangle) box.getChildren().get(4)).setFill(c); break;
-		case 2: ((Rectangle) box.getChildren().get(2)).setFill(c); break;
-		case 3: ((Rectangle) box.getChildren().get(0)).setFill(c); break;
+		if (l >= 1) {
+			((Label) box.getChildren().get(4)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(4)).setTextFill(Color.WHITE);			
+		}
+		if (l >= 2) {
+			((Label) box.getChildren().get(2)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(2)).setTextFill(Color.WHITE);
+		}
+		if (l >= 3) {
+			((Label) box.getChildren().get(0)).setStyle("-fx-background-color: " + c + ";");
+			((Label) box.getChildren().get(0)).setTextFill(Color.WHITE);
 		}
 		return box;
 	}
