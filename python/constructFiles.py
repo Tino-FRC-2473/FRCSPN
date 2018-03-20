@@ -86,7 +86,15 @@ def getMatches(eventKeys):
 #		print("Loading event", i+1, "of", len(eventKeys))
 		path = directory + "\\data\\" + eventKeys[i] + "\\matches"
 		for fName in os.listdir(path):
-			arr.append(json.load(open(path + "\\" + fName, "r+")))
+			with open(path + "\\" + fName, "r") as f1:
+				_line1 = f1.readline()
+				with open(path + "\\" + fName, "r") as f:
+					if _line1[0] == '{':
+						arr.append(json.load(f))
+						print(eventKeys[i])
+					else:
+						next(f)
+						arr.append(json.load(f))
 
 	return arr
 
@@ -354,6 +362,8 @@ def writeFiles(arr4d, arr2d):
 			arr.append(s1)
 	arr.sort()
 	n = 0 if len(arr) == 0 else arr[len(arr)-1] + 1
+
+	print("Saving files ending in", n)
 
 	writeFile4D(arr4d, directory + "\\neuralNetwork\\data" + str(n) + ".txt")
 	writeFile2D(arr2d, directory + "\\neuralNetwork\\results" + str(n) + ".txt")
