@@ -20,16 +20,30 @@ def selectEventKeys():
 			print("Selected Events:")
 			print("   ", selected)
 		print("Options:")
-		print("    F: Finished")
-		print("    W: Write/Request Matches")
-		print("    R: Remove One")
-		print("    A: Add All")
-		for i in range(len(eventKeys)):
-			print("    " + str(i+1) + ": Add", eventKeys[i])
-		sel = input("Select an option: ")
+		print("    F : Finished")
+		print("    E : Exit")
+		print("    W : Write/Request Matches")
+		print("    R : Remove One")
+		print("    A : Add All")
+		for i in range(len(eventKeys))[::3]:
+			print("    ", end = "")
+			for j in range(i, i+3):
+				if j >= len(eventKeys):
+					break
+				print("%-2d: Add %-13s" % (j+1, eventKeys[j]), end = "")
+			print("")
+		sel = input("Select an option: ").strip()
 		
+		try:
+			sel[0]
+		except IndexError:
+			print("Invalid Input Selected.")
+			continue
+
 		if sel[0] == 'F':
 			break
+		elif sel[0] == 'E':
+			exit()
 		elif sel[0] == 'W':
 			writeMatches.write()
 			allEvents = os.listdir(path)
@@ -41,9 +55,14 @@ def selectEventKeys():
 		elif sel[0] == 'R':
 			if(len(selected) > 0):
 				print("    Options:")
-				print("        0:", "Exit Removing")
-				for i in range(len(selected)):
-					print("        " + str(i+1) + ":", selected[i])
+				print("        0 :", "Exit Removing")
+				for i in range(len(selected))[::3]:
+					print("        ", end = "")
+					for j in range(i, i+3):
+						if j >= len(selected):
+							break
+						print("%-2d: %-13s" % (j+1, selected[j]), end = "")
+					print("")
 				sel2 = int(input("    Select an option: "))
 				if sel2 == 0:
 					continue
@@ -116,7 +135,6 @@ def getFilteredMatches(eventKeys):
 
 	return matches
 
-
 # in order: B1, R1, B2, R2, B3, R3
 def getTeams(match):
 	arr = []
@@ -133,19 +151,23 @@ def getTeamStats(teamMatches):
 	teamData = {}
 
 	yourStats, oppStats = [], []
+#	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
+#		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
 	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
-		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
-	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
+		"vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+#	oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 
 	for team, tDict in teamMatches.items():
 		fullTeamData[team], teamData[team] = {}, {}
 
+		fullTeamData[team]["endgameRobot"], teamData[team]["endgameRobot"] = [], []
 		for yStat in yourStats:
 			fullTeamData[team][yStat], teamData[team][yStat] = [], []
 
 			for match in tDict["matches"]:
 				side = "blue" if (match["teams"].index(team) % 2 == 0) else "red"
 				fullTeamData[team][yStat].append(match["score"][side][yStat])
+				fullTeamData[team]["endgameRobot"].append(match["score"][side]["endgameRobot"+str(int(match["teams"].index(team)/2)+1)])
 
 		for oStat in oppStats:
 			fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
@@ -164,57 +186,6 @@ def getTeamStats(teamMatches):
 
 #	pprint.pprint(teamData)
 	return teamData
-
-	'''
-	#param: matches
-	fullTeamData = {}
-	teamData = {}
-
-	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
-		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
-	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
-	#yourStats = ["totalPoints"]
-	oppStats = []
-
-	for match in matches:
-		for i, team in enumerate(getTeams(match)):
-			if not team in fullTeamData:
-				fullTeamData[team], teamData[team] = {}, {}
-				for yStat in yourStats:
-					fullTeamData[team][yStat], teamData[team][yStat] = [], []
-				for oStat in oppStats:
-					fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
-
-			score = match["score_breakdown"]
-			
-			if not score == None:
-				side, oppSide = "", ""
-				if i % 2 == 0:
-					side, oppSide = "blue", "red"
-				elif i % 2 == 1:
-					side, oppSide = "red", "blue"
-
-				for yStat in yourStats:
-					fullTeamData[team][yStat].append(score[side][yStat])
-				for oStat in oppStats:
-					fullTeamData[team][oppKey(oStat)].append(score[oppSide][oStat])
-				
-			else:
-				print("SKIPPED MATCH:", match["key"])
-
-	for team, teamDict in fullTeamData.items():
-		for stat, valArr in sorted(teamDict.items()):
-			#teamData[team][stat].append(np.percentile(valArr, 0))
-			#teamData[team][stat].append(np.percentile(valArr, 25))
-			teamData[team][stat].append(np.percentile(valArr, 50))
-			#teamData[team][stat].append(np.percentile(valArr, 75))
-			#teamData[team][stat].append(np.percentile(valArr, 100))
-
-			#med, iqr possible
-
-	return teamData
-	'''
-
 
 def getTeamMatchesDict():
 	matches = getFilteredMatches(selectEventKeys())
@@ -277,8 +248,6 @@ def getTeamMatchesDict():
 				i+=1
 
 		del tDict["toMerge"]
-#		for match in tDict["matches"]:
-#			del match["teams"]
 
 	return matchesDict
 
@@ -307,32 +276,6 @@ def buildTrainingData():
 
 	return np.array(mArr), np.array(rArr)
 
-	'''
-	matches = getMatches(selectEventKeys())
-	teamStats = getTeamStats(matches)
-
-	mArr = []
-	rArr = []
-	for i, match in enumerate(matches):
-		mArr.append([[[], [], []], [[], [], []]])
-
-		# mArr[i][n][m] (n is for alliances - 0: blue, 1: red) (m is from [0-2], representing the alliance team station # from [1-3])
-		tms = getTeams(match)
-		for j in range(2):
-			for k in range(3):
-				data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0-2]) pairs to ([0-5])
-				for _, valArr in sorted(data.items()):
-					for val in valArr:
-						mArr[i][j][k].append(val)
-
-		if not match["score_breakdown"] == None:
-			rArr.append([])
-			rArr[len(rArr)-1].append(match["score_breakdown"]["blue"]["totalPoints"])
-			rArr[len(rArr)-1].append(match["score_breakdown"]["red"]["totalPoints"])
-
-	return np.array(mArr), np.array(rArr)
-	'''
-
 def writeFile4D(npArr, path):
 	with open(path, "w+") as file:
 		file.write(str(npArr.shape) + "\n")
@@ -355,18 +298,19 @@ def getTrailingNumbers(s):
 
 def writeFiles(arr4d, arr2d):
 	d = os.listdir(directory + "\\neuralNetwork")
-	arr = []
+	maximum = -1
 	for s in d:
-		s1 = getTrailingNumbers(s[:-len(".txt")])
-		if not s1 == None:
-			arr.append(s1)
-	arr.sort()
-	n = 0 if len(arr) == 0 else arr[len(arr)-1] + 1
+		if s[:7] == "results" or s[:4] == "data":
+			s1 = getTrailingNumbers(s[:-len(".txt")])
+			if not s1 == None:
+				if s1 > maximum:
+					maximum = s1
+	end = maximum+1
 
-	print("Saving files ending in", n)
+	print("Saving files ending in", end)
 
-	writeFile4D(arr4d, directory + "\\neuralNetwork\\data" + str(n) + ".txt")
-	writeFile2D(arr2d, directory + "\\neuralNetwork\\results" + str(n) + ".txt")
+	writeFile4D(arr4d, directory + "\\neuralNetwork\\data" + str(end) + ".txt")
+	writeFile2D(arr2d, directory + "\\neuralNetwork\\results" + str(end) + ".txt")
 
 def main():
 	trainingArr, resultsArr = buildTrainingData()
