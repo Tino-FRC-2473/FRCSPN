@@ -120,7 +120,45 @@ def getTeams(match):
 def oppKey(s):
 	return "opp" + s[0].upper() + s[1:]
 
-def getTeamStats(matches):
+def getTeamStats(teamMatches):
+	fullTeamData = {}
+	teamData = {}
+
+	yourStats, oppStats = [], []
+	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
+		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+	#oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
+
+	for team, tDict in teamMatches.items():
+		fullTeamData[team], teamData[team] = {}, {}
+
+		for yStat in yourStats:
+			fullTeamData[team][yStat], teamData[team][yStat] = [], []
+
+			for match in tDict["matches"]:
+				side = "blue" if (match["teams"].index(team) % 2 == 0) else "red"
+				fullTeamData[team][yStat].append(match["score"][side][yStat])
+
+		for oStat in oppStats:
+			fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
+
+			for match in tDict["matches"]:
+				oppSide = "red" if (match["teams"].index(team) % 2 == 0) else "blue"
+				fullTeamData[team][oppKey(oStat)].append(match["score"][oppSide][oStat])
+
+	for team, teamDict in fullTeamData.items():
+		for stat, valArr in sorted(teamDict.items()):
+#			teamData[team][stat].append(np.percentile(valArr, 0))
+#			teamData[team][stat].append(np.percentile(valArr, 25))
+			teamData[team][stat].append(np.percentile(valArr, 50))
+#			teamData[team][stat].append(np.percentile(valArr, 75))
+#			teamData[team][stat].append(np.percentile(valArr, 100))
+
+#	pprint.pprint(teamData)
+	return teamData
+
+	'''
+	#param: matches
 	fullTeamData = {}
 	teamData = {}
 
@@ -166,8 +204,8 @@ def getTeamStats(matches):
 
 			#med, iqr possible
 
-#	pprint.pprint(teamData)
 	return teamData
+	'''
 
 
 def getTeamMatchesDict():
@@ -231,14 +269,37 @@ def getTeamMatchesDict():
 				i+=1
 
 		del tDict["toMerge"]
-		for match in tDict["matches"]:
-			del match["teams"]
+#		for match in tDict["matches"]:
+#			del match["teams"]
 
 	return matchesDict
 
-getTeamMatchesDict()
-
 def buildTrainingData():
+	teamMatches = getTeamMatchesDict()
+	teamStats = getTeamStats(teamMatches)
+
+	mArr, rArr = [], []
+
+	for team, tDict in teamMatches.items():
+		for match in tDict["matches"]:
+			arr = [[[], [], []], [[], [], []]]
+
+			# mArr[i][n][m] (n - alliances - 0: blue, 1: red) (m - team station # - from [0-2], shifted from on field [1-3])
+			tms = match["teams"]
+			for j in range(2):
+				for k in range(3):
+					data = teamStats[tms[j + 2*k]] #casts the ([0-1], [0-2]) pairs to ([0-5])
+					for _, valArr in sorted(data.items()):
+						for val in valArr:
+							arr[j][k].append(val)
+
+			if arr not in mArr:
+				mArr.append(arr)
+				rArr.append([match["score"]["blue"]["totalPoints"], match["score"]["red"]["totalPoints"]])
+
+	return np.array(mArr), np.array(rArr)
+
+	'''
 	matches = getMatches(selectEventKeys())
 	teamStats = getTeamStats(matches)
 
@@ -262,6 +323,7 @@ def buildTrainingData():
 			rArr[len(rArr)-1].append(match["score_breakdown"]["red"]["totalPoints"])
 
 	return np.array(mArr), np.array(rArr)
+	'''
 
 def writeFile4D(npArr, path):
 	with open(path, "w+") as file:
@@ -307,4 +369,5 @@ def main():
 	
 	writeFiles(trainingArr, resultsArr)
 
-#main()
+
+main()
