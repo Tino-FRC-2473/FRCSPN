@@ -7,13 +7,13 @@ import math
 
 USE_LAST_NET = True
 USE_NEW = False
-SAVE_THIS = False
+SAVE_THIS = True
 USE_TWO_AGO = (not USE_LAST_NET) and (not USE_NEW)
-NUM_TEST = 2800
+NUM_TEST = 3700
 GRAPH = False
 
-inputFile = open("more_data.txt")
-numData = 3350
+inputFile = open("lots_of_data.txt")
+numData = 4193
 dim = [numData,54]
 numStats = 9
 inpRaw = []
@@ -65,8 +65,8 @@ stdDev = np.zeros(variance.shape[0])
 for i in range(len(stdDev)):
 	stdDev[i] = math.sqrt(variance[i])
 
-def sigmoid(x):
-	return 1/(1+math.exp(-x))
+def sigmoidSD(x):
+	return (1/(1+math.exp(-x)))-1/2
 
 
 normalizedInp = np.zeros((len(summedInp),len(summedInp[1])))
@@ -75,7 +75,7 @@ for i in range(len(summedInp)):
 		normalizedInp[i][j]=(summedInp[i][j]-means[j])/stdDev[j]
 
 
-targetsFile = open("more_results.txt")
+targetsFile = open("lots_of_results.txt")
 dim = [numData,2]
 outRaw = []
 c = 0
@@ -83,6 +83,24 @@ for line in targetsFile:
 	outRaw.append(float(line.strip()))
 
 targets = constructArray(outRaw,len(dim),dim)
+
+totScore = 0
+
+for i in range(numData):
+	totScore+=targets[i][0]+targets[i][1]
+
+meanScore = totScore/(numData*2)
+varianceS = 0
+for i in range(numData):
+	varianceS+=(targets[i][0]-meanScore)*(targets[i][0]-meanScore)
+	varianceS+=(targets[i][1]-meanScore)*(targets[i][1]-meanScore)
+varianceS/=(numData-1)
+stdDevS = math.sqrt(varianceS)
+normalizedScores = np.zeros((len(targets),len(targets[0])))
+
+for i in range(numData):
+	normalizedScores[i][0] = (targets[i][0]-meanScore)/stdDevS
+	normalizedScores[i][1] = (targets[i][1]-meanScore)/stdDevS
 
 i = 0
 while i < len(targets):
@@ -100,13 +118,13 @@ targets = targets[:NUM_TEST]
 sess = tf.InteractiveSession()
 
 insizenum=18
-numHidden = 15
-numHidden1 = 7
+numHidden = 20
+numHidden1 = 10
 
 
 MINI_BATCH_SIZE = 5
 EPOCHS = 100
-LEARNING_RATE = 9e-3
+LEARNING_RATE = 5e-3
 DROPOUT = 1.0
 keep_prob = tf.placeholder(tf.float32)
 
@@ -117,27 +135,29 @@ in_size = tf.size(inputs)
 
 WEIGHT_iH = weight_variable([insizenum,numHidden])
 bias_H = bias_variable([numHidden])
-hidden = tf.nn.relu(tf.matmul(inputs,WEIGHT_iH))+bias_H
+hidden = tf.sigmoid(tf.matmul(inputs,WEIGHT_iH)+bias_H)-0.5
 hiddenDrop = tf.nn.dropout(hidden,keep_prob)
 
 WEIGHT_HH = weight_variable([numHidden,numHidden1])
 bias_H1 = bias_variable([numHidden1])
-hidden1 = tf.nn.relu(tf.matmul(hiddenDrop,WEIGHT_HH))+bias_H1
+hidden1 = tf.sigmoid(tf.matmul(hiddenDrop,WEIGHT_HH)+bias_H1)-0.5
 hidden1Drop = tf.nn.dropout(hidden1,keep_prob)
 
 WEIGHT_HTO = weight_variable([numHidden1,1])
 bias_O = bias_variable([1])
-outA = tf.nn.relu(tf.matmul(hidden1Drop,WEIGHT_HTO))+bias_O
+outA = tf.matmul(hidden1Drop,WEIGHT_HTO)+bias_O
+outA = outA*stdDevS+meanScore
 
-inputsB = tf.concat([inputs[:,8:],inputs[:,:8]],1)
+inputsB = tf.concat([inputs[:,9:],inputs[:,:9]],1)
 
-hiddenB = tf.nn.relu(tf.matmul(inputsB,WEIGHT_iH))+bias_H
+hiddenB = tf.sigmoid(tf.matmul(inputsB,WEIGHT_iH)+bias_H)-0.5
 hiddenBDrop = tf.nn.dropout(hiddenB,keep_prob)
 
-hidden1B = tf.nn.relu(tf.matmul(hiddenBDrop,WEIGHT_HH))+bias_H1
+hidden1B = tf.sigmoid(tf.matmul(hiddenBDrop,WEIGHT_HH)+bias_H1)-0.5
 hidden1BDrop = tf.nn.dropout(hidden1B,keep_prob)
 
-outB = tf.nn.relu(tf.matmul(hidden1BDrop,WEIGHT_HTO))+bias_O
+outB = tf.matmul(hidden1BDrop,WEIGHT_HTO)+bias_O
+outB = outB*stdDevS+meanScore
 
 out = tf.concat([outA,outB],1)
 
@@ -161,20 +181,38 @@ accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount'''
 
 omtA = abs(outA-targetsA)
 omtB = abs(outB-targetsB)
-pea = omtA/targetsA
-peb = omtB/targetsB
+pea = 2*omtA/(outA+targetsA)
+peb = 2*omtB/(outB+targetsB)
 totalOutputCount = tf.cast((tf.shape(omtA)[0]*2),dtype=tf.float32)
 accuracy2 = 1-(tf.reduce_sum(pea)+tf.reduce_sum(peb))/totalOutputCount
 
+'''omt2A = tf.matmul(tf.transpose(omtA),omtA)
+omt2B = tf.matmul(tf.transpose(omtB),omtB)
+chia = omt2A/targetsA
+chib = omt2B/targetsB
+
+diffOut = outB-outA
+diffTarg = targetsB-targetsA
+diffDiff = abs(diffOut-diffTarg)
+pedd = 2*diffDiff/(abs(diffOut)+abs(diffTarg))'''
+
 MissError = tf.reduce_mean(tf.squared_difference(out, targetValues))
 loss = MissError+wc*(tf.reduce_mean(WPENiH)+tf.reduce_mean(WPENHH))
+#loss2 = tf.reduce_sum(chia)+tf.reduce_sum(chib)+wc*(tf.reduce_mean(WPENiH)+tf.reduce_mean(WPENHH))
+#loss2 = tf.reduce_sum(omtA)+tf.reduce_sum(omtB)
 loss2 = tf.reduce_sum(pea)+tf.reduce_sum(peb)+wc*(tf.reduce_mean(WPENiH)+tf.reduce_mean(WPENHH))
+#loss2 = tf.reduce_mean(tf.squared_difference(outB-outA, targetsB-targetsA))
+#loss2 = tf.reduce_mean(((outB-outA)-(targetsB-targetsA))))
+#loss2 = tf.reduce_sum(pedd)
+#loss2 = 1-accuracy2
+#loss2 = tf.reduce_sum(tf.matmul(tf.transpose(pea),pea))+tf.reduce_sum(tf.matmul(tf.transpose(peb),peb))+wc*(tf.reduce_mean(WPENiH)+tf.reduce_mean(WPENHH))
 #loss = MissError-wc*tf.reduce_mean(WPSD)
 #loss = MissError
-thisLearningRate = tf.placeholder(dtype = tf.float32)
-train_step = tf.train.AdamOptimizer(thisLearningRate).minimize(loss2)
 correct_prediction = tf.equal(tf.argmax(targetValues,1), tf.argmax(out,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+thisLearningRate = tf.placeholder(dtype = tf.float32)
+train_step = tf.train.AdamOptimizer(thisLearningRate).minimize(loss2)
+
 
 sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
@@ -204,14 +242,14 @@ for i in range(1,EPOCHS+1):
 	if (a<0.5):
 		sess.run(tf.global_variables_initializer())
 		print("Reinitialized")
-	if i%2==0 and i>10:
+	'''if i%2==0 and i>10:
 		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
 			print("LR dropped to ",LEARNING_RATE)
 	if i%2==0 and i>10:
 		if a2-accuracyArr[len(accuracyArr)-10]<0:
 			LEARNING_RATE*=0.95
-
+			'''
 	accuracyArr.append(a2)
 	lossArr.append(l2)
 	valAccArr.append(valAcc)
