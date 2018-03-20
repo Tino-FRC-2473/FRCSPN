@@ -14,10 +14,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,8 +30,8 @@ import models.matches.yr2018.Match_PowerUp;
 public class MainMatchDetailsBox extends ScrollPane {
 
 	public int height = 50;
-	public int scaleScale = 4;
-	public int switchScale = 2;
+	public double scaleScale = 4.25;
+	public double switchScale = 2;
 	public String force = "FIREBRICK";
 	public String levitate = "LIMEGREEN";
 	public String boost = "BLUE";
@@ -58,12 +60,17 @@ public class MainMatchDetailsBox extends ScrollPane {
 
 	public void display(Match_PowerUp m) {
 		clearDisplay();
-		HBox nameScoreTeamBox = new HBox(50); //adding labels for match name, score, and team numbers
+		HBox nameScoreTeamBox = new HBox(75); //adding labels for match name, score, and team numbers
 		nameScoreTeamBox.setAlignment(Pos.CENTER);
+		nameScoreTeamBox.setPadding(new Insets(15,0,0,0));
 		VBox blueTeams = new VBox();
+		blueTeams.setPrefWidth(175);
 		blueTeams.setAlignment(Pos.CENTER);
+		blueTeams.setStyle("-fx-background-color: #DDDEFF;");
 		VBox redTeams = new VBox();
 		redTeams.setAlignment(Pos.CENTER);
+		redTeams.setPrefWidth(175);
+		redTeams.setStyle("-fx-background-color: #FFB9B9;");
 		for (int i = 0; i < m.alliances.blue.team_keys.length; i++) { //adding team numbers
 			Label l = new Label(m.alliances.blue.team_keys[i].substring(3));
 			l.setStyle("-fx-font-size: 24;");
@@ -125,14 +132,24 @@ public class MainMatchDetailsBox extends ScrollPane {
 			scaleBox.setAlignment(Pos.CENTER);
 			scaleBox.getChildren().addAll(scaleLabel,scale);
 			HBox scaleTime = new HBox();
-			Label blueScaleTime = new Label((m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopScaleOwnershipSec)+"");
+			int time = m.score_breakdown.blue.autoScaleOwnershipSec+m.score_breakdown.blue.teleopScaleOwnershipSec;
+			Label blueScaleTime;
+			if (time<10) blueScaleTime = new Label("\u00A0\u00A0\u00A0"+time+"\u00A0");
+			else if (time<100) blueScaleTime = new Label("\u00A0\u00A0"+time+"\u00A0");
+			else blueScaleTime = new Label(time+"\u00A0");
 			blueScaleTime.setTextFill(Color.DARKBLUE);
 			blueScaleTime.setStyle("-fx-font-size: 15");
-			Label redScaleTime = new Label((m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec)+"");
+			time = m.score_breakdown.red.autoScaleOwnershipSec+m.score_breakdown.red.teleopScaleOwnershipSec;
+			Label redScaleTime;
+			if (time<10) redScaleTime = new Label("\u00A0"+time+"\u00A0\u00A0\u00A0");
+			else if (time<100) redScaleTime = new Label("\u00A0"+time+"\u00A0\u00A0");
+			else redScaleTime = new Label("\u00A0"+time);
 			redScaleTime.setTextFill(Color.DARKRED);
 			redScaleTime.setStyle("-fx-font-size:15");
 			scaleTime.getChildren().addAll(blueScaleTime,scaleBox,redScaleTime);
 			scaleTime.setAlignment(Pos.CENTER);
+			blueScaleTime.setTranslateY(17);
+			redScaleTime.setTranslateY(17);
 			
 			VBox blue = new VBox(); // adding graphic representing blue switch ownership
 			Label bluesLabel = new Label("Blue Switch");
@@ -161,7 +178,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			blue.setAlignment(Pos.CENTER);
 			blueSwitch.setStyle("-fx-border-style: solid; -fx-border-width: 2;");
 			HBox blueSwitchTime = new HBox();
-			Label blueTime = new Label(m.score_breakdown.blue.autoSwitchOwnershipSec+m.score_breakdown.blue.teleopSwitchOwnershipSec+"");
+			time = m.score_breakdown.blue.autoSwitchOwnershipSec+m.score_breakdown.blue.teleopSwitchOwnershipSec;
+			Label blueTime;
+			if (time<10) blueTime = new Label("\u00A0\u00A0\u00A0"+time+"\u00A0");
+			else if (time<100) blueTime = new Label("\u00A0\u00A0"+time+"\u00A0");
+			else blueTime = new Label(time+"\u00A0");
 			blueTime.setTextFill(Color.DARKBLUE);
 			blueTime.setStyle("-fx-font-size: 15");
 			blueTime.setAlignment(Pos.CENTER);
@@ -195,15 +216,21 @@ public class MainMatchDetailsBox extends ScrollPane {
 			red.getChildren().addAll(redsLabel,redSwitch);
 			red.setAlignment(Pos.CENTER);
 			HBox redSwitchTime = new HBox();
-			Label redTime = new Label(m.score_breakdown.red.autoSwitchOwnershipSec+m.score_breakdown.red.teleopSwitchOwnershipSec+"");
+			time = m.score_breakdown.red.autoSwitchOwnershipSec+m.score_breakdown.red.teleopSwitchOwnershipSec;
+			Label redTime;
+			if (time<10) redTime = new Label("\u00A0"+time+"\u00A0\u00A0\u00A0");
+			else if (time<100) redTime = new Label("\u00A0"+time+"\u00A0\u00A0");
+			else redTime = new Label("\u00A0"+time);
 			redTime.setTextFill(Color.DARKRED);
 			redTime.setStyle("-fx-font-size: 15");
 			redTime.setAlignment(Pos.CENTER);
-			HBox switchBox = new HBox(25);
+			HBox switchBox = new HBox(36);
 			redSwitchTime.getChildren().addAll(red,redTime);
 			redSwitchTime.setAlignment(Pos.CENTER_RIGHT);
 			switchBox.getChildren().addAll(blueSwitchTime,redSwitchTime);
 			switchBox.setAlignment(Pos.CENTER);
+			blueTime.setTranslateY(17);
+			redTime.setTranslateY(17);
 			
 			// creating graphics representing powerups used
 			ImageView bb = new ImageView(I.getInstance().getImg(I.Type.BOOST));
@@ -251,22 +278,32 @@ public class MainMatchDetailsBox extends ScrollPane {
 			p.setPadding(new Insets(10, 0, 10, 0));
 			redBoost.getChildren().addAll(new Label("B"), p, createPowerup(m.score_breakdown.red.vaultBoostPlayed,boost));
 			
-			HBox blueBoosts = new HBox(50);
+			HBox blueBoosts = new HBox(10);
 			blueBoosts.getChildren().addAll(blueForce, blueLevitate, blueBoost);
-			HBox redBoosts = new HBox(50);
+			blueBoosts.setAlignment(Pos.TOP_CENTER);
+			HBox redBoosts = new HBox(10);
 			redBoosts.getChildren().addAll(redBoost,redLevitate,redForce);
+			redBoosts.setAlignment(Pos.TOP_CENTER);
+			for (int i = 0; i < blueBoosts.getChildren().size(); i++) {
+				((VBox) blueBoosts.getChildren().get(i)).setAlignment(Pos.TOP_CENTER);
+			}
+			for (int i = 0; i < redBoosts.getChildren().size(); i++) {
+				((VBox) redBoosts.getChildren().get(i)).setAlignment(Pos.TOP_CENTER);
+			}
 			BorderPane boosts = new BorderPane();
 			boosts.setLeft(blueBoosts);
 			boosts.setRight(redBoosts);
+			BorderPane.setAlignment(blueBoosts, Pos.TOP_CENTER);
+			BorderPane.setAlignment(redBoosts, Pos.TOP_CENTER);
 			
 			// creating info box for auto
 			GridPane grid = new GridPane();
 //			auto.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: gray");
-			Label blueRun = new Label(m.score_breakdown.blue.autoRobot1 + "  " + m.score_breakdown.blue.autoRobot2 +
-					"  " + m.score_breakdown.blue.autoRobot3);
+			Label blueRun = new Label(autoState(m.score_breakdown.blue.autoRobot1) + " \u00B7 " + autoState(m.score_breakdown.blue.autoRobot2) +
+					" \u00B7 " + autoState(m.score_breakdown.blue.autoRobot3));
 			blueRun.setStyle("-fx-font-size:14");
-			Label redRun = new Label(m.score_breakdown.red.autoRobot1 + "  " + m.score_breakdown.red.autoRobot2 +
-					"  " + m.score_breakdown.red.autoRobot3);
+			Label redRun = new Label(autoState(m.score_breakdown.red.autoRobot1) + " \u00B7 " + autoState(m.score_breakdown.red.autoRobot2) +
+					" \u00B7 " + autoState(m.score_breakdown.red.autoRobot3));
 				redRun.setStyle("-fx-font-size:14");
 			Label autoRun = new Label("Auto Run");
 			autoRun.setStyle("-fx-font-size:14");
@@ -287,8 +324,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 			autoTotal.setStyle("-fx-font-size:14; -fx-font-weight: bold");
 			
 			Label autoLabel = new Label("Auto");
-			autoLabel.setStyle("-fx-font-size:20");
-			grid.add(autoLabel, 1, gridRow++);
+			autoLabel.setStyle("-fx-font-size:5");
+			autoLabel.setVisible(false);
+//			grid.add(autoLabel, 1, gridRow++);
 			grid.add(blueRun, 0, gridRow); grid.add(autoRun, 1, gridRow); grid.add(redRun, 2, gridRow++); 
 			grid.add(blueOwnPoints, 0, gridRow); grid.add(autoOwnPoints, 1, gridRow); grid.add(redOwnPoints, 2, gridRow++);
 			grid.add(blueAutoTotal, 0, gridRow); grid.add(autoTotal, 1, gridRow); grid.add(redAutoTotal, 2, gridRow++);
@@ -307,11 +345,11 @@ public class MainMatchDetailsBox extends ScrollPane {
 			redVault.setStyle("-fx-font-size:14");
 			Label endGame = new Label("Endgame");
 			endGame.setStyle("-fx-font-size:14");
-			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + "  " + m.score_breakdown.blue.endgameRobot2 +
-					"  " + m.score_breakdown.blue.endgameRobot3);
+			Label blueEndgame = new Label(m.score_breakdown.blue.endgameRobot1 + " \u00B7 " + m.score_breakdown.blue.endgameRobot2 +
+					" \u00B7 " + m.score_breakdown.blue.endgameRobot3);
 			blueEndgame.setStyle("-fx-font-size: 14");
-			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + "  " + m.score_breakdown.red.endgameRobot2 +
-					"  " + m.score_breakdown.red.endgameRobot3);
+			Label redEndgame = new Label(m.score_breakdown.red.endgameRobot1 + " \u00B7 " + m.score_breakdown.red.endgameRobot2 +
+					" \u00B7 " + m.score_breakdown.red.endgameRobot3);
 			redEndgame.setStyle("-fx-font-size: 14");
 			Label endgamePoints = new Label("Endgame Points");
 			endgamePoints.setStyle("-fx-font-size:14");
@@ -326,7 +364,8 @@ public class MainMatchDetailsBox extends ScrollPane {
 			Label redTeleop = new Label(m.score_breakdown.red.teleopPoints+"");
 			redTeleop.setStyle("-fx-font-size:14; -fx-font-weight: bold");
 			Label teleopLabel = new Label("Teleop");
-			teleopLabel.setStyle("-fx-font-size:20;");
+			teleopLabel.setStyle("-fx-font-size:5;");
+			teleopLabel.setVisible(false);
 			
 			grid.add(teleopLabel, 1, gridRow++);
 			grid.add(blueTeleopOwn, 0, gridRow); grid.add(teleopOwnPoints, 1, gridRow); grid.add(redTeleopOwn, 2, gridRow++);
@@ -339,9 +378,9 @@ public class MainMatchDetailsBox extends ScrollPane {
 			
 			Label fouls = new Label("Fouls/Techs Committed");
 			fouls.setStyle("-fx-font-size:14");
-			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + "  " + m.score_breakdown.blue.techFoulCount);
+			Label blueFouls = new Label(m.score_breakdown.blue.foulCount + " \u00B7 " + m.score_breakdown.blue.techFoulCount);
 			blueFouls.setStyle("-fx-font-size:14");
-			Label redFouls = new Label(m.score_breakdown.red.foulCount + "  " + m.score_breakdown.red.techFoulCount);
+			Label redFouls = new Label(m.score_breakdown.red.foulCount + " \u00B7 " + m.score_breakdown.red.techFoulCount);
 			redFouls.setStyle("-fx-font-size: 14");
 			Label foulPoints = new Label("Foul Points");
 			foulPoints.setStyle("-fx-font-size:14");
@@ -355,6 +394,10 @@ public class MainMatchDetailsBox extends ScrollPane {
 			blueAdjust.setStyle("-fx-font-size:14");
 			Label redAdjust = new Label(m.score_breakdown.red.adjustPoints+"");
 			redAdjust.setStyle("-fx-font-size:14");
+			Label foulLabel = new Label("Fouls");
+			foulLabel.setStyle("-fx-font-size:5");
+			foulLabel.setVisible(false);
+			grid.add(foulLabel, 1, gridRow++);
 			grid.add(blueFouls, 2, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,0,gridRow++);
 			grid.add(blueFoulPoints, 0, gridRow); grid.add(foulPoints, 1, gridRow); grid.add(redFoulPoints, 2, gridRow++);
 			grid.add(blueAdjust, 0, gridRow); grid.add(adjust, 1, gridRow); grid.add(redAdjust, 2, gridRow++);
@@ -362,13 +405,19 @@ public class MainMatchDetailsBox extends ScrollPane {
 			for (int i = 0; i < grid.getChildren().size(); i++) {
 				GridPane.setHalignment(grid.getChildren().get(i), HPos.CENTER);
 			}
-			grid.setHgap(20);
 			grid.setAlignment(Pos.CENTER);
-			
+			grid.getColumnConstraints().addAll(new ColumnConstraints(170),new ColumnConstraints(170),new ColumnConstraints(170));
+			for (int i = 0; i < gridRow; i++) {
+				if (i == GridPane.getRowIndex(foulLabel)||i==GridPane.getRowIndex(teleopLabel)) grid.getRowConstraints().add(new RowConstraints(5));
+				else grid.getRowConstraints().add(new RowConstraints(25));
+			}
+			grid.setStyle("-fx-grid-lines-visible: true; -fx-stroke: #CFCFCF");
+			grid.setPadding(new Insets(15,0,0,0));
+			boosts.setCenter(grid);
+			boosts.setPadding(K.getInsets());
 			// adding all nodes to pane
-			content.getChildren().addAll(nameScoreTeamBox, scaleTime, switchBox, boosts, grid);
-			content.setPadding(K.getInsets());
-			content.setSpacing(20);
+			content.getChildren().addAll(nameScoreTeamBox, scaleTime, switchBox, boosts);
+			content.setSpacing(35);
 			content.setAlignment(Pos.TOP_CENTER);
 		
 		}
@@ -420,5 +469,10 @@ public class MainMatchDetailsBox extends ScrollPane {
 		else if (key.indexOf("f", i) != -1)
 			return "Finals " + key.charAt(i+1) + " Match " + key.charAt(i+3);
 		return null;
+	}
+	
+	public String autoState(String str) {
+		if (str.equals("AutoRun")) return "\u2714";
+		else return "\u2715";
 	}
 }
