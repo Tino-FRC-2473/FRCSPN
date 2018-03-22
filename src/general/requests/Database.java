@@ -1,6 +1,7 @@
 package general.requests;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -141,6 +142,9 @@ public class Database {
 	}
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
+	}
+	public HashMap<String, EventStatus> getStatusesForTeamInYear(int t, int y) {
+		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), HashMap.class);
 	}
 	public Event[] getEventsInYear(int y) {
 		return generalGet(new R(R.Type.EVENTS_IN_YEAR, y), Event[].class);

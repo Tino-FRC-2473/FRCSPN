@@ -74,6 +74,7 @@ public class RequesterThread extends Thread {
 				}
 				
 				reader.close();
+//				ifDebugPrintln(" - Response:\n" + response.toString() + "\n");
 				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
 				
 				ScoutingApp.getDatabase().put(req, response);
@@ -129,11 +130,12 @@ public class RequesterThread extends Thread {
 	public void addRequestEventsForTeamInYear(int t, int y) { addRequest(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y)); } 
 	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
 	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
+	public void addRequestStatusesForTeamInYear(int t, int y) { addRequest(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y)); }
 	public void addRequestEventsInYear(int y) { addRequest(new R(R.Type.EVENTS_IN_YEAR, y)); }
 	public void addRequestMatchKeysForEvent(String e) { addRequest(new R(R.Type.MATCH_KEYS_FOR_EVENT, e)); }
 	public void addRequestMatch(String k) { addRequest(new R(R.Type.MATCH, k)); }
 	public void addRequestAwardsAtEvent(String e) { addRequest(new R(R.Type.AWARDS_AT_EVENT, e)); }
-
+	public void addRequestMatchesAtEvent(String e) { addRequest(new R(R.Type.MATCHES_AT_EVENT, e)); }
 //	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
 	
 	/**

@@ -2,19 +2,18 @@ package stages.matches;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 
 import general.ScoutingApp;
 import general.constants.K;
-import general.requests.R;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import models.Event;
 import models.Team;
+import models.event_status.EventStatus;
+import models.matches.yr2018.Match_PowerUp;
 
 
 public class MLoadingScene extends Scene {
@@ -75,14 +74,12 @@ public class MLoadingScene extends Scene {
 		public void run() {
 			Team[] teams = null;
 			
-			HashMap<Team, Event[]> teamEvents = new HashMap<Team, Event[]>();
-			boolean teamEventsCompleted = false;
-			
+			HashMap<Team, HashMap<String, EventStatus>> teamEventStatuses = new HashMap<Team, HashMap<String, EventStatus>>();
 			boolean teamEventStatusesCompleted = false;
 			
-			String[] matchKeys = null;
+			Match_PowerUp[] matches = null;
 			
-			boolean matchesCompleted = false;
+//			boolean matchesCompleted = false;
 			
 			while(alive) {
 				rotate();
@@ -102,76 +99,37 @@ public class MLoadingScene extends Scene {
 					if(teams == null) {
 						teams = ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key);
 						if(teams != null) {
-							System.out.println("***REQUESTING EVENTS/TEAM***");
+							System.out.println("***REQUESTING TEAM STATUSES***");
 							for(int i = 0; i < teams.length; i++) {
-								ScoutingApp.getRequesterThread().addRequestEventsForTeamInYear(teams[i].getNumber(), 2018);
-								teamEvents.put(teams[i], null);
+								ScoutingApp.getRequesterThread().addRequestStatusesForTeamInYear(teams[i].getNumber(), 2018);
+								teamEventStatuses.put(teams[i], null);
 							}
-						}
-					} else if(!teamEventsCompleted) {
-						for(final Iterator<Team> itr = teamEvents.keySet().iterator(); itr.hasNext();) {
-							Team t = itr.next();
-							if(teamEvents.get(t) == null)
-								teamEvents.put(t, ScoutingApp.getDatabase().getEventsForTeamInYear(t.getNumber(), 2018));
-						}
-						
-						boolean foundNull = false;
-						for(final Iterator<Event[]> itr = teamEvents.values().iterator(); itr.hasNext();) {
-							Event[] events = itr.next();
-							if(events == null) {
-								foundNull = true;
-								break;
-							}
-						}
-						
-						if(!foundNull) {
-							System.out.println("***NEXT: STATUS/TEAM/EVENT***");
-							teamEventsCompleted = true;
-							for(final Iterator<Entry<Team, Event[]>> itr = teamEvents.entrySet().iterator(); itr.hasNext();) {
-								Entry<Team, Event[]> entry = itr.next();
-								for(int i = 0; i < entry.getValue().length; i++)
-									ScoutingApp.getRequesterThread().addRequestStatusForTeamAtEvent(entry.getKey().getNumber(), entry.getValue()[i].key);
-							}
-							
 						}
 					} else if(!teamEventStatusesCompleted) {
-						boolean foundIncomplete = false;
-						for(final Iterator<Entry<Team, Event[]>> itr = teamEvents.entrySet().iterator(); itr.hasNext();) {
-							Entry<Team, Event[]> entry = itr.next();
-							if(foundIncomplete)
-								break;
-							for(int i = 0; i < entry.getValue().length; i++) {
-								if(ScoutingApp.getDatabase().isIncomplete(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, entry.getKey().getNumber(), entry.getValue()[i].key))) {
-									foundIncomplete = true;
-									break;
-								}
-							}
+						for(final Iterator<Team> itr = teamEventStatuses.keySet().iterator(); itr.hasNext();) {
+							Team t = itr.next();
+							if(teamEventStatuses.get(t) == null)
+								teamEventStatuses.put(t, ScoutingApp.getDatabase().getStatusesForTeamInYear(t.getNumber(), 2018));
 						}
 						
-						if(!foundIncomplete) {
-							System.out.println("***NEXT: MATCH KEYS***");
-							teamEventStatusesCompleted = true;
-							ScoutingApp.getRequesterThread().addRequestMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
-						}
-					} else if(matchKeys == null) {
-						matchKeys = ScoutingApp.getDatabase().getMatchKeysForEvent(ScoutingApp.mStage.getEvent().key);
-						if(matchKeys != null) {
-							System.out.println("***NEXT: MATCHES***");
-							for(int i = 0; i < matchKeys.length; i++)
-								ScoutingApp.getRequesterThread().addRequestMatch(matchKeys[i]);
-						}
-					} else if(!matchesCompleted) {
 						boolean foundNull = false;
-						for(int i = 0; i < matchKeys.length; i++) {
-							if(ScoutingApp.getDatabase().get2018Match(matchKeys[i]) == null) {
+						for(final Iterator<HashMap<String, EventStatus>> itr = teamEventStatuses.values().iterator(); itr.hasNext();) {
+							HashMap<String, EventStatus> statuses = itr.next();
+							if(statuses == null) {
 								foundNull = true;
 								break;
 							}
 						}
 						
 						if(!foundNull) {
+							System.out.println("***NEXT: MATCHES***");
+							teamEventStatusesCompleted = true;
+							ScoutingApp.getRequesterThread().addRequestMatchesAtEvent(ScoutingApp.mStage.getEvent().key);
+						}
+					} else if(matches == null) {
+						matches = ScoutingApp.getDatabase().getMatches2018ForEvent(ScoutingApp.mStage.getEvent().key);
+						if(matches != null) {
 							System.out.println("***NEXT: AWARDS***");
-							matchesCompleted = true;
 							ScoutingApp.getRequesterThread().addRequestAwardsAtEvent(ScoutingApp.mStage.getEvent().key);
 						}
 					} else if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null) {
