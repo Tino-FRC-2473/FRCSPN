@@ -185,17 +185,6 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         };
 	}
 	public void addRankings() {
-		Double[] ranking = new Double[standings.size()];
-		for (int i = 0; i < ranking.length; i++) ranking[i] = standings.get(i).getStandings().getRankingScore();
-		Arrays.sort(ranking,Collections.reverseOrder());
-		for (TableStandings t : standings) {
-			for (int i = 0; i < ranking.length; i++) {
-				if (t.getStandings().getRankingScore() == ranking[i]) {
-					t.setRankingScore(t.getRankingScore() + " (" + (i+1) + ")");
-					break;
-				}
-			}
-		}
 		Integer[] rank = new Integer[standings.size()];
 		for (int i = 0; i < rank.length; i++) rank[i] = standings.get(i).getStandings().getParkClimb();
 		Arrays.sort(rank,Collections.reverseOrder());
@@ -246,9 +235,9 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 		return this;
 	}
 	public class TableStandings {
-		private int rank;
+		private String rank;
 		private int team;
-		private String rankingScore;
+		private double rankingScore;
 		private String parkClimb;
 		private String auto;
 		private String ownership;
@@ -259,30 +248,30 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 		private StandingsRow2018 standings;
 		public TableStandings(StandingsRow2018 standings) {
 			this.standings = standings;
-			rank = standings.getRank();
+			rank = "#" + standings.getRank();
 			team = standings.getTeam();
-			rankingScore = standings.getRankingScore() + "";
+			rankingScore = standings.getRankingScore();
 			parkClimb = standings.getParkClimb() + "";
 			auto = standings.getAuto() + "";
 			ownership = standings.getOwnership() + "";
 			vault = standings.getVault() + "";
-			recordWLT = standings.getRecordWLT() + "";
+			recordWLT = standings.getRecordWLT();
 			dq = standings.getDq();
 			played = standings.getPlayed();
 		}
-		public int getRank() { return rank; }
-		public void setRank(int rank) { this.rank = rank; }
+		public int getRank() { return standings.getRank(); }
+		public void setRank(String rank) { this.rank = rank; }
 		public int getTeam() { return team; }
 		public void setTeam(int team) { this.team = team; }
-		public String getRankingScore() { return rankingScore; }
-		public void setRankingScore(String rankingScore) { this.rankingScore = rankingScore; }
-		public String getParkClimb() { return parkClimb; }
+		public double getRankingScore() { return rankingScore; }
+		public void setRankingScore(double rankingScore) { this.rankingScore = rankingScore; }
+		public int getParkClimb() { return standings.getParkClimb(); }
 		public void setParkClimb(String parkClimb) { this.parkClimb = parkClimb; }
-		public String getAuto() { return auto; }
+		public int getAuto() { return standings.getAuto(); }
 		public void setAuto(String auto) { this.auto = auto; }
-		public String getOwnership() { return ownership; }
+		public int getOwnership() { return standings.getOwnership(); }
 		public void setOwnership(String ownership) { this.ownership = ownership; }
-		public String getVault() { return vault; }
+		public int getVault() { return standings.getVault(); }
 		public void setVault(String vault) { this.vault = vault; }
 		public String getRecordWLT() { return recordWLT; }
 		public void setRecordWLT(String recordWLT) { this.recordWLT = recordWLT; }
