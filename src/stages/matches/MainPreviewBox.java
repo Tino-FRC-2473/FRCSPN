@@ -1,19 +1,14 @@
 package stages.matches;
 
 import general.constants.K;
-import general.images.I;
-import general.images.I.Type;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import models.matches.yr2018.Match_PowerUp;
 
 public class MainPreviewBox extends VBox {
@@ -155,15 +150,16 @@ public class MainPreviewBox extends VBox {
 		this.setPadding(K.getInsets());
 		this.setAlignment(Pos.CENTER);
 		
-		HBox hBox = new HBox();
-		Rectangle rect = new Rectangle(100,50);
-		rect.setFill(Color.WHITE);
-		rect.setStrokeWidth(3);
-		rect.setStroke(Color.BLACK);
-		Rectangle secRect = new Rectangle(50,50);
-		secRect.setFill(Color.WHITE);
-		secRect.setStrokeWidth(3);
-		secRect.setStroke(Color.BLUE);
+		//WHAT IS THIS
+//		HBox hBox = new HBox();
+//		Rectangle rect = new Rectangle(100,50);
+//		rect.setFill(Color.WHITE);
+//		rect.setStrokeWidth(3);
+//		rect.setStroke(Color.BLACK);
+//		Rectangle secRect = new Rectangle(50,50);
+//		secRect.setFill(Color.WHITE);
+//		secRect.setStrokeWidth(3);
+//		secRect.setStroke(Color.BLUE);
 		
 	}
 	
