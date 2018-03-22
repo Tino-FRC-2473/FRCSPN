@@ -68,9 +68,12 @@ public class RequesterThread extends Thread {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
 				StringBuffer response = new StringBuffer();
 				
-				String line;
-				while((line = reader.readLine()) != null) {
-					response.append(line + "\n");
+				if (req.getType().equals("MATCHES_AT_EVENT")) {
+				} else {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						response.append(line + "\n");
+					}
 				}
 				
 				reader.close();
@@ -80,6 +83,7 @@ public class RequesterThread extends Thread {
 				ScoutingApp.getDatabase().put(req, response);
 			} else {
 				ScoutingApp.getDatabase().indicateRequestFailed(req);
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
