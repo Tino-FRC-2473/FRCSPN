@@ -1,6 +1,9 @@
 package general.requests;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,12 +19,12 @@ import models.matches.yr2017.Match_Steamworks;
 import models.matches.yr2018.Match_PowerUp;
 
 /**
- * A place for Requests and their responses to be stored. Parses each response
- * from a StringBuffer to its corresponding class upon call to a get method.
- * Additionally tracks which, and how many requests have not completed yet.
+ * A place for Requests and their responses to be stored. Parses each response from a
+ * BufferedReader to a StringBuffer to its corresponding class when a get method is
+ * called. Additionally tracks which, and how many requests have not completed yet.
  */
 public class Database {
-	private Map<R, StringBuffer> database;
+	private Map<R, BufferedReader> database;
 	private ArrayList<R> incomplete;
 	private Gson gson;
 	
@@ -29,18 +32,17 @@ public class Database {
 	 * Default constructor.
 	 */
 	public Database() {
-		database = new ConcurrentHashMap<R, StringBuffer>();
+		database = new ConcurrentHashMap<R, BufferedReader>();
 		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
 	
 	/**
-	 * Places a request object (R.class) and its returned value (StringBuffer.class) in
-	 * the HashMap of this class.
+	 * Stores a request object (R) and its returned value (BufferedReader) in this class.
 	 * @param req The request.
 	 * @param value The value of the request.
 	 */
-	public void put(R req, StringBuffer value) {
+	public void put(R req, BufferedReader value) {
 		database.put(req, value);
 		boolean found = false;
 		for(R r : incomplete) {
@@ -98,15 +100,6 @@ public class Database {
 		incomplete.add(req);
 	}
 	
-	public StringBuffer getRaw(R req) {
-		for(R r : database.keySet()) {
-			if(r.equals(req)) {
-				return database.get(r);
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * General method to get the value of a completed request. All other get methods
 	 * call this one. Returns null if such a request has not completed yet.
@@ -114,11 +107,44 @@ public class Database {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public <E>E generalGet(R req, Class<E> clazz) {
 		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
 			R r = itr.next();
 			if(r.equals(req)) {
-				return gson.fromJson(database.get(r).toString(), clazz);
+				BufferedReader reader = database.get(r);
+				
+				if(r.getType() == R.Type.MATCHES_AT_EVENT) {
+					//PARSE INFO FROM THE BUFFER INTO - SAY BY FINDING LINES WITH ONLY '{' OR '}' IDK
+					//PUT THIS IN AN ARRAYLIST OF STRING BUFFERS, THEN FOR EACH THING IN THE STRING BUFFER,
+					//ADD EACH INDIVIDUAL JSON.FROMJSON PARSING TO ANOTHER ARRAYLIST
+					
+					ArrayList<Match_PowerUp> individualMatches = new ArrayList<Match_PowerUp>();
+					
+					StringBuffer response = new StringBuffer();
+					String line;
+					try {
+						while((line = reader.readLine()) != null) {
+							individualMatches.add((Match_PowerUp) gson.fromJson(response.toString(), clazz));
+						}
+						return (E) individualMatches;
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				} else {
+					StringBuffer response = new StringBuffer();
+					
+					String line;
+					try {
+						while((line = reader.readLine()) != null) {
+							response.append(line + "\n");
+						}
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+					
+					return gson.fromJson(response.toString(), clazz);
+				}
 			}
 		}
 		return null;
@@ -141,6 +167,10 @@ public class Database {
 	}
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
+	}
+	@SuppressWarnings("unchecked")
+	public HashMap<String, EventStatus> getStatusesForTeamInYear(int t, int y) {
+		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), HashMap.class);
 	}
 	public Event[] getEventsInYear(int y) {
 		return generalGet(new R(R.Type.EVENTS_IN_YEAR, y), Event[].class);

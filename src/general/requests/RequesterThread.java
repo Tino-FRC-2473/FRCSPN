@@ -18,7 +18,7 @@ if(f.exists() && !f.isDirectory()) {
 
 /**
  * A separate Thread that allows for requests in the form of HttpURLConnections to carry out
- * without stalling the entire code. Continuously requests all requests that have not been
+ * without stopping the entire code. Repeatedly requests all requests that have not been
  * requested yet.
  */
 public class RequesterThread extends Thread {
@@ -66,17 +66,7 @@ public class RequesterThread extends Thread {
 			HttpURLConnection c = getConnection(req);
 			if(c != null) {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
-				StringBuffer response = new StringBuffer();
-				
-				String line;
-				while((line = reader.readLine()) != null) {
-					response.append(line + "\n");
-				}
-				
-				reader.close();
-				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
-				
-				ScoutingApp.getDatabase().put(req, response);
+				ScoutingApp.getDatabase().put(req, reader);
 			} else {
 				ScoutingApp.getDatabase().indicateRequestFailed(req);
 			}
@@ -102,7 +92,7 @@ public class RequesterThread extends Thread {
 		ifDebugPrintln("Requesting \"" + req + "\"");
 		int responseCode = con.getResponseCode();
 		if (responseCode == 200 || responseCode == 304) {
-			ifDebugPrint("HTTP Connected");
+			ifDebugPrintln("HTTP Connected");
 			return con;
 		} else {
 			ifDebugPrintln("Unknown Response Code: " + responseCode);
@@ -112,9 +102,6 @@ public class RequesterThread extends Thread {
 	
 	private void ifDebugPrintln(String s) {
 		if(debug) System.out.println(s);
-	}
-	private void ifDebugPrint(String s) {
-		if(debug) System.out.print(s);
 	}
 	
 	/**
@@ -129,11 +116,12 @@ public class RequesterThread extends Thread {
 	public void addRequestEventsForTeamInYear(int t, int y) { addRequest(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y)); } 
 	public void addRequestTeamsAtEvent(String e) { addRequest(new R(R.Type.TEAMS_AT_EVENT, e)); }
 	public void addRequestStatusForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e)); }
+	public void addRequestStatusesForTeamInYear(int t, int y) { addRequest(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y)); }
 	public void addRequestEventsInYear(int y) { addRequest(new R(R.Type.EVENTS_IN_YEAR, y)); }
 	public void addRequestMatchKeysForEvent(String e) { addRequest(new R(R.Type.MATCH_KEYS_FOR_EVENT, e)); }
 	public void addRequestMatch(String k) { addRequest(new R(R.Type.MATCH, k)); }
 	public void addRequestAwardsAtEvent(String e) { addRequest(new R(R.Type.AWARDS_AT_EVENT, e)); }
-
+	public void addRequestMatchesAtEvent(String e) { addRequest(new R(R.Type.MATCHES_AT_EVENT, e)); }
 //	public void addRequestMatchesForTeamAtEvent(int t, String e) { addRequest(new R(R.Type.MATCHES_FOR_TEAM_AT_EVENT, t, e)); }
 	
 	/**

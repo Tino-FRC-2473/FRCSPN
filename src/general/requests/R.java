@@ -47,8 +47,8 @@ public class R {
 			return "event/" + params[0] + "/simple";
 		case EVENT_KEYS_IN_YEAR:
 			return "events/" + params[0] + "/keys";
-//		case MATCHES_AT_EVENT:
-//			return "event/" + params[0] + "/matches";
+		case MATCHES_AT_EVENT:
+			return "event/" + params[0] + "/matches";
 		case STATUS:
 			return "status";
 		case TEAMS_AT_EVENT:
@@ -57,6 +57,8 @@ public class R {
 //			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/matches";
 		case STATUS_FOR_TEAM_AT_EVENT:
 			return "team/" + getTeamKey(params[0]) + "/event/" + params[1] + "/status";
+		case STATUSES_FOR_TEAM_IN_YEAR:
+			return "team/" + getTeamKey(params[0]) + "/events/" + params[1] + "/statuses";
 		case EVENTS_IN_YEAR:
 			return "events/" + params[0] + "/simple";
 		case MATCH:
@@ -68,6 +70,10 @@ public class R {
 		default:
 			return "Unknown Request Type: " + type;
 		}
+	}
+	
+	public Type getType() {
+		return type;
 	}
 	
 	//allows for a team to input either "frc2473" or "2473" but to have it end up as "frc2473" regardless.
@@ -87,6 +93,7 @@ public class R {
 		MATCH,
 		MATCH_KEYS_FOR_EVENT,
 		AWARDS_AT_EVENT,
+		STATUSES_FOR_TEAM_IN_YEAR,
 		
 		MATCHES_FOR_TEAM_AT_EVENT, MATCHES_AT_EVENT;
 	}
@@ -94,4 +101,5 @@ public class R {
 	public boolean equals(R other) {
 		return this.toString().equals(other.toString());
 	}
+	
 }
