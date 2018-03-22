@@ -66,21 +66,23 @@ public class RequesterThread extends Thread {
 			HttpURLConnection c = getConnection(req);
 			if(c != null) {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
-				StringBuffer response = new StringBuffer();
-				
-				if (req.getType().equals("MATCHES_AT_EVENT")) {
-				} else {
-					String line;
-					while ((line = reader.readLine()) != null) {
-						response.append(line + "\n");
-					}
-				}
-				
-				reader.close();
-//				ifDebugPrintln(" - Response:\n" + response.toString() + "\n");
-				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
-				
-				ScoutingApp.getDatabase().put(req, response);
+				ScoutingApp.getDatabase().put(req, reader);
+//				StringBuffer response = new StringBuffer();
+//				
+//				if(req.getType() == R.Type.MATCHES_AT_EVENT) {
+//					
+//				} else {
+//					String line;
+//					while ((line = reader.readLine()) != null) {
+//						response.append(line + "\n");
+//					}
+//				}
+//				
+//				reader.close();
+////				ifDebugPrintln(" - Response:\n" + response.toString() + "\n");
+//				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
+//				
+//				ScoutingApp.getDatabase().put(req, response);
 			} else {
 				ScoutingApp.getDatabase().indicateRequestFailed(req);
 				
@@ -107,7 +109,7 @@ public class RequesterThread extends Thread {
 		ifDebugPrintln("Requesting \"" + req + "\"");
 		int responseCode = con.getResponseCode();
 		if (responseCode == 200 || responseCode == 304) {
-			ifDebugPrint("HTTP Connected");
+			ifDebugPrintln("HTTP Connected");
 			return con;
 		} else {
 			ifDebugPrintln("Unknown Response Code: " + responseCode);

@@ -72,8 +72,8 @@ public class R {
 		}
 	}
 	
-	public String getType() {
-		return type.toString();
+	public Type getType() {
+		return type;
 	}
 	
 	//allows for a team to input either "frc2473" or "2473" but to have it end up as "frc2473" regardless.

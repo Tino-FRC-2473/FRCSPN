@@ -1,5 +1,7 @@
 package general.requests;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +24,7 @@ import models.matches.yr2018.Match_PowerUp;
  * Additionally tracks which, and how many requests have not completed yet.
  */
 public class Database {
-	private Map<R, StringBuffer> database;
+	private Map<R, BufferedReader> database;
 	private ArrayList<R> incomplete;
 	private Gson gson;
 	
@@ -30,7 +32,7 @@ public class Database {
 	 * Default constructor.
 	 */
 	public Database() {
-		database = new ConcurrentHashMap<R, StringBuffer>();
+		database = new ConcurrentHashMap<R, BufferedReader>();
 		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
@@ -41,7 +43,7 @@ public class Database {
 	 * @param req The request.
 	 * @param value The value of the request.
 	 */
-	public void put(R req, StringBuffer value) {
+	public void put(R req, BufferedReader value) {
 		database.put(req, value);
 		boolean found = false;
 		for(R r : incomplete) {
@@ -99,14 +101,14 @@ public class Database {
 		incomplete.add(req);
 	}
 	
-	public StringBuffer getRaw(R req) {
-		for(R r : database.keySet()) {
-			if(r.equals(req)) {
-				return database.get(r);
-			}
-		}
-		return null;
-	}
+//	public StringBuffer getRaw(R req) {
+//		for(R r : database.keySet()) {
+//			if(r.equals(req)) {
+//				return database.get(r);
+//			}
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * General method to get the value of a completed request. All other get methods
@@ -119,7 +121,26 @@ public class Database {
 		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
 			R r = itr.next();
 			if(r.equals(req)) {
-				return gson.fromJson(database.get(r).toString(), clazz);
+				BufferedReader reader = database.get(r);
+				
+				if(r.getType() == R.Type.MATCHES_AT_EVENT) {
+					//PARSE INFO FROM THE BUFFER INTO - SAY BY FINDING LINES WITH ONLY '{' OR '}' IDK
+					//PUT THIS IN AN ARRAYLIST OF STRING BUFFERS, THEN FOR EACH THING IN THE STRING BUFFER,
+					//ADD EACH INDIVIDUAL JSON.FROMJSON PARSING TO ANOTHER ARRAYLIST
+				} else {
+					StringBuffer response = new StringBuffer();
+					
+					String line;
+					try {
+						while((line = reader.readLine()) != null) {
+							response.append(line + "\n");
+						}
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+					
+					return gson.fromJson(response.toString(), clazz);
+				}
 			}
 		}
 		return null;
