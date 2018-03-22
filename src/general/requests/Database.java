@@ -117,6 +117,7 @@ public class Database {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public <E>E generalGet(R req, Class<E> clazz) {
 		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
 			R r = itr.next();
@@ -127,6 +128,19 @@ public class Database {
 					//PARSE INFO FROM THE BUFFER INTO - SAY BY FINDING LINES WITH ONLY '{' OR '}' IDK
 					//PUT THIS IN AN ARRAYLIST OF STRING BUFFERS, THEN FOR EACH THING IN THE STRING BUFFER,
 					//ADD EACH INDIVIDUAL JSON.FROMJSON PARSING TO ANOTHER ARRAYLIST
+					
+					ArrayList<Match_PowerUp> individualMatches = new ArrayList<Match_PowerUp>();
+					
+					StringBuffer response = new StringBuffer();
+					String line;
+					try {
+						while((line = reader.readLine()) != null) {
+							individualMatches.add((Match_PowerUp) gson.fromJson(response.toString(), clazz));
+						}
+						return (E) individualMatches;
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
 				} else {
 					StringBuffer response = new StringBuffer();
 					
