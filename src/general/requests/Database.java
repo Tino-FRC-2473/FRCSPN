@@ -19,9 +19,9 @@ import models.matches.yr2017.Match_Steamworks;
 import models.matches.yr2018.Match_PowerUp;
 
 /**
- * A place for Requests and their responses to be stored. Parses each response
- * from a StringBuffer to its corresponding class upon call to a get method.
- * Additionally tracks which, and how many requests have not completed yet.
+ * A place for Requests and their responses to be stored. Parses each response from a
+ * BufferedReader to a StringBuffer to its corresponding class when a get method is
+ * called. Additionally tracks which, and how many requests have not completed yet.
  */
 public class Database {
 	private Map<R, BufferedReader> database;
@@ -38,8 +38,7 @@ public class Database {
 	}
 	
 	/**
-	 * Places a request object (R.class) and its returned value (StringBuffer.class) in
-	 * the HashMap of this class.
+	 * Stores a request object (R) and its returned value (BufferedReader) in this class.
 	 * @param req The request.
 	 * @param value The value of the request.
 	 */
@@ -100,15 +99,6 @@ public class Database {
 	public void putIncompleteRequest(R req) {
 		incomplete.add(req);
 	}
-	
-//	public StringBuffer getRaw(R req) {
-//		for(R r : database.keySet()) {
-//			if(r.equals(req)) {
-//				return database.get(r);
-//			}
-//		}
-//		return null;
-//	}
 	
 	/**
 	 * General method to get the value of a completed request. All other get methods
