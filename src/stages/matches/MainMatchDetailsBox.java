@@ -6,21 +6,14 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 //import javafx.event.Event;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -36,9 +29,6 @@ public class MainMatchDetailsBox extends ScrollPane {
 	public String levitate = "LIMEGREEN";
 	public String boost = "BLUE";
 	public VBox content;
-	private Scene teamP;
-	private Scene matchP;
-	
 
 	public MainMatchDetailsBox() {
 		this.setMinWidth(K.MATCHES.WIDTH-K.MATCHES.LEFT_WIDTH);

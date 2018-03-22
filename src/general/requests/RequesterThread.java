@@ -18,7 +18,7 @@ if(f.exists() && !f.isDirectory()) {
 
 /**
  * A separate Thread that allows for requests in the form of HttpURLConnections to carry out
- * without stalling the entire code. Continuously requests all requests that have not been
+ * without stopping the entire code. Repeatedly requests all requests that have not been
  * requested yet.
  */
 public class RequesterThread extends Thread {
@@ -67,25 +67,8 @@ public class RequesterThread extends Thread {
 			if(c != null) {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
 				ScoutingApp.getDatabase().put(req, reader);
-//				StringBuffer response = new StringBuffer();
-//				
-//				if(req.getType() == R.Type.MATCHES_AT_EVENT) {
-//					
-//				} else {
-//					String line;
-//					while ((line = reader.readLine()) != null) {
-//						response.append(line + "\n");
-//					}
-//				}
-//				
-//				reader.close();
-////				ifDebugPrintln(" - Response:\n" + response.toString() + "\n");
-//				ifDebugPrintln(" - Response Length: " + response.toString().length() + "\n");
-//				
-//				ScoutingApp.getDatabase().put(req, response);
 			} else {
 				ScoutingApp.getDatabase().indicateRequestFailed(req);
-				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,9 +102,6 @@ public class RequesterThread extends Thread {
 	
 	private void ifDebugPrintln(String s) {
 		if(debug) System.out.println(s);
-	}
-	private void ifDebugPrint(String s) {
-		if(debug) System.out.print(s);
 	}
 	
 	/**

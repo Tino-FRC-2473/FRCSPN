@@ -164,6 +164,7 @@ public class Database {
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
 	}
+	@SuppressWarnings("unchecked")
 	public HashMap<String, EventStatus> getStatusesForTeamInYear(int t, int y) {
 		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), HashMap.class);
 	}
