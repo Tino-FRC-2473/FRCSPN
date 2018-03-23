@@ -89,9 +89,9 @@ public class RequesterThread extends Thread {
 		con.setRequestProperty("User-Agent", "X-TBA-Auth-Key:gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 		con.setRequestProperty("X-TBA-Auth-Key", "gSLmkXgiO6HobgtyYwb6CHyYs9KnKvJhl9F7pBXfokT3D9fcczt44lLgvh3BICzj");
 //		con.setRequestProperty("If-Modified-Since", getTimeStamp());
-		ifDebugPrintln("Requesting \"" + req + "\"");
+		ifDebugPrint("Requesting \"" + req + "\" - ");
 		int responseCode = con.getResponseCode();
-		if (responseCode == 200 || responseCode == 304) {
+		if(responseCode == 200 || responseCode == 304) {
 			ifDebugPrintln("HTTP Connected");
 			return con;
 		} else {
@@ -102,6 +102,10 @@ public class RequesterThread extends Thread {
 	
 	private void ifDebugPrintln(String s) {
 		if(debug) System.out.println(s);
+	}
+	
+	private void ifDebugPrint(String s) {
+		if(debug) System.out.print(s);
 	}
 	
 	/**

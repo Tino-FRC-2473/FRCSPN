@@ -24,7 +24,7 @@ import models.matches.yr2018.Match_PowerUp;
  * called. Additionally tracks which, and how many requests have not completed yet.
  */
 public class Database {
-	private Map<R, BufferedReader> database;
+	private Map<R, Response> database;
 	private ArrayList<R> incomplete;
 	private Gson gson;
 	
@@ -32,7 +32,7 @@ public class Database {
 	 * Default constructor.
 	 */
 	public Database() {
-		database = new ConcurrentHashMap<R, BufferedReader>();
+		database = new ConcurrentHashMap<R, Response>();
 		incomplete = new ArrayList<R>();
 		gson = new Gson();
 	}
@@ -42,8 +42,9 @@ public class Database {
 	 * @param req The request.
 	 * @param value The value of the request.
 	 */
-	public void put(R req, BufferedReader value) {
-		database.put(req, value);
+	public void put(R req, BufferedReader read) {
+		System.out.println("\tput " + req);
+		database.put(req, new Response(read));
 		boolean found = false;
 		for(R r : incomplete) {
 			if(r.equals(req)) {
@@ -112,38 +113,36 @@ public class Database {
 		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
 			R r = itr.next();
 			if(r.equals(req)) {
-				BufferedReader reader = database.get(r);
+				System.out.println("\tFOUND");
+				Response response = database.get(r);
 				
 				if(r.getType() == R.Type.MATCHES_AT_EVENT) {
-					//PARSE INFO FROM THE BUFFER INTO - SAY BY FINDING LINES WITH ONLY '{' OR '}' IDK
-					//PUT THIS IN AN ARRAYLIST OF STRING BUFFERS, THEN FOR EACH THING IN THE STRING BUFFER,
-					//ADD EACH INDIVIDUAL JSON.FROMJSON PARSING TO ANOTHER ARRAYLIST
-					
-					ArrayList<Match_PowerUp> individualMatches = new ArrayList<Match_PowerUp>();
-					
-					StringBuffer response = new StringBuffer();
+					ArrayList<Match_PowerUp> matches = new ArrayList<Match_PowerUp>();
+					BufferedReader reader = response.getReader();
 					String line;
+					StringBuffer str = new StringBuffer();
 					try {
 						while((line = reader.readLine()) != null) {
-							individualMatches.add((Match_PowerUp) gson.fromJson(response.toString(), clazz));
+							if(line.length() > 3) {
+								line = line.substring(2); //un-indent line
+								
+								if(line.charAt(0) == '}') {
+									matches.add(gson.fromJson(str.append("}\n").toString(), Match_PowerUp.class));
+									str = new StringBuffer();
+								} else {
+									str.append(line + "\n");
+								}
+							} else if(str.length() == 0) {
+								str.append("{\n");
+							}
 						}
-						return (E) individualMatches;
+						return (E) matches.toArray(new Match_PowerUp[matches.size()]);
 					} catch(IOException e) {
 						e.printStackTrace();
 					}
 				} else {
-					StringBuffer response = new StringBuffer();
-					
-					String line;
-					try {
-						while((line = reader.readLine()) != null) {
-							response.append(line + "\n");
-						}
-					} catch(IOException e) {
-						e.printStackTrace();
-					}
-					
-					return gson.fromJson(response.toString(), clazz);
+					System.out.println("alt");
+					return response.updateFromReader(gson, clazz);
 				}
 			}
 		}
@@ -163,6 +162,7 @@ public class Database {
 		return generalGet(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y), Event[].class);
 	} 
 	public Team[] getTeamsAtEvent(String e) {
+		System.out.println("1");
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);
 	}
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
@@ -197,11 +197,7 @@ public class Database {
 	}
 	
 	public Match_PowerUp[] getMatches2018ForEvent(String e) {
-		ArrayList<Match_PowerUp> arr = new ArrayList<Match_PowerUp>();
-		for(String key : getMatchKeysForEvent(e)) {
-			arr.add(get2018Match(key));
-		}
-		return arr.toArray(new Match_PowerUp[getMatchKeysForEvent(e).length]);
+		return generalGet(new R(R.Type.MATCHES_AT_EVENT, e), Match_PowerUp[].class);
 	}
 	
 //	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {

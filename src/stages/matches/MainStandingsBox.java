@@ -18,6 +18,7 @@ public class MainStandingsBox extends TableView<EventStatus.StandingsRow2018> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public MainStandingsBox() {
 		data = FXCollections.observableArrayList();
+		System.out.println(ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key));
 		for(Team t : ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key)) {
 			data.add(ScoutingApp.getDatabase().getStatusForTeamAtEvent(t.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018());
 		}

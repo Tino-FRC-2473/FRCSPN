@@ -151,6 +151,7 @@ def getTeamStats(teamMatches):
 	teamData = {}
 
 	yourStats, oppStats = [], []
+	doEndgame = False
 	yourStats = ["totalPoints"]
 #	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
 #		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
@@ -161,14 +162,16 @@ def getTeamStats(teamMatches):
 	for team, tDict in teamMatches.items():
 		fullTeamData[team], teamData[team] = {}, {}
 
-		#fullTeamData[team]["endgameRobot"], teamData[team]["endgameRobot"] = [], []
+		if doEndgame:
+			fullTeamData[team]["endgameRobot"], teamData[team]["endgameRobot"] = [], []
 		for yStat in yourStats:
 			fullTeamData[team][yStat], teamData[team][yStat] = [], []
 
 			for match in tDict["matches"]:
 				side = "blue" if (match["teams"].index(team) % 2 == 0) else "red"
 				fullTeamData[team][yStat].append(match["score"][side][yStat])
-#				fullTeamData[team]["endgameRobot"].append(match["score"][side]["endgameRobot"+str(int(match["teams"].index(team)/2)+1)])
+				if doEndgame:
+					fullTeamData[team]["endgameRobot"].append(match["score"][side]["endgameRobot"+str(int(match["teams"].index(team)/2)+1)])
 
 		for oStat in oppStats:
 			fullTeamData[team][oppKey(oStat)], teamData[team][oppKey(oStat)] = [], []
