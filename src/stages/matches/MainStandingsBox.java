@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 
 import general.ScoutingApp;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -29,9 +33,11 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public MainStandingsBox() {
+		ScoutingApp.getDatabase().printLengths();
 		standings = new ArrayList<>();
 		for(Team t : ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key)) {
-			standings.add(new TableStandings(ScoutingApp.getDatabase().getStatusForTeamAtEvent(t.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018()));
+			System.out.println(ScoutingApp.getDatabase().getStatusesForTeamInYear(t.getNumber(), 2018).get(ScoutingApp.mStage.getEvent().key).toString());
+//			standings.add(new TableStandings(ScoutingApp.getDatabase().getStatusesForTeamInYear(t.getNumber(), 2018).get(ScoutingApp.mStage.getEvent().key).getStandingsRow2018()));
 		}
 		addRankings();
 		Collections.sort(standings, (t1,t2) -> t1.compareTo(t2));
@@ -236,21 +242,27 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 	}
 	public class TableStandings {
 		private String rank;
+		private int rankNum;
 		private int team;
 		private double rankingScore;
 		private String parkClimb;
+		private int parkClimbNum;
 		private String auto;
+		private int autoNum;
 		private String ownership;
+		private int ownershipNum;
 		private String vault;
+		private int vaultNum;
 		private String recordWLT;
 		private int dq;
 		private int played;
-		private StandingsRow2018 standings;
-		public TableStandings(StandingsRow2018 standings) {
+		private JsonObject standings;
+		public TableStandings(JsonObject standings) {
 			this.standings = standings;
-			rank = "#" + standings.getRank();
-			team = standings.getTeam();
-			rankingScore = standings.getRankingScore();
+			rankNum = standings.getAsJsonObject("playoff").getAsJsonObject("qual").getAsJsonObject("ranking").get("rank").getAsInt();
+			rank = "#" + rankNum;
+			team = Integer.parseInt(standings.getAsJsonObject("playoff").getAsJsonObject("qual").getAsJsonObject("ranking").get("team_key").getAsString().substring(3));
+			rankingScore = standings.getAsJsonObject("playoff").getAsJsonObject("qual").getAsJsonObject("ranking").get("rank").getAsInt();
 			parkClimb = standings.getParkClimb() + "";
 			auto = standings.getAuto() + "";
 			ownership = standings.getOwnership() + "";
@@ -279,10 +291,10 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 		public void setDQ(int dq) { this.dq = dq; }
 		public int getPlayed() { return played; }
 		public void setPlayed(int played) { this.played = played; }
-		public StandingsRow2018 getStandings() {
+		public JsonObject getStandings() {
 			return standings;
 		}
-		public void setStandings(StandingsRow2018 standings) {
+		public void setStandings(JsonObject standings) {
 			this.standings = standings;
 		}
 		public int compareTo(TableStandings t) {

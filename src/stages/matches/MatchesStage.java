@@ -89,7 +89,8 @@ public class MatchesStage extends Stage {
 	
 	public State getState() { return state; }
 	
-	public Event getEvent() { return event; }
+	public Event getEvent() { 
+		System.out.println("getting event");return event; }
 	
 	private void setMain() {
 		mainScene.initialize(allMatches);

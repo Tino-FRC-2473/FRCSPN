@@ -1,7 +1,6 @@
 package general.requests;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 
 import models.Award;
 import models.Event;
@@ -117,29 +118,7 @@ public class Database {
 				Response response = database.get(r);
 				
 				if(r.getType() == R.Type.MATCHES_AT_EVENT) {
-					ArrayList<Match_PowerUp> matches = new ArrayList<Match_PowerUp>();
-					BufferedReader reader = response.getReader();
-					String line;
-					StringBuffer str = new StringBuffer();
-					try {
-						while((line = reader.readLine()) != null) {
-							if(line.length() > 3) {
-								line = line.substring(2); //un-indent line
-								
-								if(line.charAt(0) == '}') {
-									matches.add(gson.fromJson(str.append("}\n").toString(), Match_PowerUp.class));
-									str = new StringBuffer();
-								} else {
-									str.append(line + "\n");
-								}
-							} else if(str.length() == 0) {
-								str.append("{\n");
-							}
-						}
-						return (E) matches.toArray(new Match_PowerUp[matches.size()]);
-					} catch(IOException e) {
-						e.printStackTrace();
-					}
+					return (E) response.updateMatchesFromReader(gson);
 				} else {
 					System.out.println("alt");
 					return response.updateFromReader(gson, clazz);
@@ -166,11 +145,12 @@ public class Database {
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);
 	}
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
+		System.out.println("getting status");
 		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
 	}
 	@SuppressWarnings("unchecked")
-	public HashMap<String, EventStatus> getStatusesForTeamInYear(int t, int y) {
-		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), HashMap.class);
+	public JsonObject getStatusesForTeamInYear(int t, int y) {
+		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), JsonObject.class);
 	}
 	public Event[] getEventsInYear(int y) {
 		return generalGet(new R(R.Type.EVENTS_IN_YEAR, y), Event[].class);
@@ -198,6 +178,10 @@ public class Database {
 	
 	public Match_PowerUp[] getMatches2018ForEvent(String e) {
 		return generalGet(new R(R.Type.MATCHES_AT_EVENT, e), Match_PowerUp[].class);
+	}
+	
+	public EventStatus[] getTeamStatuses(int t, int y) {
+		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), EventStatus[].class);
 	}
 	
 //	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {

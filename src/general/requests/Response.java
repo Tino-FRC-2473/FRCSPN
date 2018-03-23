@@ -64,9 +64,13 @@ public class Response {
 				e.printStackTrace();
 			}
 		} else {
-			
+			Match_PowerUp[] matches = new Match_PowerUp[extendedResponses.length];
+			for (int i = 0; i < matches.length; i++) {
+				matches[i] = extendedResponses[i].updateFromReader(gson,Match_PowerUp.class);
+			}
+			return matches;
 		}
-		
+		return null;
 	}
 	
 	public <E>E updateFromReader(Gson gson, Class<E> clazz) {
@@ -89,6 +93,6 @@ public class Response {
 	
 	@Override
 	public String toString() {
-		return response == null ? null : response.toString();
+		return response == null ? "" : response.toString();
 	}
 }

@@ -3,6 +3,9 @@ package stages.matches;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
+
 import general.ScoutingApp;
 import general.constants.K;
 import javafx.application.Platform;
@@ -74,7 +77,7 @@ public class MLoadingScene extends Scene {
 		public void run() {
 			Team[] teams = null;
 			
-			HashMap<Team, HashMap<String, EventStatus>> teamEventStatuses = new HashMap<Team, HashMap<String, EventStatus>>();
+			HashMap<Team, JsonObject> teamEventStatuses = new HashMap<Team, JsonObject>();
 			boolean teamEventStatusesCompleted = false;
 			
 			Match_PowerUp[] matches = null;
@@ -113,8 +116,8 @@ public class MLoadingScene extends Scene {
 						}
 						
 						boolean foundNull = false;
-						for(final Iterator<HashMap<String, EventStatus>> itr = teamEventStatuses.values().iterator(); itr.hasNext();) {
-							HashMap<String, EventStatus> statuses = itr.next();
+						for(final Iterator<JsonObject> itr = teamEventStatuses.values().iterator(); itr.hasNext();) {
+							JsonObject statuses = itr.next();
 							if(statuses == null) {
 								foundNull = true;
 								break;
