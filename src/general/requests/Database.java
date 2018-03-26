@@ -2,15 +2,13 @@ package general.requests;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 
+import general.ScoutingApp;
 import models.Award;
 import models.Event;
 import models.StatusTBA;
@@ -27,7 +25,6 @@ import models.matches.yr2018.Match_PowerUp;
 public class Database {
 	private Map<R, Response> database;
 	private ArrayList<R> incomplete;
-	private Gson gson;
 	
 	/**
 	 * Default constructor.
@@ -35,7 +32,6 @@ public class Database {
 	public Database() {
 		database = new ConcurrentHashMap<R, Response>();
 		incomplete = new ArrayList<R>();
-		gson = new Gson();
 	}
 	
 	/**
@@ -44,7 +40,6 @@ public class Database {
 	 * @param value The value of the request.
 	 */
 	public void put(R req, BufferedReader read) {
-		System.out.println("\tput " + req);
 		database.put(req, new Response(read));
 		boolean found = false;
 		for(R r : incomplete) {
@@ -114,15 +109,12 @@ public class Database {
 		for(final Iterator<R> itr = database.keySet().iterator(); itr.hasNext();) {
 			R r = itr.next();
 			if(r.equals(req)) {
-				System.out.println("\tFOUND");
 				Response response = database.get(r);
 				
-				if(r.getType() == R.Type.MATCHES_AT_EVENT) {
-					return (E) response.updateMatchesFromReader(gson);
-				} else {
-					System.out.println("alt");
-					return response.updateFromReader(gson, clazz);
-				}
+				if(r.getType() == R.Type.MATCHES_AT_EVENT)
+					return (E) response.updateMatchesFromReader();
+				else
+					return response.updateFromReader(clazz);
 			}
 		}
 		return null;
@@ -141,14 +133,11 @@ public class Database {
 		return generalGet(new R(R.Type.EVENTS_FOR_TEAM_IN_YEAR, t, y), Event[].class);
 	} 
 	public Team[] getTeamsAtEvent(String e) {
-		System.out.println("1");
 		return generalGet(new R(R.Type.TEAMS_AT_EVENT, e), Team[].class);
 	}
 	public EventStatus getStatusForTeamAtEvent(int t, String e) {
-		System.out.println("getting status");
-		return generalGet(new R(R.Type.STATUS_FOR_TEAM_AT_EVENT, t, e), EventStatus.class);
+		return ScoutingApp.gson.fromJson(ScoutingApp.getDatabase().getStatusesForTeamInYear(t, 2018).get(e), EventStatus.class);
 	}
-	@SuppressWarnings("unchecked")
 	public JsonObject getStatusesForTeamInYear(int t, int y) {
 		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), JsonObject.class);
 	}
@@ -168,20 +157,16 @@ public class Database {
 		return generalGet(new R(R.Type.MATCH, k), Match_PowerUp.class);
 	}
 	
-	public Match_Steamworks[] getMatches2017ForEvent(String e) {
-		ArrayList<Match_Steamworks> arr = new ArrayList<Match_Steamworks>();
-		for(String key : getMatchKeysForEvent(e)) {
-			arr.add(get2017Match(key));
-		}
-		return arr.toArray(new Match_Steamworks[getMatchKeysForEvent(e).length]);
-	}
+//	public Match_Steamworks[] getMatches2017ForEvent(String e) {
+//		ArrayList<Match_Steamworks> arr = new ArrayList<Match_Steamworks>();
+//		for(String key : getMatchKeysForEvent(e)) {
+//			arr.add(get2017Match(key));
+//		}
+//		return arr.toArray(new Match_Steamworks[getMatchKeysForEvent(e).length]);
+//	}
 	
 	public Match_PowerUp[] getMatches2018ForEvent(String e) {
 		return generalGet(new R(R.Type.MATCHES_AT_EVENT, e), Match_PowerUp[].class);
-	}
-	
-	public EventStatus[] getTeamStatuses(int t, int y) {
-		return generalGet(new R(R.Type.STATUSES_FOR_TEAM_IN_YEAR, t, y), EventStatus[].class);
 	}
 	
 //	public Match_Steamworks[] getMatches2017ForTeamAtEvent(int t, String e) {

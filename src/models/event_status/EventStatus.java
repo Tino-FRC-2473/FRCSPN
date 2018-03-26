@@ -13,7 +13,6 @@ public class EventStatus {
 	public String overall_status_str;
 	
 	public StandingsRow2018 getStandingsRow2018() {
-		System.out.println("getting standings");
 		return new StandingsRow2018();
 	}
 	

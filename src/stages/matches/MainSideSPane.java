@@ -1,6 +1,7 @@
 package stages.matches;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import general.ScoutingApp;
 import general.constants.K;

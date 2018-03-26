@@ -1,5 +1,7 @@
 package general;
 
+import com.google.gson.Gson;
+
 import general.requests.Database;
 import general.requests.RequesterThread;
 import javafx.application.Application;
@@ -20,6 +22,7 @@ public class ScoutingApp extends Application {
 	public static MatchesStage mStage;
 	private static RequesterThread reqThread;
 	private static Database database;
+	public static Gson gson;
 	
 	public static void launchTeamEvents() {
 		teStage = new TeamEventsStage();
@@ -55,6 +58,7 @@ public class ScoutingApp extends Application {
 	}
 	
 	public static void main(String[] args) {
+		gson = new Gson();
 		database = new Database();
 		reqThread = new RequesterThread();
 		reqThread.start();

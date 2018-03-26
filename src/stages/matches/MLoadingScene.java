@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 
 import general.ScoutingApp;
 import general.constants.K;
@@ -15,9 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import models.Team;
-import models.event_status.EventStatus;
 import models.matches.yr2018.Match_PowerUp;
-
 
 public class MLoadingScene extends Scene {
 	private Pane pane;
