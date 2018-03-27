@@ -6,8 +6,3 @@ public class Award {
 	public Recipient[] recipient_list;
 	public int year;
 }
-
-class Recipient {
-	public String team_key;
-	public String awardee;
-}

@@ -30,6 +30,11 @@ public class MainScene extends Scene {
 	public void previewTeam(SingleAlliance s) {
 		cDisplayPane.previewTeam(s);
 	}
+	
+	public void unselectMatch() { lMatchesSPane.unselect(); }
+	public void viewStandings() { cDisplayPane.viewStandings(); }
+	public void viewBracket() { cDisplayPane.viewBracket(); }
+	public void viewAwards() { cDisplayPane.viewAwards(); }
 
 	public void filter() {
 		String text = tSearchBox.getText();
@@ -58,11 +63,12 @@ public class MainScene extends Scene {
 		tSearchBox = new MainSearchHBox();
 		tSuggestBox = new MainSuggestionsHBox();
 		tSuggestBox.generateSuggestions();
-		System.out.println("DOESEXIST: " + tSuggestBox.doesExist);
-		t.getChildren().addAll(tSearchBox, tSuggestBox);
+		t.getChildren().add(tSearchBox);
+		if(tSuggestBox.doesExist)
+			t.getChildren().add(tSuggestBox);
 		root.setTop(t);
-
-		cDisplayPane = new MainDisplayPane();
+		
+		cDisplayPane = new MainDisplayPane(matches);
 		root.setCenter(cDisplayPane);
 	}
 

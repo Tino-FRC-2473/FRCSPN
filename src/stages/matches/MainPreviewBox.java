@@ -40,7 +40,7 @@ public class MainPreviewBox extends VBox {
 			redTeams.getChildren().add(l);
 		}
 		VBox nameScore = new VBox();
-		Label name = new Label(parseFromKey(match.key));
+		Label name = new Label(match.getName());
 		name.setStyle("-fx-font-size: 40;");
 		Label score = new Label(match.score_breakdown.blue.totalPoints + " - " + match.score_breakdown.red.totalPoints);
 		score.setStyle("-fx-font-size: 48;");
@@ -187,18 +187,5 @@ public class MainPreviewBox extends VBox {
 		case 3: ((Rectangle) box.getChildren().get(0)).setFill(c); break;
 		}
 		return box;
-	}
-
-	public String parseFromKey(String key) {
-		String s = "";
-		if (key.indexOf("qm") != -1) 
-			s = "Quals " + key.substring(key.indexOf("qm")+2);
-		else if (key.indexOf("qf") != -1) 
-			s = "Quarters " + key.substring(key.indexOf("qf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		else if (key.indexOf("sf") != -1)
-			s = "Semis " + key.substring(key.indexOf("sf")+2, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		else if (key.indexOf("f") != -1)
-			s = "Finals " + key.substring(key.indexOf("f")+1, key.indexOf("m")) + " Match " + key.substring(key.indexOf("m") + 1);
-		return s;
 	}
 }

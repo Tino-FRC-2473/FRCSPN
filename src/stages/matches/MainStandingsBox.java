@@ -53,11 +53,11 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         
         TableColumn c2 = new TableColumn("Team");
         columns[1] = c2;
-		c2.setMinWidth(.5*K);
+		c2.setMinWidth(.55*K);
         c2.setCellValueFactory(new PropertyValueFactory<>("team"));
 //        c2.setCellFactory(getCustomCellFactoryInt());
         
-        TableColumn c3 = new TableColumn("Ranking Score");
+        TableColumn c3 = new TableColumn("Ranking");
         columns[2] = c3;
 		c3.setMinWidth(K);
         c3.setCellValueFactory(new PropertyValueFactory<>("rankingScore"));
@@ -65,7 +65,7 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         
         TableColumn c4 = new TableColumn("Park/Climb");
         columns[3] = c4;
-		c4.setMinWidth(K);
+		c4.setMinWidth(1.1*K);
         c4.setCellValueFactory(new PropertyValueFactory<>("parkClimb"));
 //        c4.setCellFactory(getCustomCellFactoryInt());
         
@@ -77,7 +77,7 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         
         TableColumn c6 = new TableColumn("Ownership");
         columns[5] = c6;
-		c6.setMinWidth(.75*K);
+		c6.setMinWidth(K);
         c6.setCellValueFactory(new PropertyValueFactory<>("ownership"));
 //        c6.setCellFactory(getCustomCellFactoryInt());
         
@@ -87,7 +87,7 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         c7.setCellValueFactory(new PropertyValueFactory<>("vault"));
 //        c7.setCellFactory(getCustomCellFactoryInt());
         
-        TableColumn c8 = new TableColumn("Record (WLT)");
+        TableColumn c8 = new TableColumn("WLT");
         columns[7] = c8;
 		c8.setMinWidth(K);
         c8.setCellValueFactory(new PropertyValueFactory<>("recordWLT"));
@@ -95,7 +95,7 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
         
         TableColumn c9 = new TableColumn("DQ");
         columns[8] = c9;
-		c9.setMinWidth(.5*K);
+		c9.setMinWidth(.6*K);
         c9.setCellValueFactory(new PropertyValueFactory<>("dq"));
 //        c9.setCellFactory(getCustomCellFactoryInt());
         

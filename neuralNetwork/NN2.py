@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-import matplotlib
+#import matplotlib
 import math
 
 TRAIN = 0

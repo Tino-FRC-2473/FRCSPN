@@ -151,12 +151,12 @@ def getTeamStats(teamMatches):
 	teamData = {}
 
 	yourStats, oppStats = [], []
-	doEndgame = False
-	yourStats = ["totalPoints"]
+	doEndgame = True
+#	yourStats = ["totalPoints"]
 #	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
 #		"endgamePoints", "vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
-#	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
-#		"vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
+	yourStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec", "autoScaleOwnershipSec", "autoSwitchOwnershipSec",\
+		"vaultLevitatePlayed", "vaultBoostPlayed", "vaultForcePlayed", "vaultPoints"]
 #	oppStats = ["teleopSwitchOwnershipSec", "teleopScaleOwnershipSec"]
 
 	for team, tDict in teamMatches.items():

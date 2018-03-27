@@ -45,7 +45,11 @@ public class MatchesStage extends Stage {
 		setLoading1();
 	}
 	
+	public void viewBracket() { mainScene.viewBracket(); }
+	public void unselectMatch() { mainScene.unselectMatch(); }
 	public void matchesStageFilter() { mainScene.filter(); }
+	public void viewStandings() { mainScene.viewStandings(); }
+	public void viewAwards() { mainScene.viewAwards(); }
 	
 	public void setContent(Event event) { selectingScene.setContent(event); }
 	public void indicateEventSelected(EventsDisplay d) { selectingScene.indicateSelected(d); }

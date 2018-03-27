@@ -5,29 +5,39 @@ import models.matches.SingleAlliance;
 import models.matches.yr2018.Match_PowerUp;
 
 public class MainDisplayPane extends BorderPane {
+	private MainTTabBox tabBox;
+	
 	private MainMatchDetailsBox previewBox;
 	private MainStandingsBox standingsBox;
-	//private awe;oighawh;ieog tStandingsSPane;
+	private MainBracketBox bracketBox;
+	private MainAwardsPane awardsPane;
 
-	public MainDisplayPane() {
+	public MainDisplayPane(Match_PowerUp[] matches) {
 		super();
+		
+		tabBox = new MainTTabBox(matches);
 		previewBox = new MainMatchDetailsBox();
 		standingsBox = new MainStandingsBox();
-		//awe;goih;owaeg = new ScrollPane();
+		bracketBox = new MainBracketBox(matches);
+		awardsPane = new MainAwardsPane();
+		
+		this.setTop(tabBox);
 		
 		this.viewStandings();
 	}
 
-	public void previewTeam(SingleAlliance s) {
-		previewBox.previewTeam(s);
-	}
+	public void previewTeam(SingleAlliance s) { previewBox.previewTeam(s); }
 
 	public void viewMatch(Match_PowerUp m) {
 		this.setCenter(previewBox);
-		previewBox.display(m);
+		if(m.score_breakdown != null) {
+			previewBox.display(m);
+		} else {
+			System.out.println("predict");
+		}
 	}
 	
-	public void viewStandings() {
-		this.setCenter(standingsBox);
-	}
+	public void viewStandings() { this.setCenter(standingsBox); }
+	public void viewBracket() { this.setCenter(bracketBox); }
+	public void viewAwards() { this.setCenter(awardsPane); }
 }

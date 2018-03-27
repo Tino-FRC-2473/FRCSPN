@@ -1,7 +1,6 @@
 package stages.matches;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import general.ScoutingApp;
 import general.constants.K;
@@ -65,6 +64,10 @@ public class MainSideSPane extends ScrollPane {
 		}
 	}
 	
+	public void unselect() {
+		if(selected != null) selected.highlight(false);
+	}
+	
 	public Match_PowerUp highlight(MatchesDisplay2018 m) {
 		if(selected != null) selected.highlight(false);
 		for(MatchesDisplay2018 md : matchList) {
@@ -104,7 +107,7 @@ class MatchesDisplay2018 extends VBox {
 		this.setMaxWidth(K.MATCHES.LEFT_WIDTH-15);
 		this.setAlignment(Pos.TOP_CENTER);
 		match = m;
-		matchName = new Label(parseFromKey(match.key));
+		matchName = new Label(match.getName());
 		matchName.setStyle("-fx-font-size:22");
 
 		if (m.score_breakdown != null) {
@@ -265,19 +268,6 @@ class MatchesDisplay2018 extends VBox {
 			arr[i] = match.alliances.red.team_keys[i].substring(3);
 		}
 		return arr;
-	}
-	
-	public String parseFromKey(String key) {
-		int i = key.indexOf("_")+1;
-		if(key.indexOf("qm", i) != -1) 
-			return "Quals " + key.substring(i+2);
-		else if (key.indexOf("qf", i) != -1)
-			return "Quarters " + key.charAt(i+2) + " Match " + key.charAt(i+4);
-		else if (key.indexOf("sf", i) != -1)
-			return "Semis " + key.charAt(i+2) + " Match " + key.charAt(i+4);
-		else if (key.indexOf("f", i) != -1)
-			return "Finals " + key.charAt(i+1) + " Match " + key.charAt(i+3);
-		return null;
 	}
 	
 	public void highlight(boolean h) {
