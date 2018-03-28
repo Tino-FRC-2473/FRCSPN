@@ -388,7 +388,7 @@ public class MainMatchDetailsBox extends ScrollPane {
 			foulLabel.setStyle("-fx-font-size:5");
 			foulLabel.setVisible(false);
 			grid.add(foulLabel, 1, gridRow++);
-			grid.add(blueFouls, 2, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,0,gridRow++);
+			grid.add(blueFouls, 0, gridRow); grid.add(fouls, 1, gridRow); grid.add(redFouls,2,gridRow++);
 			grid.add(blueFoulPoints, 0, gridRow); grid.add(foulPoints, 1, gridRow); grid.add(redFoulPoints, 2, gridRow++);
 			grid.add(blueAdjust, 0, gridRow); grid.add(adjust, 1, gridRow); grid.add(redAdjust, 2, gridRow++);
 			
