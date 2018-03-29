@@ -8,4 +8,15 @@ An application designed for scouting FRC events. Includes:
 
 	- a match prediction system based off a neural network that was trained from previous matches
 
+
+# In Progress
+
 Currently, the Team Events module is not working.
+
+# Setup
+
+	- pull or download this project
+
+	- install python 3.x
+
+	- install [requests](http://docs.python-requests.org/en/master/user/install/#install) to pull data from (thebluealliance.com)
