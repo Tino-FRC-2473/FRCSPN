@@ -2,6 +2,10 @@ import numpy as np
 import tensorflow as tf
 #import matplotlib
 import math
+import os
+import sys
+
+print("start")
 
 TRAIN = 0
 USE = 1
@@ -24,6 +28,10 @@ USE_NEW = not USE_LAST_NET
 SAVE_THIS = True
 USE_TWO_AGO = (not USE_LAST_NET) and (not USE_NEW)
 
+print(-8) ###
+directory = os.getcwd()[:os.getcwd().rfind("\\")]
+print(-7) ###
+
 def constructArray(rawInput, numDimensions, dimensionsArray):
 	if(numDimensions==1):
 		return rawInput
@@ -40,9 +48,9 @@ def weight_variable(shape):
 def bias_variable(shape):
 	initial = tf.constant(10,dtype= tf.float32,shape=shape)
 	return tf.Variable(initial)
-
-inputFile = open("data.txt")
-
+print(-6) ###
+inputFile = open("data.txt" if ("FRCSPN" in directory) else "neuralNetwork\\data.txt")
+print(-5) ###
 '''Total number of data samples'''
 numData = 4193
 '''Number of test data samples rest used for validation'''
@@ -54,13 +62,13 @@ inpRaw = []
 c = 0
 
 '''Reads data file, stores data, normalized data'''
-
+print(-4) ###
 for line in inputFile:
 	inpRaw.append(float(line.strip()))
-
+print(-3) ###
 inp = constructArray(inpRaw,len(dim),dim)
 
-
+print(-2) ###
 inp = constructArray(inpRaw,len(dim),dim)
 
 summedInp = []
@@ -71,13 +79,13 @@ for i in range(numData):
 		red.append(inp[i][j]+inp[i][j+numStats]+inp[i][j+numStats*2])
 		blue.append(inp[i][j+numStats*3]+inp[i][j+numStats*4]+inp[i][j+numStats*5])
 	summedInp.append(np.concatenate((red,blue)))
-
+print(-1) ###
 means = summedInp[0]
 
 for i in range(1,numData):
 	means+=summedInp[i]
 means/=numData
-
+print(0) ###
 variance = np.zeros([numStats*2])
 for i in range(numData):
 	variance+=(summedInp[i]-means)*(summedInp[i]-means)
@@ -91,10 +99,10 @@ for i in range(len(summedInp)):
 	for j in range(len(summedInp[0])):
 		allNormalizedInp[i][j]=(summedInp[i][j]-means[j])/stdDev[j]
 
-
+print(1) ###
 '''Reads data file, stores target data, normalizes data'''
 
-targetsFile = open("results.txt")
+targetsFile = open("results.txt" if ("FRCSPN" in directory) else "neuralNetwork\\results.txt")
 dim = [numData,2]
 outRaw = []
 c = 0
@@ -102,7 +110,7 @@ for line in targetsFile:
 	outRaw.append(float(line.strip()))
 
 targets = constructArray(outRaw,len(dim),dim)
-
+print(2) ###
 totScore = 0
 
 for i in range(numData):
@@ -116,7 +124,7 @@ for i in range(numData):
 varianceS/=(numData-1)
 stdDevS = math.sqrt(varianceS)
 normalizedScores = np.zeros((len(targets),len(targets[0])))
-
+print(3) ###
 for i in range(numData):
 	normalizedScores[i][0] = (targets[i][0]-meanScore)/stdDevS
 	normalizedScores[i][1] = (targets[i][1]-meanScore)/stdDevS
@@ -128,7 +136,7 @@ while i < len(targets):
 		allNormalizedInp = np.concatenate((allNormalizedInp[:i],allNormalizedInp[(i+1):]))
 	i+=1
 
-
+print(4) ###
 normValInp = allNormalizedInp[NUM_TEST:]
 normalizedTrainInp = allNormalizedInp[:NUM_TEST]
 targVal = targets[NUM_TEST:]
@@ -147,9 +155,9 @@ for i in range(len(targets)):
 	else:
 		nInp.append(allNormalizedInp[i])
 		nTarg.append(targets[i])
-
+print(5) ###
 sess = tf.InteractiveSession()
-
+print(6) ###
 '''Network architecture 18 input neurons 30 first layer hidden neurons....'''
 
 insizenum=18
@@ -253,9 +261,9 @@ valAccArr=[]
 
 '''Loads previous data set if neeeded'''
 if USE_LAST_NET:
-	saver.restore(sess, "./FRCSPNetLast")
+	saver.restore(sess, ("./FRCSPNetLast" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetLast"))
 elif USE_TWO_AGO:
-	saver.restore(sess, "./FRCSPNetTwoAgo")
+	saver.restore(sess, ("./FRCSPNetTwoAgo" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetTwoAgo"))
 
 if MODE==TRAIN :
 	'''Train network'''
@@ -306,11 +314,11 @@ if MODE==TRAIN :
 
 	'''Save network if needed'''
 	if(SAVE_THIS):
-		saver.save(sess, "./FRCSPNetTemp")
-		saver.restore(sess, "./FRCSPNetLast")
-		saver.save(sess, "./FRCSPNetTwoAgo")
-		saver.restore(sess, "./FRCSPNetTemp")
-		saver.save(sess, "./FRCSPNetLast")
+		saver.save(sess, ("./FRCSPNetTemp" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetTemp"))
+		saver.restore(sess, ("./FRCSPNetLast" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetLast"))
+		saver.save(sess, ("./FRCSPNetTwoAgo" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetTwoAgo"))
+		saver.restore(sess, ("./FRCSPNetTemp" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetTemp"))
+		saver.save(sess, ("./FRCSPNetLast" if ("FRCSPN" in directory) else "neuralNetwork\\FRCSPNetLast"))
 
 	maxAcc = 0.0
 	for i in accuracyArr:
@@ -320,7 +328,7 @@ if MODE==TRAIN :
 
 if MODE == USE:
 	'''Evaluate prediction'''
-	inputFile = open("MatchInput.txt")
+	inputFile = open("MatchInput.txt" if ("FRCSPN" in directory) else "neuralNetwork\\MatchInput.txt")
 	dim = [1,54]
 	numStats = 9
 	inp = []

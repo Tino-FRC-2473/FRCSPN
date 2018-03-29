@@ -45,7 +45,6 @@ public class MainMatchDetailsBox extends ScrollPane {
 	
 	public void previewTeam(SingleAlliance s) { //run by stage
 		clearDisplay();
-		
 	}
 
 	public void display(Match_PowerUp m) {

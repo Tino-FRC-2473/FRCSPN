@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import general.ScoutingApp;
@@ -156,6 +158,14 @@ public class Database {
 	public Match_PowerUp get2018Match(String k) {
 		return generalGet(new R(R.Type.MATCH, k), Match_PowerUp.class);
 	}
+	public String[] getEventKeysForTeam(String t) {
+		JsonObject obj = getStatusesForTeamInYear(Integer.parseInt(t.substring(3)), 2018);
+		ArrayList<String> arr = new ArrayList<String>();
+		for(Entry<String, JsonElement> e : obj.entrySet())
+			arr.add(e.getKey());
+		return arr.toArray(new String[arr.size()]);
+	}
+	
 	
 //	public Match_Steamworks[] getMatches2017ForEvent(String e) {
 //		ArrayList<Match_Steamworks> arr = new ArrayList<Match_Steamworks>();

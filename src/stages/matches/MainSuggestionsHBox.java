@@ -34,7 +34,7 @@ public class MainSuggestionsHBox extends HBox {
 			doesExist = false;
 		} else {
 			doesExist = true;
-			Label title = new Label("Suggestions: ");
+			Label title = new Label("Recent Matches:");
 			title.setStyle("-fx-background-color: transparent;-fx-font-size: 24; -fx-font-weight: bold");
 			labels.add(title);
 			for(int i = Math.max(index-6, 0); i < index; i++) {
@@ -62,7 +62,7 @@ class onLabelClicked implements EventHandler<MouseEvent> {
 	
 	@Override
 	public void handle(MouseEvent event) {
-		for(MatchesDisplay2018 md : ScoutingApp.mStage.getMainMatchesSPane().getMatcheDisplays2018()) {
+		for(MatchesDisplay2018 md : ScoutingApp.mStage.getMainMatchesSPane().getMatchDisplays2018()) {
 			if(md.getMatch().key.equals(this.m.key)) {
 				ScoutingApp.mStage.getMainMatchesSPane().highlight(md);
 			}

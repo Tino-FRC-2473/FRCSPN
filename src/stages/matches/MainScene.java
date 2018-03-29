@@ -3,6 +3,7 @@ package stages.matches;
 import java.io.File;
 
 import general.constants.K;
+import general.neuralNetwork.NNDatabase.NNResponse;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,7 @@ public class MainScene extends Scene {
 		cDisplayPane.previewTeam(s);
 	}
 	
+	public void updateNNView(String[] p, NNResponse resp) { cDisplayPane.updateNNView(p, resp); }
 	public void unselectMatch() { lMatchesSPane.unselect(); }
 	public void viewStandings() { cDisplayPane.viewStandings(); }
 	public void viewBracket() { cDisplayPane.viewBracket(); }

@@ -15,8 +15,8 @@ public class MainTTabBox extends HBox {
 	private Label awards;
 	
 	public MainTTabBox(Match_PowerUp[] matches) {
-		this.setStyle("-fx-background-color: #EEEEEE");
-		this.setPadding(K.getInsets(/*2*/BoxPaddingInsets.OFFSET));
+		this.setStyle("-fx-background-color: #DDDDDD");
+		this.setPadding(K.getInsets(BoxPaddingInsets.OFFSET));
 		this.setSpacing(BoxPaddingInsets.OFFSET);
 		
 		standings = new Label("Standings");
@@ -41,13 +41,13 @@ public class MainTTabBox extends HBox {
 						ScoutingApp.mStage.viewBracket();
 					}
 				});
-				this.getChildren().add(bracket);
+//				this.getChildren().add(bracket);
 				break;
 			}
 		}
 		
 		awards = null;
-		if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null) {
+		if(ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key) != null && ScoutingApp.getDatabase().getAwardsAtEvent(ScoutingApp.mStage.getEvent().key).length > 0) {
 			awards = new Label("Awards");
 			awards.setStyle("-fx-background-color: #FFD32A; -fx-font-size: 18; -fx-border-color: black");
 			awards.setPadding(K.getInsets());

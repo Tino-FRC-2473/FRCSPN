@@ -7,6 +7,7 @@ import java.util.Comparator;
 
 import general.ScoutingApp;
 import general.images.I;
+import general.neuralNetwork.NNDatabase.NNResponse;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -45,6 +46,7 @@ public class MatchesStage extends Stage {
 		setLoading1();
 	}
 	
+	public void updateNNView(String[] p, NNResponse resp) { mainScene.updateNNView(p, resp); }
 	public void viewBracket() { mainScene.viewBracket(); }
 	public void unselectMatch() { mainScene.unselectMatch(); }
 	public void matchesStageFilter() { mainScene.filter(); }

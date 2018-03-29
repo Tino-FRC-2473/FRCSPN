@@ -29,6 +29,9 @@ public class EventStatus {
 		private final SimpleIntegerProperty played;
 	    
     	private StandingsRow2018() {
+    		System.out.println(qual);
+    		System.out.println(qual.ranking);
+    		System.out.println(qual.ranking.rank);
 	        this.rank = new SimpleIntegerProperty((int)qual.ranking.rank);
 	        this.team = new SimpleIntegerProperty(Integer.parseInt(qual.ranking.team_key.substring(3)));
 	        this.rankingScore = new SimpleDoubleProperty(qual.ranking.sort_orders[0]);

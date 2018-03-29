@@ -16,23 +16,31 @@ def getLeadingNumber(s):
 		except ValueError:
 			return toReturn
 
+def getPath(s):
+	if "FRCSPN" in s:
+		return s
+	else:
+		return s[:s.index("data")] + "FRCSPN\\" + s[s.index("data"):]
+
 def getMatches(eventKeys):
 	arr = []
 
 	for i in range(len(eventKeys)):
 #		print("Loading event", i+1, "of", len(eventKeys))
-		path = directory + "\\data\\" + eventKeys[i] + "\\matches"
+		path = getPath(directory + "\\data\\" + eventKeys[i] + "\\matches")
 		for fName in os.listdir(path):
 			with open(path + "\\" + fName, "r") as f1:
 				_line1 = f1.readline()
 				with open(path + "\\" + fName, "r") as f:
+					data = None
 					if _line1[0] == '{':
-						arr.append(json.load(f))
+						data = json.load(f)
 						print(eventKeys[i])
 					else:
 						next(f)
-						arr.append(json.load(f))
-
+						data = json.load(f)
+					if not data == None and not data["score_breakdown"] == None:
+						arr.append(data)
 	return arr
 
 def getFilteredMatches(eventKeys):
@@ -176,6 +184,7 @@ def getTeamsAndEventKeysFromSys():
 	teams = []
 	eventKeys = []
 
+	print(sys.argv[1:])
 	for thing in sys.argv[1:]:
 		teams.append(getLeadingNumber(thing))
 		for eKey in thing[len(str(teams[len(teams)-1]))+1:].split(","):
@@ -186,6 +195,8 @@ def getTeamsAndEventKeysFromSys():
 
 def main():
 	teams, eventKeys = getTeamsAndEventKeysFromSys()
+	print("teams", teams)
+	print("event keys", eventKeys)
 
 	teamStats = getTeamStats(getTeamMatchesDict(eventKeys))
 	# pprint.pprint(teamStats)
@@ -195,8 +206,10 @@ def main():
 		orderKeys = sorted(teamStats["frc"+team])
 		for thing in orderKeys:
 			arr.append(teamStats["frc"+team][thing][0])
-	with open("MatchInput.txt", "w") as f:
+	print(3)
+	with open(("MatchInput.txt" if ("FRCSPN" in directory) else "neuralNetwork\\MatchInput.txt"), "w") as f:
 		for n in arr:
 			f.write(str(n) + "\n")
+	print("!")
 
 main()

@@ -74,6 +74,7 @@ public class MainSideSPane extends ScrollPane {
 			if(m.equals(md)) {
 				md.highlight(true);
 				selected = md;
+				
 				ScoutingApp.mStage.preview(selected);
 				return md.getMatch();
 			}
@@ -81,7 +82,7 @@ public class MainSideSPane extends ScrollPane {
 		return null;
 	}
 	
-	public ArrayList<MatchesDisplay2018> getMatcheDisplays2018() {
+	public ArrayList<MatchesDisplay2018> getMatchDisplays2018() {
 		return matchList;
 	}
 	
@@ -271,10 +272,11 @@ class MatchesDisplay2018 extends VBox {
 	}
 	
 	public void highlight(boolean h) {
-		if(h)
+		if(h) {
 			this.setStyle("-fx-border-color: red; -fx-border-width: 7; -fx-background-color: " + color);
-		else
+		} else {
 			this.setStyle("-fx-border-radius: 0; -fx-background-color: " + color);
+		}
 	}
 	
 	public Match_PowerUp getMatch() {
