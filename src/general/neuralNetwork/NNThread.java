@@ -29,7 +29,7 @@ public class NNThread extends Thread {
 	public void nnRequest(String[] p) {
 		if(!database.contains(p)) {
 			System.out.println("Req");
-			ProcessBuilder writingProcessBuilder = new ProcessBuilder("python", "neuralNetwork/writeStatsForNN.py", p[0], p[1], p[2], p[3], p[4], p[5]);
+			ProcessBuilder writingProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe", "neuralNetwork/writeStatsForNN.py", p[0], p[1], p[2], p[3], p[4], p[5]);
 			boolean filesWritten = false;
 			try {
 				Process writingProcess = writingProcessBuilder.start();
@@ -55,7 +55,7 @@ public class NNThread extends Thread {
 			}
 			
 			if(filesWritten) {
-				ProcessBuilder nnProcessBuilder = new ProcessBuilder("python", "neuralNetwork/NN2.py", "Y");
+				ProcessBuilder nnProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe", "neuralNetwork/NN2.py", "Y");
 				try {
 					String output = null;
 					Process nnProcess = nnProcessBuilder.start();

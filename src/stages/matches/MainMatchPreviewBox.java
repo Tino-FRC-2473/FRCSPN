@@ -56,19 +56,19 @@ public class MainMatchPreviewBox extends VBox {
 			content.getChildren().clear();
 			VBox left = new VBox(), right = new VBox();
 			
-			Label ls = new Label(resp.red);
+			Label ls = new Label(resp.blue);
 			ls.setStyle("-fx-font-size: 28;");
 			left.getChildren().add(ls);
-			Label rs = new Label(resp.blue);
+			Label rs = new Label(resp.red);
 			rs.setStyle("-fx-font-size: 28");
 			right.getChildren().add(rs);
 			
 			for(int i = 0; i < 3; i++) {
-				Label l = new Label(p[i].substring(0, p[i].indexOf("-")));
+				Label l = new Label(p[i+3].substring(0, p[i+3].indexOf("-")));
 				l.setStyle("-fx-font-size: 17;");
 				left.getChildren().add(l);
 				
-				Label r = new Label(p[i+3].substring(0, p[i].indexOf("-")));
+				Label r = new Label(p[i].substring(0, p[i].indexOf("-")));
 				r.setStyle("-fx-font-size: 17;");
 				right.getChildren().add(r);
 			}

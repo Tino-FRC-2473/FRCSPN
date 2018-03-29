@@ -28,19 +28,20 @@ def getMatches(eventKeys):
 	for i in range(len(eventKeys)):
 #		print("Loading event", i+1, "of", len(eventKeys))
 		path = getPath(directory + "\\data\\" + eventKeys[i] + "\\matches")
-		for fName in os.listdir(path):
-			with open(path + "\\" + fName, "r") as f1:
-				_line1 = f1.readline()
-				with open(path + "\\" + fName, "r") as f:
-					data = None
-					if _line1[0] == '{':
-						data = json.load(f)
-						print(eventKeys[i])
-					else:
-						next(f)
-						data = json.load(f)
-					if not data == None and not data["score_breakdown"] == None:
-						arr.append(data)
+		if os.path.isdir(path):
+			for fName in os.listdir(path):
+				with open(path + "\\" + fName, "r") as f1:
+					_line1 = f1.readline()
+					with open(path + "\\" + fName, "r") as f:
+						data = None
+						if _line1[0] == '{':
+							data = json.load(f)
+							print(eventKeys[i])
+						else:
+							next(f)
+							data = json.load(f)
+						if not data == None and not data["score_breakdown"] == None:
+							arr.append(data)
 	return arr
 
 def getFilteredMatches(eventKeys):
@@ -199,9 +200,10 @@ def main():
 	print("event keys", eventKeys)
 
 	teamStats = getTeamStats(getTeamMatchesDict(eventKeys))
-	# pprint.pprint(teamStats)
+#	pprint.pprint(teamStats)
 
 	arr = []
+	print("tStat keys", teamStats.keys())
 	for team in teams:
 		orderKeys = sorted(teamStats["frc"+team])
 		for thing in orderKeys:
