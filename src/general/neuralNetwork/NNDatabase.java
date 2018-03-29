@@ -10,11 +10,7 @@ public class NNDatabase {
 		database = new HashMap<String[], NNResponse>();
 	}
 	
-	public void put(String[] arr, String r, String b) { database.put(arr, new NNResponse(r, b)); 
-		for(String[] a : database.keySet()) {
-			System.out.println(Arrays.toString(a) + " " + database.get(a).red + " " + database.get(a).blue);
-		}
-	}
+	public void put(String[] arr, String r, String b) { database.put(arr, new NNResponse(r, b)); }
 	
 	public NNResponse get(String[] arr) {
 		for(String[] a : database.keySet())

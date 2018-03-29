@@ -74,10 +74,21 @@ public class NNThread extends Thread {
 					}
 					
 					if(output != null) {
+						System.out.println("Output: " + output);
+						int idx = 0;
+						String[] outputs = {"", ""};
+						for(int i = 0; i < output.length(); i++) {
+							char c = output.charAt(i);
+							if(c == '.' || Character.isDigit(c))
+								outputs[idx] += c;
+							else if(outputs[0].length() > 0)
+								idx = 1;
+						}
 						DecimalFormat formatter = new DecimalFormat("#.00");
 						database.put(p,
-									formatter.format(Double.parseDouble(output.substring(output.indexOf(" ")+1, output.indexOf(" ", output.indexOf(" ")+1)))),
-									formatter.format(Double.parseDouble(output.substring(output.lastIndexOf(" ")+1, output.length()-1))));
+									 formatter.format(Double.parseDouble(outputs[0])),
+									 formatter.format(Double.parseDouble(outputs[1]))
+						);
 					} else {
 						System.out.println("\nNN DIDNT WORK\n");
 						database.put(p, "-1", "-1");

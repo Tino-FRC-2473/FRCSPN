@@ -7,11 +7,10 @@ import general.images.I.Type;
 import gui.ClickableButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import models.Event;
 
 public class SelectingPreviewBox extends VBox {
@@ -19,7 +18,7 @@ public class SelectingPreviewBox extends VBox {
 	private ArrayList<String> infoTitle = new ArrayList<String>();
 	private ArrayList<Label> labels = new ArrayList<Label>();
 	private ClickableButton selectButton;
-	private VBox sBox;
+	private HBox selTitleBox;
 
 
 	public SelectingPreviewBox() {
@@ -37,10 +36,9 @@ public class SelectingPreviewBox extends VBox {
 		infoTitle.add("Key");
 		
 		selectButton = new ClickableButton(Type.MS_SELECT_BTN);
-		sBox = new VBox();
-		sBox.setPadding(new Insets(50,100,50,100));
-		sBox.getChildren().add(selectButton);
-		sBox.setAlignment(Pos.BOTTOM_RIGHT);
+		selTitleBox = new HBox();
+		selTitleBox.setSpacing(50);
+		this.getChildren().add(selTitleBox);
 	}
 
 	public void setColor(String color) {
@@ -56,7 +54,7 @@ public class SelectingPreviewBox extends VBox {
 	}
 
 	public void setContent(Event event) {
-		this.getChildren().remove(sBox);
+		selTitleBox.getChildren().clear();
 		while (labels.size() > 0) {
 			this.getChildren().remove(labels.remove(0));
 		}
@@ -68,7 +66,7 @@ public class SelectingPreviewBox extends VBox {
 				a.setStyle(
 						"-fx-background-color: #FFD32A; -fx-font-size: 30; -fx-stroke: BLACK; -fx-font-weight: bold;");
 				a.setTextFill(Color.BLACK);
-				labels.add(a);
+				selTitleBox.getChildren().addAll(a, selectButton);
 				break;
 			case "Year":
 				Label b = new Label(infoTitle.get(i) + ": " + event.year);
@@ -133,9 +131,8 @@ public class SelectingPreviewBox extends VBox {
 				break;
 			}
 		}
-		for (Label l : labels) {
+		for(Label l : labels) {
 			this.getChildren().add(l);
 		}
-		this.getChildren().add(sBox);
 	}
 }
