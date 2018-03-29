@@ -13,7 +13,11 @@ public class EventStatus {
 	public String overall_status_str;
 	
 	public StandingsRow2018 getStandingsRow2018() {
-		return new StandingsRow2018();
+		try {
+			return new StandingsRow2018();
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
 	public class StandingsRow2018 {

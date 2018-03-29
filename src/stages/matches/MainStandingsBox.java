@@ -27,7 +27,9 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
 		standings = new ArrayList<>();
 		
 		for(Team team : ScoutingApp.getDatabase().getTeamsAtEvent(ScoutingApp.mStage.getEvent().key)) {
-			standings.add(new TableStandings(ScoutingApp.getDatabase().getStatusForTeamAtEvent(team.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018()));
+			if (ScoutingApp.getDatabase().getStatusForTeamAtEvent(team.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018() != null) {
+				standings.add(new TableStandings(ScoutingApp.getDatabase().getStatusForTeamAtEvent(team.getNumber(), ScoutingApp.mStage.getEvent().key).getStandingsRow2018()));
+			}
 		}
 		
 		addRankings();
@@ -122,6 +124,8 @@ public class MainStandingsBox extends TableView<MainStandingsBox.TableStandings>
             }
         });
 	}
+	
+		
 	
 	@SuppressWarnings("rawtypes")
 	public Callback<TableColumn, TableCell> getCustomCellFactoryStr() {
