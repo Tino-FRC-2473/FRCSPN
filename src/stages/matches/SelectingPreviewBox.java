@@ -3,15 +3,24 @@ package stages.matches;
 import java.util.ArrayList;
 
 import general.constants.K;
+import general.images.I.Type;
+import gui.ClickableButton;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import models.Event;
 
 public class SelectingPreviewBox extends VBox {
 	// private HashMap<String, String> labelInfo = new HashMap<String, String>();
 	private ArrayList<String> infoTitle = new ArrayList<String>();
 	private ArrayList<Label> labels = new ArrayList<Label>();
+	private ClickableButton selectButton;
+	private VBox sBox;
+
 
 	public SelectingPreviewBox() {
 		this.setPadding(K.getInsets());
@@ -26,6 +35,12 @@ public class SelectingPreviewBox extends VBox {
 		infoTitle.add("Country");
 		infoTitle.add("Event Code");
 		infoTitle.add("Key");
+		
+		selectButton = new ClickableButton(Type.MS_SELECT_BTN);
+		sBox = new VBox();
+		sBox.setPadding(new Insets(50,100,50,100));
+		sBox.getChildren().add(selectButton);
+		sBox.setAlignment(Pos.BOTTOM_RIGHT);
 	}
 
 	public void setColor(String color) {
@@ -41,6 +56,7 @@ public class SelectingPreviewBox extends VBox {
 	}
 
 	public void setContent(Event event) {
+		this.getChildren().remove(sBox);
 		while (labels.size() > 0) {
 			this.getChildren().remove(labels.remove(0));
 		}
@@ -120,5 +136,6 @@ public class SelectingPreviewBox extends VBox {
 		for (Label l : labels) {
 			this.getChildren().add(l);
 		}
+		this.getChildren().add(sBox);
 	}
 }

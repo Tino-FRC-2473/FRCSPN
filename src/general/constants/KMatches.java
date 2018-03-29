@@ -12,6 +12,7 @@ public class KMatches {
 	public final double SEARCH_WIDTH_SELECTING = WIDTH/1.15;
 	public final double SEARCH_HEIGHT = HEIGHT/15;
 	public final double SEARCH_BTN_SIZE = SEARCH_HEIGHT - BoxPaddingInsets.OFFSET;
+	public final double SELECT_BTN_SIZE = SEARCH_HEIGHT + 15;
 	
 	public final double SEARCH_WIDTH_MAIN = WIDTH/1.05;
 	

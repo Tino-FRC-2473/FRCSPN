@@ -59,7 +59,7 @@ public class I {
 			img = new Image(BASE + "matches" + "/search.png", K.MATCHES.SEARCH_BTN_SIZE, 0, true, true);
 			break;
 		case MS_SELECT_BTN:
-			img = new Image(BASE + "matches" + "/select.png", 0, K.MATCHES.SEARCH_BTN_SIZE, true, true);
+			img = new Image(BASE + "matches" + "/select.png", 0, K.MATCHES.SELECT_BTN_SIZE, true, true);
 			break;
 		case FORCE:
 			img = new Image(BASE + "matches" + "/force.png");
