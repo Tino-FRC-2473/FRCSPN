@@ -9,38 +9,45 @@ import java.util.ArrayList;
 public class NNThread extends Thread {
 	private boolean alive;
 	private NNDatabase database;
-	
+
 	private ArrayList<String[]> nnRequests;
-	
+
 	public NNThread(NNDatabase db) {
 		alive = true;
 		database = db;
 		nnRequests = new ArrayList<String[]>();
 	}
-	
+
 	@Override
 	public void run() {
-		while(alive) {
-			if(nnRequests.size() > 0) nnRequest(nnRequests.remove(0));
-			try { Thread.sleep(10); } catch(InterruptedException ie) { ie.printStackTrace(); }
+		while (alive) {
+			if (nnRequests.size() > 0)
+				nnRequest(nnRequests.remove(0));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
 		}
 	}
-	
+
 	public void nnRequest(String[] p) {
-		if(!database.contains(p)) {
+		if (!database.contains(p)) {
 			System.out.println("Req");
-			ProcessBuilder writingProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe", "neuralNetwork/writeStatsForNN.py", p[0], p[1], p[2], p[3], p[4], p[5]);
+			ProcessBuilder writingProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe",
+					"neuralNetwork/writeStatsForNN.py", p[0], p[1], p[2], p[3], p[4], p[5]);
 			boolean filesWritten = false;
 			try {
 				Process writingProcess = writingProcessBuilder.start();
 				BufferedReader read = new BufferedReader(new InputStreamReader(writingProcess.getInputStream()));
-				
-				for(int i = 0; i < 25; i++) {
+
+				for (int i = 0; i < 35; i++) {
 					try {
 						String line = read.readLine();
-						if(line == null) {
+						System.out.println(line);
+						if (line == null) {
 							break;
-						} else if(line.equals("!")) {
+						} else if (line.equals("!")) {
 							filesWritten = true;
 							break;
 						}
@@ -53,17 +60,18 @@ public class NNThread extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			if(filesWritten) {
-				ProcessBuilder nnProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe", "neuralNetwork/NN2.py", "Y");
+
+			if (filesWritten) {
+				ProcessBuilder nnProcessBuilder = new ProcessBuilder("C:\\Users\\Starkillr241\\Miniconda3\\python.exe",
+						"neuralNetwork/NN2.py", "Y");
 				try {
 					String output = null;
 					Process nnProcess = nnProcessBuilder.start();
 					BufferedReader rdr = new BufferedReader(new InputStreamReader(nnProcess.getInputStream()));
-					for(int i = 0; i < 25; i++) {
+					for (int i = 0; i < 25; i++) {
 						try {
 							String line = "";
-							if((line = rdr.readLine()).charAt(0) == '[') {
+							if ((line = rdr.readLine()).charAt(0) == '[') {
 								output = line;
 								break;
 							}
@@ -72,28 +80,26 @@ public class NNThread extends Thread {
 							e.printStackTrace();
 						}
 					}
-					
-					if(output != null) {
+
+					if (output != null) {
 						System.out.println("Output: " + output);
 						int idx = 0;
-						String[] outputs = {"", ""};
-						for(int i = 0; i < output.length(); i++) {
+						String[] outputs = { "", "" };
+						for (int i = 0; i < output.length(); i++) {
 							char c = output.charAt(i);
-							if(c == '.' || Character.isDigit(c))
+							if (c == '.' || Character.isDigit(c))
 								outputs[idx] += c;
-							else if(outputs[0].length() > 0)
+							else if (outputs[0].length() > 0)
 								idx = 1;
 						}
 						DecimalFormat formatter = new DecimalFormat("#.00");
-						database.put(p,
-									 formatter.format(Double.parseDouble(outputs[0])),
-									 formatter.format(Double.parseDouble(outputs[1]))
-						);
+						database.put(p, formatter.format(Double.parseDouble(outputs[0])),
+								formatter.format(Double.parseDouble(outputs[1])));
 					} else {
 						System.out.println("\nNN DIDNT WORK\n");
 						database.put(p, "-1", "-1");
 					}
-					
+
 					rdr.close();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -104,6 +110,8 @@ public class NNThread extends Thread {
 			}
 		}
 	}
-	
-	public void addNNRequest(String[] arr) { nnRequests.add(arr); }
+
+	public void addNNRequest(String[] arr) {
+		nnRequests.add(arr);
+	}
 }

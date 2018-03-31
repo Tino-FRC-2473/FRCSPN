@@ -203,12 +203,15 @@ def main():
 #	pprint.pprint(teamStats)
 
 	arr = []
-	print("tStat keys", teamStats.keys())
+	print("tStat keys", list(teamStats.keys()))
 	for team in teams:
+		print("getting keys for", team)
+		print(teamStats["frc"+team])
 		orderKeys = sorted(teamStats["frc"+team])
+		print("good")
 		for thing in orderKeys:
 			arr.append(teamStats["frc"+team][thing][0])
-	print(3)
+	print("got through reading through teamStats")
 	with open(("MatchInput.txt" if ("FRCSPN" in directory) else "neuralNetwork\\MatchInput.txt"), "w") as f:
 		for n in arr:
 			f.write(str(n) + "\n")
